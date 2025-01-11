@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import frc.robot.Constants.DriverConstants;
+import frc.robot.Constants.HIDConstants;
 import frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // Subsytems 
- private final XboxController driverController = new XboxController(DriverConstants.driverController);
+ private final XboxController driverController = new XboxController(HIDConstants.driverController);
 
 
   public RobotContainer() {
@@ -46,6 +46,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return Autos.exampleAuto();
+    return null;
   }
 }
