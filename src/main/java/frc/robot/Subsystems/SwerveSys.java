@@ -72,19 +72,6 @@ public class SwerveSys extends SubsystemBase {
         return isFieldOriented;
     }
 
-    private double speedFactor = 1.0;
-    public double getSpeedFactor() {
-        return speedFactor;
-    }
-    /**
-     * Sets the speed factor of the robot. Inputs are multiplied by this factor to reduce drive speed.
-     * Useful for "turtle" or "sprint" modes.
-     * @param speedFactor The factor to scale inputs, as a percentage.
-     */
-    public void setSpeedFactor(double speedFactor) {
-        this.speedFactor = speedFactor;
-    }
-
     public final static Pigeon2 imu = new Pigeon2(CANDevices.pigeonId);
 
     // Odometry for the robot, measured in meters for linear motion and radians for rotational motion
@@ -131,7 +118,7 @@ public class SwerveSys extends SubsystemBase {
      * @param rotation The desired rotational motion, in radians per second.
      * @param isFieldOriented whether driving is field- or robot-oriented.
      */
-    public void drive(double driveX, double driveY, double rotation, boolean isFieldOriented) {  
+    public void drive(double speedFactor, double driveX, double driveY, double rotation, boolean isFieldOriented) {  
         if(driveX != 0.0 || driveY != 0.0 || rotation != 0.0) isLocked = false;
         
         if(isLocked) {
@@ -170,7 +157,7 @@ public class SwerveSys extends SubsystemBase {
      * <p>Sets all drive inputs to zero. This will set the drive power of each module to zero while maintaining module headings.
      */
     public void stop() {
-        drive(0.0, 0.0, 0.0, isFieldOriented);
+        drive(1.0, 0.0, 0.0, 0.0, isFieldOriented);
     }
 
     /**
@@ -413,16 +400,6 @@ public class SwerveSys extends SubsystemBase {
         imu.setYaw(0.0);
     }
 
-    /**
-     * Enables or disables Turtle Mode based on the current speedFactor value.
-     */
-    public void setTurtleMode() {
-        if (speedFactor == 1)
-            speedFactor = 0.3;
-        else 
-            speedFactor = 1;
-        for (int i = 0; i < 4; i++) ;
-    }
     public boolean PathFlip() {
         return true;
     }
