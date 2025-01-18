@@ -20,25 +20,26 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 	public static class HIDConstants {
 		public static final int driverController = 0;
+		public static final double joystickDeadband = 0.15;
 	}
 	public static class CANDevices {
-		public static final int pigeonId = 0;
+		public static final int pigeonId = 2;
 
-		public static final int frontLeftSteerMtrId = 0;
-		public static final int frontLeftDriveMtrId = 0;
-		public static final int frontLeftCanCoderId = 0;
+		public static final int frontLeftSteerMtrId = 12;
+		public static final int frontLeftDriveMtrId =11;
+		public static final int frontLeftCanCoderId = 13;
 
-		public static final int frontRightSteerMtrId = 0;
-		public static final int frontRightDriveMtrId = 0;
-		public static final int frontRightCanCoderId = 0;
+		public static final int frontRightSteerMtrId =21;
+		public static final int frontRightDriveMtrId = 22;
+		public static final int frontRightCanCoderId = 23;
 
-		public static final int backLeftSteerMtrId = 0;
-		public static final int backLeftDriveMtrId = 0;
-		public static final int backLeftCanCoderId = 0;
+		public static final int backLeftSteerMtrId = 15;
+		public static final int backLeftDriveMtrId = 14;
+		public static final int backLeftCanCoderId = 16;
 
-		public static final int backRightSteerMtrId = 0;
-		public static final int backRightDriveMtrId = 0;
-		public static final int backRightCanCoderId = 0;
+		public static final int backRightSteerMtrId = 25;
+		public static final int backRightDriveMtrId = 24;
+		public static final int backRightCanCoderId = 26;
 	}
 	public static class DriveConstants {
 		/**
@@ -67,7 +68,7 @@ public final class Constants {
 		* The drive gear ratios for the different levels can be found from the chart at
 		* swervedrivespecialties.com/products/mk41-swerve-module.
 		*/
-	   	public static final double driveMtrGearReduction = (14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0);
+	   	public static final double driveMtrGearReduction = (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0);
 
 	   	/**
 		* The gear reduction from the steer motor to the wheel.
@@ -116,7 +117,7 @@ public final class Constants {
 		
 		// Some wheels would spin backwards
 		public static final boolean frontLeftDriveInvert = false;
-		public static final boolean frontRightDriveInvert = false;
+		public static final boolean frontRightDriveInvert = true;
 		public static final boolean backLeftDriveInvert = true;
 		public static final boolean backRightDriveInvert = true;
 

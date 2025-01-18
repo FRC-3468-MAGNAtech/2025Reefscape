@@ -5,10 +5,15 @@
 package frc.robot;
 
 import frc.robot.Constants.HIDConstants;
-import frc.robot.commands.Autos;
+import frc.robot.Subsystems.SwerveSys;
+import frc.robot.commands.SwerveDrive;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -19,7 +24,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // Subsytems 
- private final XboxController driverController = new XboxController(HIDConstants.driverController);
+  private final Joystick driverController = new Joystick(HIDConstants.driverController);
+  private SwerveSys m_SwerveSys = new SwerveSys();
+  private final JoystickButton zeroGyro = new JoystickButton(driverController, 2);
 
 
   public RobotContainer() {
@@ -38,6 +45,16 @@ public class RobotContainer {
    */
   private void configureBindings() {
     
+		m_SwerveSys.setDefaultCommand(new SwerveDrive(
+			() -> MathUtil.applyDeadband(driverController.getY(), HIDConstants.joystickDeadband),
+			() -> MathUtil.applyDeadband(driverController.getX(), HIDConstants.joystickDeadband),
+			() -> MathUtil.applyDeadband(driverController.getZ(), HIDConstants.joystickDeadband),
+			true,
+			true,
+			m_SwerveSys
+		));
+
+    zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
   }
 
   /**

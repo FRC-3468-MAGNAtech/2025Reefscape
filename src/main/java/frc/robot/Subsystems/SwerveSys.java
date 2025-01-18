@@ -409,7 +409,7 @@ public class SwerveSys extends SubsystemBase {
     /**
      * Sets the gyro heading to zero.
      */
-    public void resetHeading() {
+    public static void resetHeading() {
         imu.setYaw(0.0);
     }
 

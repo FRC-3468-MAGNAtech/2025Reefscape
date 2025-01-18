@@ -73,7 +73,7 @@ public class SwerveModule extends SubsystemBase {
 
 		//steer motor data
 		SparkMaxConfig steerConf = new SparkMaxConfig();
-		steerConf.inverted(invertDrive);
+		steerConf.inverted(invertSteer);
 		steerConf.idleMode(IdleMode.kBrake);
 		steerMtr = new SparkMax(steerMtrId, MotorType.kBrushless);
 		steerEnc = steerMtr.getEncoder();
