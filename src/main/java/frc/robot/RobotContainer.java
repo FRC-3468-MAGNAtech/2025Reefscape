@@ -7,6 +7,9 @@ package frc.robot;
 import frc.robot.Constants.HIDConstants;
 import frc.robot.Subsystems.SwerveSys;
 import frc.robot.commands.SwerveDrive;
+
+import com.ctre.phoenix6.Utils;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Joystick;
@@ -36,6 +39,16 @@ public class RobotContainer {
     configureBindings();
   }
 
+  public void updateDashboard() {
+    SmartDashboard.putNumber("ThrottleSlider", getThrottle());
+  }
+
+  private double getThrottle() {
+    double throttle = -(driverController.getThrottle()-1);
+    throttle += 0.2;
+    return MathUtil.clamp(throttle, 0.2, 1);
+  }
+
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -48,6 +61,7 @@ public class RobotContainer {
   private void configureBindings() {
     
 		m_SwerveSys.setDefaultCommand(new SwerveDrive(
+      () -> getThrottle(),
 			() -> MathUtil.applyDeadband(driverController.getY(), HIDConstants.joystickDeadband),
 			() -> MathUtil.applyDeadband(driverController.getX(), HIDConstants.joystickDeadband),
 			() -> MathUtil.applyDeadband(driverController.getZ(), HIDConstants.joystickDeadband),
@@ -55,8 +69,6 @@ public class RobotContainer {
 			true,
 			m_SwerveSys
 		));
-
-    
     zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
   
   }

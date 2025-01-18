@@ -23,6 +23,7 @@ public class SwerveDrive extends Command {
 	 * This is so that joystick getter methods can be passed in as a parameter but will continuously update, 
 	 * versus using a double which would only update when the constructor is called
 	 */
+	private final DoubleSupplier throttle;
 	private final DoubleSupplier drive;
 	private final DoubleSupplier strafe;
 	private final DoubleSupplier rot;
@@ -46,6 +47,7 @@ public class SwerveDrive extends Command {
 	 * @param swerveSys The required SwerveSys.
 	 */
 	public SwerveDrive(
+		DoubleSupplier throttle,
 		DoubleSupplier drive, 
 		DoubleSupplier strafe, 
 		DoubleSupplier rot,
@@ -55,6 +57,7 @@ public class SwerveDrive extends Command {
 	) {
 		this.swerveSys = swerveSys;
 
+		this.throttle = throttle;
 		this.drive = drive;
 		this.strafe = strafe;
 		this.rot = rot;
@@ -72,6 +75,7 @@ public class SwerveDrive extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
+		double throttle = this.throttle.getAsDouble();
 		double drive = this.drive.getAsDouble();
 		double strafe = this.strafe.getAsDouble();
 		double rot = this.rot.getAsDouble();
@@ -99,6 +103,7 @@ public class SwerveDrive extends Command {
 
 		//robot go go
 		swerveSys.drive(
+			throttle,
 			-drive,
 			-strafe,
 			-rot,
