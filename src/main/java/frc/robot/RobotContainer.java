@@ -7,9 +7,11 @@ package frc.robot;
 import frc.robot.Constants.HIDConstants;
 import frc.robot.Subsystems.SwerveSys;
 import frc.robot.commands.SwerveDrive;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -54,8 +56,11 @@ public class RobotContainer {
 			m_SwerveSys
 		));
 
+    
     zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
+  
   }
+  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
