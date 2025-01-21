@@ -31,7 +31,7 @@ public class RobotContainer {
   // Subsytems 
   private final Joystick driverController = new Joystick(HIDConstants.driverController);
   private SwerveSys m_SwerveSys = new SwerveSys();
-  private final JoystickButton zeroGyro = new JoystickButton(driverController, 2);
+  private final JoystickButton zeroGyro = new JoystickButton(driverController, 11);
 
 
   public RobotContainer() {
