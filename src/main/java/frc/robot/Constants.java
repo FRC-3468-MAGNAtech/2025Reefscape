@@ -127,4 +127,16 @@ public final class Constants {
 		public static final boolean backLeftSteerInvert = true;
 		public static final boolean backRightSteerInvert = true;
 	}
+	public static class ElevConstants {
+		// Motor configuration
+		public static final int elev1ID = 3;
+		public static final int elev2ID = 4;
+		// PID for elevator
+		public static final double elevP = 0.0;
+		public static final double elevI = 0;
+		public static final double elevD = 0.0;
+		// movement
+		public static final double elevUp = 0.7;
+		public static final double elevDown = 0.5;
+	}
 }
