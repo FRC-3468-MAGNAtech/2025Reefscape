@@ -44,9 +44,8 @@ public class RobotContainer {
   }
 
   private double getThrottle() {
-    double throttle = -(driverController.getThrottle()-1);
-    throttle += 0.2;
-    return MathUtil.clamp(throttle, 0.2, 1);
+    double throttle = ((1-driverController.getThrottle())/2.5) + 0.2;
+    return throttle;
   }
 
   /**
