@@ -5,12 +5,17 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
-/*import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;*/
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.controllers.PathFollowingController;
+import com.pathplanner.lib.util.DriveFeedforwards;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.controller.HolonomicDriveController;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -19,7 +24,10 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.CANDevices;
 import frc.robot.Constants.DriveConstants;
 
@@ -224,7 +232,7 @@ public class SwerveSys extends SubsystemBase {
      * 
      * @param chassisSpeeds The desired ChassisSpeeds.
      */
-    public void setChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+    public void setChassisSpeeds(ChassisSpeeds chassisSpeeds, DriveFeedforwards ffs) {
         setModuleStatesClosedLoop(DriveConstants.kinematics.toSwerveModuleStates(chassisSpeeds));
     }
     
@@ -423,25 +431,30 @@ public class SwerveSys extends SubsystemBase {
             speedFactor = 1;
         for (int i = 0; i < 4; i++) ;
     }
+
     public boolean PathFlip() {
         return true;
     }
 
+    public void BuilderConfigure() {
+        RobotConfig config = null;
+        try{
+            config = RobotConfig.fromGUISettings();
+        } catch (Exception e) {
+            // Handle exception as needed
+            e.printStackTrace();
+        }
 
-    /*public void BuilderConfigure() {
-        AutoBuilder.configureHolonomic(
-            this:: getPose, 
-            this:: resetPose, 
-            this:: getChassisSpeeds, 
-            this:: setChassisSpeeds, 
-             new HolonomicPathFollowerConfig(
-                new PIDConstants(1, 0, 0), 
-                new PIDConstants(1, 0, 0), 
-                DriveConstants.maxDriveSpeedMetersPerSec, 
-                DriveConstants.driveBaseRadius, 
-                new ReplanningConfig(true, false)), 
-            () -> RobotContainer.isRedAlliance(), 
-            this
-        );
-    }*/
+
+        AutoBuilder.configure(
+            this::getPose, 
+            this::resetPose, 
+            this::getChassisSpeeds, 
+            this::setChassisSpeeds, 
+            new PPHolonomicDriveController(
+                new PIDConstants(1), new PIDConstants(1)), 
+            config, 
+            ()->RobotContainer.isRedAlliance(), 
+            this);
+    }
 }

@@ -7,9 +7,17 @@ package frc.robot;
 import frc.robot.Constants.HIDConstants;
 import frc.robot.Subsystems.SwerveSys;
 import frc.robot.commands.SwerveDrive;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -28,8 +36,14 @@ public class RobotContainer {
   private SwerveSys m_SwerveSys = new SwerveSys();
   private final JoystickButton zeroGyro = new JoystickButton(driverController, 2);
 
+	private final SendableChooser<Command> autoChooser;
 
   public RobotContainer() {
+    m_SwerveSys.BuilderConfigure();
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto", autoChooser);
+
+    autoChooser.addOption("2 Back L4 to pro", new PathPlannerAuto("2 Back L4 to pro"));
     // Configure the trigger bindings
     configureBindings();
   }
@@ -63,6 +77,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    return autoChooser.getSelected();
+  }
+
+  public static Boolean isRedAlliance() {
+    return DriverStation.getAlliance().get() == Alliance.Red;
   }
 }
