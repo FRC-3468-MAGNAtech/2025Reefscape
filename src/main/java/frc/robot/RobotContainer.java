@@ -44,8 +44,18 @@ public class RobotContainer {
     SmartDashboard.putData("Auto", autoChooser);
 
     autoChooser.addOption("2 Back L4 to pro", new PathPlannerAuto("2 Back L4 to pro"));
+    autoChooser.addOption("opp. to top right(1), top left(2)", new PathPlannerAuto("opp. to top right(1), top left(2)"));
     // Configure the trigger bindings
     configureBindings();
+  }
+
+  public void updateDashboard() {
+    SmartDashboard.putNumber("ThrottleSlider", getThrottle());
+  }
+
+  private double getThrottle() {
+    double throttle = ((1-driverController.getThrottle())/2.5) + 0.2;
+    return throttle;
   }
 
   /**
@@ -60,6 +70,7 @@ public class RobotContainer {
   private void configureBindings() {
     
 		m_SwerveSys.setDefaultCommand(new SwerveDrive(
+      () -> getThrottle(),
 			() -> MathUtil.applyDeadband(driverController.getY(), HIDConstants.joystickDeadband),
 			() -> MathUtil.applyDeadband(driverController.getX(), HIDConstants.joystickDeadband),
 			() -> MathUtil.applyDeadband(driverController.getZ(), HIDConstants.joystickDeadband),
