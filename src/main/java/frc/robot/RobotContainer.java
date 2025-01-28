@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.HIDConstants;
+import frc.robot.Subsystems.Evelator;
 import frc.robot.Subsystems.SwerveSys;
 import frc.robot.commands.SwerveDrive;
 import edu.wpi.first.math.MathUtil;
@@ -24,9 +25,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // Subsytems 
-  private final Joystick driverController = new Joystick(HIDConstants.driverController);
   private SwerveSys m_SwerveSys = new SwerveSys();
+  private Evelator m_Evelator = new Evelator();
+
+  // Buttons
+  private final Joystick driverController = new Joystick(HIDConstants.driverController);
   private final JoystickButton zeroGyro = new JoystickButton(driverController, 2);
+  private final JoystickButton elevUp = new JoystickButton(driverController, 3);
 
 
   public RobotContainer() {
@@ -55,6 +60,8 @@ public class RobotContainer {
 		));
 
     zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
+
+    //elevUp.whileTrue(frc.robot.commands.elevUp(m_Evelator));
   }
 
   /**
