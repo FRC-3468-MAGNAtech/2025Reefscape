@@ -20,6 +20,7 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 	public static class HIDConstants {
 		public static final int driverController = 0;
+		public static final int mechanoBoard = 1;
 		public static final double joystickDeadband = 0.15;
 	}
 	public static class CANDevices {

@@ -30,9 +30,10 @@ public class RobotContainer {
 
   // Buttons
   private final Joystick driverController = new Joystick(HIDConstants.driverController);
+  private final Joystick mechanoBoard = new Joystick(HIDConstants.mechanoBoard);
   private final JoystickButton zeroGyro = new JoystickButton(driverController, 2);
-  private final JoystickButton elevUp = new JoystickButton(driverController, 3);
-
+  private final JoystickButton elevUp = new JoystickButton(mechanoBoard, 1);
+  private final JoystickButton elevDown = new JoystickButton(mechanoBoard, 2);
 
   public RobotContainer() {
     // Configure the trigger bindings
@@ -60,8 +61,8 @@ public class RobotContainer {
 		));
 
     zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
-
-    //elevUp.whileTrue(frc.robot.commands.elevUp(m_Evelator));
+    elevUp.whileTrue(new frc.robot.commands.elevUp(m_Evelator));
+    elevDown.whileTrue(new frc.robot.commands.elevDown(m_Evelator));
   }
 
   /**

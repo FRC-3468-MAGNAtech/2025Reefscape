@@ -39,7 +39,7 @@ private final SparkLimitSwitch elevBottomLimit;
     elevMtr1.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
     SparkMaxConfig conf2 = new SparkMaxConfig();
-    conf2.follow(ElevConstants.elev2ID, true);
+    conf2.follow(ElevConstants.elev1ID, true);
     elevMtr2.configure(conf2, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     
     elevBottomLimit = elevMtr1.getReverseLimitSwitch();
