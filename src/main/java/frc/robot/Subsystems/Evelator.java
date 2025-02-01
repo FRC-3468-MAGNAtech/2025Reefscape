@@ -17,6 +17,10 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevConstants;
 
@@ -26,10 +30,16 @@ private final SparkMax elevMtr1;
 private final SparkMax elevMtr2;
 private final SparkClosedLoopController eLoopController;
 private final SparkLimitSwitch elevBottomLimit;
+private final TrapezoidProfile elevProfile;
+private TrapezoidProfile.State goal;
+private TrapezoidProfile.State current;
 
   public Evelator() {
     elevMtr1 = new SparkMax(ElevConstants.elev1ID, MotorType.kBrushless);
     elevMtr2 = new SparkMax(ElevConstants.elev2ID, MotorType.kBrushless);
+    elevProfile = new TrapezoidProfile(new TrapezoidProfile.Constraints(1.75, 0.75));
+    goal = new TrapezoidProfile.State();
+    current = new TrapezoidProfile.State();
 
     SparkMaxConfig conf = new SparkMaxConfig();
     conf.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
@@ -60,6 +70,10 @@ private final SparkLimitSwitch elevBottomLimit;
 
   public void ElevStop() {
     elevMtr1.set(0);
+  }
+
+  public void CalculateProfile() {
+    elevProfile.calculate(ElevConstants.elevTime, current, goal);
   }
 
   @Override
