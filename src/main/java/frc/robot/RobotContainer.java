@@ -46,6 +46,7 @@ public class RobotContainer {
     autoChooser.addOption("2 Back L4 to pro", new PathPlannerAuto("2 Back L4 to pro"));
     autoChooser.addOption("opp. to top right(1), top left(2)", new PathPlannerAuto("opp. to top right(1), top left(2)"));
     // Configure the trigger bindings
+    Camera.UpdateLimelight("limelight", m_SwerveSys.odometry, m_SwerveSys.imu.getAngularVelocityZDevice().getValueAsDouble());
     configureBindings();
   }
 

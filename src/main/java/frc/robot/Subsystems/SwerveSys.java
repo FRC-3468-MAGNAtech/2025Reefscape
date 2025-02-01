@@ -85,7 +85,7 @@ public class SwerveSys extends SubsystemBase {
     // Odometry for the robot, measured in meters for linear motion and radians for rotational motion
     // Takes in kinematics and robot angle for parameters
 
-    private static SwerveDrivePoseEstimator odometry = 
+    public static SwerveDrivePoseEstimator odometry = 
         new SwerveDrivePoseEstimator(
             DriveConstants.kinematics,
             getHeading(),
@@ -269,7 +269,7 @@ public class SwerveSys extends SubsystemBase {
 
         odometry = new SwerveDrivePoseEstimator(
             DriveConstants.kinematics,
-            new Rotation2d(),
+            pose.getRotation(),
             getModulePositions(),
             pose
         );
