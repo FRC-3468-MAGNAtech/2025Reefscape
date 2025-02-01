@@ -5,7 +5,7 @@
 package frc.robot.Subsystems;
 
 
-
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkMax;
@@ -17,10 +17,8 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevConstants;
 
@@ -29,6 +27,8 @@ public class Evelator extends SubsystemBase {
 private final SparkMax elevMtr1;
 private final SparkMax elevMtr2;
 private final SparkClosedLoopController eLoopController;
+private final ProfiledPIDController ePIDController;
+private final AbsoluteEncoder elevEncoder;
 private final SparkLimitSwitch elevBottomLimit;
 private final TrapezoidProfile elevProfile;
 private TrapezoidProfile.State goal;
@@ -51,9 +51,12 @@ private TrapezoidProfile.State current;
     SparkMaxConfig conf2 = new SparkMaxConfig();
     conf2.follow(ElevConstants.elev1ID, true);
     elevMtr2.configure(conf2, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+
+    ePIDController = new ProfiledPIDController(ElevConstants.elevP, ElevConstants.elevI, ElevConstants.elevD, new TrapezoidProfile.Constraints(1.75, 0.75));
     
     elevBottomLimit = elevMtr1.getReverseLimitSwitch();
     eLoopController = elevMtr1.getClosedLoopController();
+    elevEncoder = elevMtr1.getAbsoluteEncoder();
   }
 
   public void setAngle(double rotations) {
@@ -72,6 +75,10 @@ private TrapezoidProfile.State current;
     elevMtr1.set(0);
   }
 
+  public void SetGoal( double position) {
+    goal = new TrapezoidProfile.State(position, 0.0);
+  }
+
   public void CalculateProfile() {
     elevProfile.calculate(ElevConstants.elevTime, current, goal);
   }
@@ -79,5 +86,6 @@ private TrapezoidProfile.State current;
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    current = new TrapezoidProfile.State(elevEncoder.getPosition(), 0.0);
   }
 }
