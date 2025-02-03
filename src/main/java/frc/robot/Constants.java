@@ -136,10 +136,16 @@ public final class Constants {
 		public static final double elevP = 0.0;
 		public static final double elevI = 0;
 		public static final double elevD = 0.0;
-		//trapezoid controller (works with PID to make more smoothe)
+		// trapezoid controller (works with PID to make more smoothe)
 		public static final double elevTime = 1.0;
 		// movement
 		public static final double elevUp = 0.7;
 		public static final double elevDown = 0.5;
+		// setpoints
+		public static final double l1 = 1.00;
+		public static final double l2 = 2.00;
+		public static final double l3 = 3.00;
+		public static final double l4 = 4.00;
+		public static final double changeVar = l1;
 	}
 }

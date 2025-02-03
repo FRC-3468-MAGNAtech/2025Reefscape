@@ -59,10 +59,6 @@ private TrapezoidProfile.State current;
     elevEncoder = elevMtr1.getAbsoluteEncoder();
   }
 
-  public void setAngle(double rotations) {
-    eLoopController.setReference(rotations, ControlType.kPosition);
-  }
-
   public void ElevUp() {
     elevMtr1.set(ElevConstants.elevUp);
   }
@@ -81,6 +77,13 @@ private TrapezoidProfile.State current;
 
   public void CalculateProfile() {
     elevProfile.calculate(ElevConstants.elevTime, current, goal);
+  }
+
+  public void PointMove(double position) {
+    if (position < 0.1){
+      position = 0.1;
+    }
+    eLoopController.setReference(position, ControlType.kPosition);
   }
 
   @Override

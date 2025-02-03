@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
+import frc.robot.Constants.ElevConstants;
 import frc.robot.Subsystems.Evelator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -25,7 +27,7 @@ public class ElevSetpoints extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    evelator.setAngle(0);
+    evelator.PointMove(RobotContainer.currentHeight);
   }
 
   // Called once the command ends or is interrupted.

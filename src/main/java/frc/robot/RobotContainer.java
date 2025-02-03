@@ -4,15 +4,17 @@
 
 package frc.robot;
 
+import frc.robot.Constants.ElevConstants;
 import frc.robot.Constants.HIDConstants;
 import frc.robot.Subsystems.Evelator;
 import frc.robot.Subsystems.SwerveSys;
+import frc.robot.commands.ElevSetpoints;
 import frc.robot.commands.SwerveDrive;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -27,6 +29,7 @@ public class RobotContainer {
   // Subsytems 
   private SwerveSys m_SwerveSys = new SwerveSys();
   private Evelator m_Evelator = new Evelator();
+  public static double currentHeight = 0.1;
 
   // Buttons
   private final Joystick driverController = new Joystick(HIDConstants.driverController);
@@ -34,6 +37,10 @@ public class RobotContainer {
   private final JoystickButton zeroGyro = new JoystickButton(driverController, 2);
   private final JoystickButton elevUp = new JoystickButton(mechanoBoard, 1);
   private final JoystickButton elevDown = new JoystickButton(mechanoBoard, 2);
+  private final JoystickButton l1Button = new JoystickButton(mechanoBoard, 3);
+  private final JoystickButton l2Button = new JoystickButton(mechanoBoard, 4);
+  private final JoystickButton l3Button = new JoystickButton(mechanoBoard, 5);
+  private final JoystickButton l4Button = new JoystickButton(mechanoBoard, 6);
 
   public RobotContainer() {
     // Configure the trigger bindings
@@ -63,6 +70,10 @@ public class RobotContainer {
     zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
     elevUp.whileTrue(new frc.robot.commands.elevUp(m_Evelator));
     elevDown.whileTrue(new frc.robot.commands.elevDown(m_Evelator));
+    l1Button.onTrue(new ParallelCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l1;}), new ElevSetpoints(m_Evelator)));
+    l2Button.onTrue(new ParallelCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l2;}), new ElevSetpoints(m_Evelator)));
+    l3Button.onTrue(new ParallelCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l3;}), new ElevSetpoints(m_Evelator)));
+    l4Button.onTrue(new ParallelCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l4;}), new ElevSetpoints(m_Evelator)));
   }
 
   /**
