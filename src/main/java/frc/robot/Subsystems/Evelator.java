@@ -30,14 +30,12 @@ private final SparkClosedLoopController eLoopController;
 private final ProfiledPIDController ePIDController;
 private final AbsoluteEncoder elevEncoder;
 private final SparkLimitSwitch elevBottomLimit;
-private final TrapezoidProfile elevProfile;
 private TrapezoidProfile.State goal;
 private TrapezoidProfile.State current;
 
   public Evelator() {
     elevMtr1 = new SparkMax(ElevConstants.elev1ID, MotorType.kBrushless);
     elevMtr2 = new SparkMax(ElevConstants.elev2ID, MotorType.kBrushless);
-    elevProfile = new TrapezoidProfile(new TrapezoidProfile.Constraints(1.75, 0.75));
     goal = new TrapezoidProfile.State();
     current = new TrapezoidProfile.State();
 
@@ -71,14 +69,14 @@ private TrapezoidProfile.State current;
     elevMtr1.set(0);
   }
 
-  public void SetGoal( double position) {
-    goal = new TrapezoidProfile.State(position, 0.0);
+  /*
+  public void PointMove( double position) {
+    ePIDController.setGoal(position);
+    elevMtr1.setVoltage(
+        ePIDController.calculate(ePIDController.getSetpoint().velocity));
   }
-
-  public void CalculateProfile() {
-    elevProfile.calculate(ElevConstants.elevTime, current, goal);
-  }
-
+  */
+  
   public void PointMove(double position) {
     if (position < 0.1){
       position = 0.1;
