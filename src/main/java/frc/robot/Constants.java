@@ -139,4 +139,9 @@ public final class Constants {
 		public static final double elevUp = 0.7;
 		public static final double elevDown = 0.5;
 	}
+	public static class IntakeConstants {
+		public static final double IntakeIn = 0.7;
+		public static final double IntakeOut = 0.5;
+	}
+
 }
