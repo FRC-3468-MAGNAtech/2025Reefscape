@@ -45,21 +45,21 @@ public class Intake extends SubsystemBase {
   intakeBottomLimit = intakeMotor2.getReverseLimitSwitch();
   }
 
-  public void BallsDeep() {
+  public void BallsIn() {
     intakeMotor1.set(IntakeConstants.IntakeIn);
     intakeMotor2.set(-IntakeConstants.IntakeIn);
   }
 
-  public void SaggyBalls() {
+  public void BallsOut() {
     intakeMotor1.set(IntakeConstants.IntakeOut);
     intakeMotor2.set(-IntakeConstants.IntakeOut);
   }
 
-  public void LongShaft() {
+  public void pVCIn() {
     intakeMotor2.set(IntakeConstants.IntakeIn);
   }
 
-  public void ShortShaft() {
+  public void pVCOut() {
     intakeMotor2.set(IntakeConstants.IntakeOut);
   }
 
