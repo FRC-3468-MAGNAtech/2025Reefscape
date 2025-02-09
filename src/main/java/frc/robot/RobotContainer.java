@@ -42,7 +42,10 @@ public class RobotContainer {
 
   private SwerveSys m_SwerveSys = new SwerveSys();
   private Intake intake = new Intake();
+
   private final JoystickButton zeroGyro = new JoystickButton(driverController, 2);
+
+  // Button pad buttons, make constants for the numbers 
   private final JoystickButton algaeOut = new JoystickButton(bottomButtonPad, 2);
   private final JoystickButton algaeIn = new JoystickButton(bottomButtonPad, 7);
 
@@ -52,6 +55,8 @@ public class RobotContainer {
     m_SwerveSys.BuilderConfigure();
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto", autoChooser);
+
+    intake.setDefaultCommand(new IntakeStop(intake));  // maybe fix, hopefully stop
 
     autoChooser.addOption("2 Back L4 to pro", new PathPlannerAuto("2 Back L4 to pro"));
     autoChooser.addOption("opp. to top right(1), top left(2)", new PathPlannerAuto("opp. to top right(1), top left(2)"));
@@ -79,7 +84,8 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    
+
+    // Defaults
 		m_SwerveSys.setDefaultCommand(new SwerveDrive(
       () -> getThrottle(),
 			() -> MathUtil.applyDeadband(driverController.getY(), HIDConstants.joystickDeadband),
@@ -89,11 +95,11 @@ public class RobotContainer {
 			true,
 			m_SwerveSys
 		));
-    intake.setDefaultCommand(new IntakeStop(intake));
 
-
+    // Swerve
     zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
 
+    // Intake
     algaeIn.onTrue(new IntakeIn(intake));
     algaeOut.onTrue(new IntakeOut(intake));
   }

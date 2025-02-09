@@ -8,14 +8,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.Intake;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class pVCIn extends Command {
-  /** Creates a new IntakeOut. */
+public class IntakeOut extends Command {
   private Intake i_subsystem;
-
-  public pVCIn(Intake subsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
-      i_subsystem = subsystem;
-      addRequirements(subsystem);
+  
+  /** Creates a new IntakeOut. */
+  public IntakeOut(Intake subsystem) {
+    i_subsystem = subsystem;
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -25,7 +24,7 @@ public class pVCIn extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    i_subsystem.pVCIn();
+    i_subsystem.BallsOut();
   }
 
   // Called once the command ends or is interrupted.

@@ -20,55 +20,42 @@ import frc.robot.Constants.ElevConstants;
 import frc.robot.Constants.IntakeConstants;
 
 public class Intake extends SubsystemBase {
-  /** Creates a new Intake. */
-
   private SparkMax intakeMotor1;
   private SparkMax intakeMotor2;
-   
 	private RelativeEncoder intakeEncoder; 
-
 	private PIDController pidcontroller;
 	private DigitalInput intakeSensor;
   private SparkLimitSwitch intakeBottomLimit;
-
+  
+  /** Creates a new Intake. */
   public Intake() {
     intakeMotor1 = new SparkMax(IntakeConstants.intakeTopID, MotorType.kBrushless);
     intakeMotor2 = new SparkMax(IntakeConstants.intakeBottomID, MotorType.kBrushless);
 
+    SparkMaxConfig conf = new SparkMaxConfig();
+    conf.limitSwitch.reverseLimitSwitchEnabled(true);
+    conf.idleMode(IdleMode.kBrake);
 
-  SparkMaxConfig conf = new SparkMaxConfig();
-  conf.limitSwitch.reverseLimitSwitchEnabled(true);
-  conf.idleMode(IdleMode.kBrake);
-  intakeMotor1.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-  intakeMotor2.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    intakeMotor1.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    intakeMotor2.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
-  intakeBottomLimit = intakeMotor2.getReverseLimitSwitch();
+    intakeBottomLimit = intakeMotor2.getReverseLimitSwitch();
   }
 
   public void BallsIn() {
-    intakeMotor1.set(IntakeConstants.IntakeIn);
-    intakeMotor2.set(-IntakeConstants.IntakeIn);
+    intakeMotor1.set(-IntakeConstants.intakeIn);
+    intakeMotor2.set(IntakeConstants.intakeIn);
   }
 
   public void BallsOut() {
-    intakeMotor1.set(-IntakeConstants.IntakeIn);
-    intakeMotor2.set(IntakeConstants.IntakeIn);
-  }
-
-  public void pVCIn() {
-    intakeMotor2.set(IntakeConstants.IntakeIn);
-  }
-
-  public void pVCOut() {
-    intakeMotor2.set(IntakeConstants.IntakeOut);
+    intakeMotor1.set(IntakeConstants.intakeOut);
+    intakeMotor2.set(-IntakeConstants.intakeOut);
   }
 
   public void IntakeStop() {
     intakeMotor1.set(0);
     intakeMotor2.set(0);
   }
-
-
 
   @Override
   public void periodic() {

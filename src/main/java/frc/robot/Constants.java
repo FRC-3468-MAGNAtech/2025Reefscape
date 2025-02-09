@@ -23,6 +23,8 @@ public final class Constants {
 		public static final int topButtonPad = 1;
 		public static final int bottomButtonPad = 2;
 		public static final double joystickDeadband = 0.15;
+
+		// Buttons 
 	}
 
 	public static class CANDevices {
@@ -60,10 +62,10 @@ public final class Constants {
 		 */
 		public static final SwerveDriveKinematics kinematics = 
 		new SwerveDriveKinematics(
-		new Translation2d(trackWidth / 2.0, wheelBase / 2.0),  // front left
-		new Translation2d(trackWidth / 2.0, -wheelBase / 2.0), // front right
-		new Translation2d(-trackWidth / 2.0, wheelBase / 2.0), // back left
-		new Translation2d(-trackWidth / 2.0, -wheelBase / 2.0) // back right
+			new Translation2d(trackWidth / 2.0, wheelBase / 2.0),  // front left
+			new Translation2d(trackWidth / 2.0, -wheelBase / 2.0), // front right
+			new Translation2d(-trackWidth / 2.0, wheelBase / 2.0), // back left
+			new Translation2d(-trackWidth / 2.0, -wheelBase / 2.0) // back right
 		);
 		/**
 		* The gear reduction from the drive motor to the wheel.
@@ -130,6 +132,7 @@ public final class Constants {
 		public static final boolean backLeftSteerInvert = true;
 		public static final boolean backRightSteerInvert = true;
 	}
+
 	public static class ElevConstants {
 		// Motor configuration
 		public static final int elev1ID = 3;
@@ -146,8 +149,8 @@ public final class Constants {
 	public static class IntakeConstants {
 		public static final int intakeTopID = 6;
 		public static final int intakeBottomID = 5;
-		public static final double IntakeIn = 0.3;
-		public static final double IntakeOut = 0.3;
+		public static final double intakeIn = 0.55;   // need testing
+		public static final double intakeOut = 0.3;
 	}
 
 }
