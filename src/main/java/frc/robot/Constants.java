@@ -20,8 +20,11 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 	public static class HIDConstants {
 		public static final int driverController = 0;
+		public static final int topButtonPad = 1;
+		public static final int bottomButtonPad = 2;
 		public static final double joystickDeadband = 0.15;
 	}
+
 	public static class CANDevices {
 		public static final int pigeonId = 2;
 
@@ -139,9 +142,12 @@ public final class Constants {
 		public static final double elevUp = 0.7;
 		public static final double elevDown = 0.5;
 	}
+
 	public static class IntakeConstants {
-		public static final double IntakeIn = 0.7;
-		public static final double IntakeOut = 0.5;
+		public static final int intakeTopID = 6;
+		public static final int intakeBottomID = 5;
+		public static final double IntakeIn = 0.3;
+		public static final double IntakeOut = 0.3;
 	}
 
 }

@@ -32,8 +32,8 @@ public class Intake extends SubsystemBase {
   private SparkLimitSwitch intakeBottomLimit;
 
   public Intake() {
-    intakeMotor1 = new SparkMax(ElevConstants.elev1ID, MotorType.kBrushless);
-    intakeMotor2 = new SparkMax(ElevConstants.elev2ID, MotorType.kBrushless);
+    intakeMotor1 = new SparkMax(IntakeConstants.intakeTopID, MotorType.kBrushless);
+    intakeMotor2 = new SparkMax(IntakeConstants.intakeBottomID, MotorType.kBrushless);
 
 
   SparkMaxConfig conf = new SparkMaxConfig();
@@ -51,8 +51,8 @@ public class Intake extends SubsystemBase {
   }
 
   public void BallsOut() {
-    intakeMotor1.set(IntakeConstants.IntakeOut);
-    intakeMotor2.set(-IntakeConstants.IntakeOut);
+    intakeMotor1.set(-IntakeConstants.IntakeIn);
+    intakeMotor2.set(IntakeConstants.IntakeIn);
   }
 
   public void pVCIn() {

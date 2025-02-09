@@ -5,7 +5,11 @@
 package frc.robot;
 
 import frc.robot.Constants.HIDConstants;
+import frc.robot.Subsystems.Intake;
 import frc.robot.Subsystems.SwerveSys;
+import frc.robot.commands.IntakeIn;
+import frc.robot.commands.IntakeOut;
+import frc.robot.commands.IntakeStop;
 import frc.robot.commands.SwerveDrive;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -32,9 +36,15 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // Subsytems 
-  private final Joystick driverController = new Joystick(HIDConstants.driverController);
+  private final Joystick driverController = new Joystick(HIDConstants.driverController);  
+  private final Joystick topButtonPad = new Joystick(HIDConstants.topButtonPad);  
+  private final Joystick bottomButtonPad = new Joystick(HIDConstants.bottomButtonPad);  
+
   private SwerveSys m_SwerveSys = new SwerveSys();
+  private Intake intake = new Intake();
   private final JoystickButton zeroGyro = new JoystickButton(driverController, 2);
+  private final JoystickButton algaeOut = new JoystickButton(bottomButtonPad, 2);
+  private final JoystickButton algaeIn = new JoystickButton(bottomButtonPad, 7);
 
 	private final SendableChooser<Command> autoChooser;
 
@@ -79,8 +89,13 @@ public class RobotContainer {
 			true,
 			m_SwerveSys
 		));
+    intake.setDefaultCommand(new IntakeStop(intake));
+
 
     zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
+
+    algaeIn.onTrue(new IntakeIn(intake));
+    algaeOut.onTrue(new IntakeOut(intake));
   }
 
   /**
