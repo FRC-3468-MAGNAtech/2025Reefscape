@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -20,6 +21,9 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 	public static class HIDConstants {
 		public static final int driverController = 0;
+		public static final int topButtonPad = 1;
+		public static final int bottomButtonPad = 2;
+
 		public static final double joystickDeadband = 0.15;
 	}
 	public static class CANDevices {
@@ -127,6 +131,14 @@ public final class Constants {
 		public static final boolean backLeftSteerInvert = true;
 		public static final boolean backRightSteerInvert = true;
 	}
+
+	public static final class LimeLightConstants {
+		
+		public static final double driveKP = 0.02;
+		public static final PIDController llPIDctrlDrive = new PIDController(driveKP, 0, 0);
+		
+	}
+
 	public static class ElevConstants {
 		// Motor configuration
 		public static final int elev1ID = 3;

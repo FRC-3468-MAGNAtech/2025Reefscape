@@ -5,7 +5,9 @@
 package frc.robot;
 
 import frc.robot.Constants.HIDConstants;
+import frc.robot.Constants.LimeLightConstants;
 import frc.robot.Subsystems.SwerveSys;
+import frc.robot.commands.AlignLeft;
 import frc.robot.commands.SwerveDrive;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -33,8 +35,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // Subsytems 
   private final Joystick driverController = new Joystick(HIDConstants.driverController);
+  private final Joystick topbuttonPad = new Joystick(HIDConstants.topButtonPad);
+  private final Joystick bottomButtonPad = new Joystick(HIDConstants.bottomButtonPad);
   private SwerveSys m_SwerveSys = new SwerveSys();
   private final JoystickButton zeroGyro = new JoystickButton(driverController, 2);
+  private final JoystickButton alignLeft = new JoystickButton(topbuttonPad, 2);
+
 
 	private final SendableChooser<Command> autoChooser;
 
@@ -42,6 +48,9 @@ public class RobotContainer {
     m_SwerveSys.BuilderConfigure();
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto", autoChooser);
+
+    LimeLightConstants.llPIDctrlDrive.setSetpoint(10);
+    LimeLightConstants.llPIDctrlDrive.setTolerance(2);
 
     autoChooser.addOption("2 Back L4 to pro", new PathPlannerAuto("2 Back L4 to pro"));
     autoChooser.addOption("opp. to top right(1), top left(2)", new PathPlannerAuto("opp. to top right(1), top left(2)"));
@@ -82,6 +91,9 @@ public class RobotContainer {
 		));
 
     zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
+
+    //auto movements
+    alignLeft.whileTrue(new AlignLeft(m_SwerveSys));
   }
 
   /**
