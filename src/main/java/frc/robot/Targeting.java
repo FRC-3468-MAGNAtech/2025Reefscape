@@ -12,12 +12,22 @@ public class Targeting {
 
 
     public static double alignToReedLeft() {
-        double tx = LimelightHelpers.getTX("null");
-        return LimeLightConstants.llPIDctrlDrive.calculate(tx);
+        double tx = LimelightHelpers.getTX("limelight-right");
+        return LimeLightConstants.llPIDctrlStraifLeft.calculate(tx);
     }
 
     public static double alignToReedRight() {
-        double tx = LimelightHelpers.getTX("null");
-        return LimeLightConstants.llPIDctrlDrive.calculate(tx);
+        double tx = LimelightHelpers.getTX("limelight-left");
+        return LimeLightConstants.llPIDctrlStraifRight.calculate(tx);
+    }
+
+    public static double driveToReedLeft() {
+        double ta = LimelightHelpers.getTA("limelight-right");
+        return LimeLightConstants.llPIDctrlDriveLeft.calculate(ta);
+    }
+
+    public static double driveToReedRight() {
+        double ta = LimelightHelpers.getTA("limelight-left");
+        return LimeLightConstants.llPIDctrlDriveRight.calculate(ta);
     }
 }

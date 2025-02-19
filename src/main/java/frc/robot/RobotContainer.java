@@ -8,6 +8,8 @@ import frc.robot.Constants.HIDConstants;
 import frc.robot.Constants.LimeLightConstants;
 import frc.robot.Subsystems.SwerveSys;
 import frc.robot.commands.AlignLeft;
+import frc.robot.commands.AlignRight;
+import frc.robot.commands.DriveLeft;
 import frc.robot.commands.SwerveDrive;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -22,6 +24,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -39,7 +43,8 @@ public class RobotContainer {
   private final Joystick bottomButtonPad = new Joystick(HIDConstants.bottomButtonPad);
   private SwerveSys m_SwerveSys = new SwerveSys();
   private final JoystickButton zeroGyro = new JoystickButton(driverController, 2);
-  private final JoystickButton alignLeft = new JoystickButton(topbuttonPad, 2);
+  private final JoystickButton alignLeft = new JoystickButton(topbuttonPad, 4);
+  private final JoystickButton alignRight = new JoystickButton(topbuttonPad, 3);
 
 
 	private final SendableChooser<Command> autoChooser;
@@ -49,14 +54,22 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto", autoChooser);
 
-    LimeLightConstants.llPIDctrlDrive.setSetpoint(10);
-    LimeLightConstants.llPIDctrlDrive.setTolerance(2);
+    LimeLightConstants.llPIDctrlStraifLeft.setSetpoint(-2);
+    LimeLightConstants.llPIDctrlStraifLeft.setTolerance(1);
+    LimeLightConstants.llPIDctrlStraifRight.setSetpoint(16);
+    LimeLightConstants.llPIDctrlStraifRight.setTolerance(1);
+
+    LimeLightConstants.llPIDctrlDriveLeft.setSetpoint(7);
+    LimeLightConstants.llPIDctrlDriveLeft.setTolerance(1);
+    LimeLightConstants.llPIDctrlDriveRight.setSetpoint(7);
+    LimeLightConstants.llPIDctrlDriveRight.setTolerance(1);
+
 
     autoChooser.addOption("2 Back L4 to pro", new PathPlannerAuto("2 Back L4 to pro"));
     autoChooser.addOption("opp. to top right(1), top left(2)", new PathPlannerAuto("opp. to top right(1), top left(2)"));
     autoChooser.addOption("bottom right(1), bottom left (2)", new PathPlannerAuto("bottom right(1), bottom left (2)"));
     // Configure the trigger bindings
-    Camera.UpdateLimelight("limelight", m_SwerveSys.odometry, m_SwerveSys.imu.getAngularVelocityZDevice().getValueAsDouble());
+    //Camera.UpdateLimelight("limelight", m_SwerveSys.odometry, m_SwerveSys.imu.getAngularVelocityZDevice().getValueAsDouble());
     configureBindings();
   }
 
@@ -94,6 +107,8 @@ public class RobotContainer {
 
     //auto movements
     alignLeft.whileTrue(new AlignLeft(m_SwerveSys));
+    alignRight.whileTrue(new AlignRight(m_SwerveSys));
+
   }
 
   /**
