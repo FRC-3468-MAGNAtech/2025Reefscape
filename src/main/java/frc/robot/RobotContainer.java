@@ -58,7 +58,7 @@ public class RobotContainer {
 
   private final JoystickButton alignLeft = new JoystickButton(topbuttonPad, 4);
   private final JoystickButton alignRight = new JoystickButton(topbuttonPad, 3);
-  private final JoystickButton algaefloor = new JoystickButton(topbuttonPad, 9);
+  private final JoystickButton algaefloor = new JoystickButton(bottomButtonPad, 9);
 
 	private final SendableChooser<Command> autoChooser;
   private final JoystickButton elevUp = new JoystickButton(topbuttonPad, 1);
@@ -87,9 +87,9 @@ public class RobotContainer {
 
     LimeLightConstants.llPIDctrlAlgaeDrive.setSetpoint(81);
     LimeLightConstants.llPIDctrlAlgaeDrive.setTolerance(1);
-    LimeLightConstants.llPIDctrlAlgaeRot.setSetpoint(0);
+    LimeLightConstants.llPIDctrlAlgaeRot.setSetpoint(1);
     LimeLightConstants.llPIDctrlAlgaeRot.setTolerance(1);
-    LimeLightConstants.llPIDctrlAlgaeAlign.setSetpoint(1);
+    LimeLightConstants.llPIDctrlAlgaeAlign.setSetpoint(23);
     LimeLightConstants.llPIDctrlAlgaeAlign.setTolerance(1);
 
     autoChooser.addOption("2 Back L4 to pro", new PathPlannerAuto("2 Back L4 to pro"));

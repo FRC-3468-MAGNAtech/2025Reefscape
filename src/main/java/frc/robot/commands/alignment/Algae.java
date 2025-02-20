@@ -39,7 +39,7 @@ public class Algae extends Command {
     drive = r * Math.sin(theta);
     rot = Math.copySign(Math.pow(rot, 2), rot);
 
-    swerveSys.drive(.4, drive, straif, rot, false);
+    swerveSys.drive(.2, drive, 0, rot, false);
 
   }
 
@@ -52,10 +52,6 @@ public class Algae extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (LimelightHelpers.getTA("limelight-forward")<= 80 && LimelightHelpers.getTA("limelight-forward")>= 82) {
-        return true;
-    } else {
-      return false;
-    }
+    return false;
   }
 }
