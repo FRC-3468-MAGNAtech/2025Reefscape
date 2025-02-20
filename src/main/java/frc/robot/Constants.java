@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -23,7 +24,6 @@ public final class Constants {
 		public static final int topButtonPad = 1;
 		public static final int bottomButtonPad = 2;
 		public static final double joystickDeadband = 0.15;
-
 		// Buttons 
 	}
 
@@ -46,6 +46,7 @@ public final class Constants {
 		public static final int backRightDriveMtrId = 24;
 		public static final int backRightCanCoderId = 26;
 	}
+
 	public static class DriveConstants {
 		/**
 		 * The track width from wheel center to wheel center.
@@ -131,6 +132,23 @@ public final class Constants {
 		public static final boolean frontRightSteerInvert = true;
 		public static final boolean backLeftSteerInvert = true;
 		public static final boolean backRightSteerInvert = true;
+	}
+
+	public static final class LimeLightConstants {
+		public static final double straifKP = 0.12;
+		public static final PIDController llPIDctrlStraifLeft = new PIDController(straifKP, 0, 0);
+		public static final PIDController llPIDctrlStraifRight = new PIDController(straifKP, 0, 0);
+
+		public static final double driveKP = .1;
+		public static final PIDController llPIDctrlDriveLeft = new PIDController(driveKP, 0,0);
+		public static final PIDController llPIDctrlDriveRight = new PIDController(driveKP, 0,0);
+
+		public static final double algaeDriveKP = .1;
+		public static final double algaeRotKP = .1;
+		public static final double algaeAlignKP = .1;
+		public static final PIDController llPIDctrlAlgaeDrive = new PIDController(algaeDriveKP, 0, 0);
+		public static final PIDController llPIDctrlAlgaeRot = new PIDController(algaeRotKP, 0, 0);
+		public static final PIDController llPIDctrlAlgaeAlign = new PIDController(algaeAlignKP, 0, 0);
 	}
 
 	public static class ElevConstants {

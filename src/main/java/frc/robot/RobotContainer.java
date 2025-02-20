@@ -8,14 +8,20 @@ import frc.robot.Constants.ElevConstants;
 import frc.robot.Constants.HIDConstants;
 import frc.robot.Subsystems.Evelator;
 import frc.robot.Subsystems.Intake;
+import frc.robot.Constants.LimeLightConstants;
 import frc.robot.Subsystems.SwerveSys;
-import frc.robot.commands.IntakeIn;
-import frc.robot.commands.IntakeOut;
-import frc.robot.commands.IntakeStop;
+import frc.robot.commands.Intake.IntakeIn;
+import frc.robot.commands.Intake.IntakeOut;
+import frc.robot.commands.Intake.IntakeStop;
 import frc.robot.commands.ElevSetpoints;
+import frc.robot.commands.DriveLeft;
 import frc.robot.commands.SwerveDrive;
+import frc.robot.commands.alignment.Algae;
+import frc.robot.commands.alignment.AlignLeft;
+import frc.robot.commands.alignment.AlignRight;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import java.time.zone.ZoneOffsetTransitionRule.TimeDefinition;
 import com.ctre.phoenix6.Utils;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.MathUtil;
@@ -43,26 +49,28 @@ public class RobotContainer {
   // Subsytems 
   private SwerveSys m_SwerveSys = new SwerveSys();
   private Evelator m_Evelator = new Evelator();
+  private Intake intake = new Intake();
   public static double currentHeight = 0.1;
 
   // Buttons
   private final Joystick driverController = new Joystick(HIDConstants.driverController);
-  private final Joystick mechanoBoard = new Joystick(HIDConstants.mechanoBoard);
-  private final Joystick driverController = new Joystick(HIDConstants.driverController);  
-  private final Joystick topButtonPad = new Joystick(HIDConstants.topButtonPad);  
-  private final Joystick bottomButtonPad = new Joystick(HIDConstants.bottomButtonPad);  
-
-  private SwerveSys m_SwerveSys = new SwerveSys();
-  private Intake intake = new Intake();
+  private final Joystick topbuttonPad = new Joystick(HIDConstants.topButtonPad);
+  private final Joystick bottomButtonPad = new Joystick(HIDConstants.bottomButtonPad);
   private final JoystickButton zeroGyro = new JoystickButton(driverController, 11);
+  private final JoystickButton algaeOut = new JoystickButton(bottomButtonPad, 2);
+  private final JoystickButton algaeIn = new JoystickButton(bottomButtonPad, 7);
 
-  private final JoystickButton zeroGyro = new JoystickButton(driverController, 2);
-  private final JoystickButton elevUp = new JoystickButton(mechanoBoard, 1);
-  private final JoystickButton elevDown = new JoystickButton(mechanoBoard, 2);
-  private final JoystickButton l1Button = new JoystickButton(mechanoBoard, 3);
-  private final JoystickButton l2Button = new JoystickButton(mechanoBoard, 4);
-  private final JoystickButton l3Button = new JoystickButton(mechanoBoard, 5);
-  private final JoystickButton l4Button = new JoystickButton(mechanoBoard, 6);
+  private final JoystickButton alignLeft = new JoystickButton(topbuttonPad, 4);
+  private final JoystickButton alignRight = new JoystickButton(topbuttonPad, 3);
+  private final JoystickButton algaefloor = new JoystickButton(topbuttonPad, 9);
+
+	private final SendableChooser<Command> autoChooser;
+  private final JoystickButton elevUp = new JoystickButton(topbuttonPad, 1);
+  private final JoystickButton elevDown = new JoystickButton(topbuttonPad, 2);
+  private final JoystickButton l1Button = new JoystickButton(bottomButtonPad, 3);
+  private final JoystickButton l2Button = new JoystickButton(bottomButtonPad, 4);
+  private final JoystickButton l3Button = new JoystickButton(topbuttonPad, 5);
+  private final JoystickButton l4Button = new JoystickButton(topbuttonPad, 6);
 
   public RobotContainer() {
     m_SwerveSys.BuilderConfigure();
@@ -71,10 +79,29 @@ public class RobotContainer {
 
     intake.setDefaultCommand(new IntakeStop(intake));  // maybe fix, hopefully stop
 
+    LimeLightConstants.llPIDctrlStraifLeft.setSetpoint(-2);
+    LimeLightConstants.llPIDctrlStraifLeft.setTolerance(1);
+    LimeLightConstants.llPIDctrlStraifRight.setSetpoint(16);
+    LimeLightConstants.llPIDctrlStraifRight.setTolerance(1);
+
+    LimeLightConstants.llPIDctrlDriveLeft.setSetpoint(7);
+    LimeLightConstants.llPIDctrlDriveLeft.setTolerance(1);
+    LimeLightConstants.llPIDctrlDriveRight.setSetpoint(7);
+    LimeLightConstants.llPIDctrlDriveRight.setTolerance(1);
+
+    LimeLightConstants.llPIDctrlAlgaeDrive.setSetpoint(81);
+    LimeLightConstants.llPIDctrlAlgaeDrive.setTolerance(1);
+    LimeLightConstants.llPIDctrlAlgaeRot.setSetpoint(0);
+    LimeLightConstants.llPIDctrlAlgaeRot.setTolerance(1);
+    LimeLightConstants.llPIDctrlAlgaeAlign.setSetpoint(1);
+    LimeLightConstants.llPIDctrlAlgaeAlign.setTolerance(1);
+
     autoChooser.addOption("2 Back L4 to pro", new PathPlannerAuto("2 Back L4 to pro"));
     autoChooser.addOption("opp. to top right(1), top left(2)", new PathPlannerAuto("opp. to top right(1), top left(2)"));
+    autoChooser.addOption("bottom right(1), bottom left (2)", new PathPlannerAuto("bottom right(1), bottom left (2)"));
     autoChooser.addOption("btm. right(1), btm. left(2)", new PathPlannerAuto("btm. right(1), btm. left(2)"));
     // Configure the trigger bindings
+    //Camera.UpdateLimelight("limelight", m_SwerveSys.odometry, m_SwerveSys.imu.getAngularVelocityZDevice().getValueAsDouble());
     configureBindings();
   }
 
@@ -122,8 +149,13 @@ public class RobotContainer {
     l3Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l3;}), new ElevSetpoints(m_Evelator)));
     l4Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l4;}), new ElevSetpoints(m_Evelator)));
     zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
-    }
-  
+
+    //auto movements
+    alignLeft.whileTrue(new AlignLeft(m_SwerveSys));
+    alignRight.whileTrue(new AlignRight(m_SwerveSys));
+    algaefloor.whileTrue(new Algae(m_SwerveSys));
+
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

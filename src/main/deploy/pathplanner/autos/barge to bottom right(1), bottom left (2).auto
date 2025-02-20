@@ -7,25 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "back reef"
+            "pathName": "Red barge to bottom right reef"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "bottom human player"
+            "pathName": "bottom right reef to bottom coral station"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Back to back of reef"
+            "pathName": "Bottom coral station to bottom left reef"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "To processer"
+            "pathName": "Bottom left reef to bottom coral station"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Bottom coral station to bottom left reef"
           }
         }
       ]
