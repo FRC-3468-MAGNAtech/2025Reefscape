@@ -67,9 +67,11 @@ public class RobotContainer {
     LimeLightConstants.llPIDctrlDriveRight.setTolerance(1);
 
     LimeLightConstants.llPIDctrlAlgaeDrive.setSetpoint(81);
+    LimeLightConstants.llPIDctrlAlgaeDrive.setTolerance(1);
     LimeLightConstants.llPIDctrlAlgaeRot.setSetpoint(0);
+    LimeLightConstants.llPIDctrlAlgaeRot.setTolerance(1);
     LimeLightConstants.llPIDctrlAlgaeAlign.setSetpoint(1);
-
+    LimeLightConstants.llPIDctrlAlgaeAlign.setTolerance(1);
 
     autoChooser.addOption("2 Back L4 to pro", new PathPlannerAuto("2 Back L4 to pro"));
     autoChooser.addOption("opp. to top right(1), top left(2)", new PathPlannerAuto("opp. to top right(1), top left(2)"));
