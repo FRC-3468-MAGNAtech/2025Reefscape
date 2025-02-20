@@ -5,12 +5,17 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
-/*import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;*/
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.controllers.PathFollowingController;
+import com.pathplanner.lib.util.DriveFeedforwards;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.controller.HolonomicDriveController;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -19,7 +24,10 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.CANDevices;
 import frc.robot.Constants.DriveConstants;
 
@@ -72,19 +80,6 @@ public class SwerveSys extends SubsystemBase {
         return isFieldOriented;
     }
 
-    private double speedFactor = 1.0;
-    public double getSpeedFactor() {
-        return speedFactor;
-    }
-    /**
-     * Sets the speed factor of the robot. Inputs are multiplied by this factor to reduce drive speed.
-     * Useful for "turtle" or "sprint" modes.
-     * @param speedFactor The factor to scale inputs, as a percentage.
-     */
-    public void setSpeedFactor(double speedFactor) {
-        this.speedFactor = speedFactor;
-    }
-
     public final static Pigeon2 imu = new Pigeon2(CANDevices.pigeonId);
 
     // Odometry for the robot, measured in meters for linear motion and radians for rotational motion
@@ -131,7 +126,7 @@ public class SwerveSys extends SubsystemBase {
      * @param rotation The desired rotational motion, in radians per second.
      * @param isFieldOriented whether driving is field- or robot-oriented.
      */
-    public void drive(double driveX, double driveY, double rotation, boolean isFieldOriented) {  
+    public void drive(double speedFactor, double driveX, double driveY, double rotation, boolean isFieldOriented) {  
         if(driveX != 0.0 || driveY != 0.0 || rotation != 0.0) isLocked = false;
         
         if(isLocked) {
@@ -170,7 +165,7 @@ public class SwerveSys extends SubsystemBase {
      * <p>Sets all drive inputs to zero. This will set the drive power of each module to zero while maintaining module headings.
      */
     public void stop() {
-        drive(0.0, 0.0, 0.0, isFieldOriented);
+        drive(1.0, 0.0, 0.0, 0.0, isFieldOriented);
     }
 
     /**
@@ -224,7 +219,7 @@ public class SwerveSys extends SubsystemBase {
      * 
      * @param chassisSpeeds The desired ChassisSpeeds.
      */
-    public void setChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+    public void setChassisSpeeds(ChassisSpeeds chassisSpeeds, DriveFeedforwards feedforwards) {
         setModuleStatesClosedLoop(DriveConstants.kinematics.toSwerveModuleStates(chassisSpeeds));
     }
     
@@ -413,35 +408,29 @@ public class SwerveSys extends SubsystemBase {
         imu.setYaw(0.0);
     }
 
-    /**
-     * Enables or disables Turtle Mode based on the current speedFactor value.
-     */
-    public void setTurtleMode() {
-        if (speedFactor == 1)
-            speedFactor = 0.3;
-        else 
-            speedFactor = 1;
-        for (int i = 0; i < 4; i++) ;
-    }
     public boolean PathFlip() {
         return true;
     }
 
+    public void BuilderConfigure() {
+        RobotConfig config = null;
+        try{
+            config = RobotConfig.fromGUISettings();
+        } catch (Exception e) {
+            // Handle exception as needed
+            e.printStackTrace();
+        }
 
-    /*public void BuilderConfigure() {
-        AutoBuilder.configureHolonomic(
-            this:: getPose, 
-            this:: resetPose, 
-            this:: getChassisSpeeds, 
-            this:: setChassisSpeeds, 
-             new HolonomicPathFollowerConfig(
-                new PIDConstants(1, 0, 0), 
-                new PIDConstants(1, 0, 0), 
-                DriveConstants.maxDriveSpeedMetersPerSec, 
-                DriveConstants.driveBaseRadius, 
-                new ReplanningConfig(true, false)), 
-            () -> RobotContainer.isRedAlliance(), 
-            this
-        );
-    }*/
+
+        AutoBuilder.configure(
+            this::getPose, 
+            this::resetPose, 
+            this::getChassisSpeeds, 
+            this::setChassisSpeeds, 
+            new PPHolonomicDriveController(
+                new PIDConstants(1), new PIDConstants(1)), 
+            config, 
+            ()->RobotContainer.isRedAlliance(), 
+            this);
+    }
 }
