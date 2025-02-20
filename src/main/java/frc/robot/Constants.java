@@ -20,8 +20,13 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 	public static class HIDConstants {
 		public static final int driverController = 0;
+		public static final int topButtonPad = 1;
+		public static final int bottomButtonPad = 2;
 		public static final double joystickDeadband = 0.15;
+
+		// Buttons 
 	}
+
 	public static class CANDevices {
 		public static final int pigeonId = 2;
 
@@ -57,10 +62,10 @@ public final class Constants {
 		 */
 		public static final SwerveDriveKinematics kinematics = 
 		new SwerveDriveKinematics(
-		new Translation2d(trackWidth / 2.0, wheelBase / 2.0),  // front left
-		new Translation2d(trackWidth / 2.0, -wheelBase / 2.0), // front right
-		new Translation2d(-trackWidth / 2.0, wheelBase / 2.0), // back left
-		new Translation2d(-trackWidth / 2.0, -wheelBase / 2.0) // back right
+			new Translation2d(trackWidth / 2.0, wheelBase / 2.0),  // front left
+			new Translation2d(trackWidth / 2.0, -wheelBase / 2.0), // front right
+			new Translation2d(-trackWidth / 2.0, wheelBase / 2.0), // back left
+			new Translation2d(-trackWidth / 2.0, -wheelBase / 2.0) // back right
 		);
 		/**
 		* The gear reduction from the drive motor to the wheel.
@@ -127,4 +132,33 @@ public final class Constants {
 		public static final boolean backLeftSteerInvert = true;
 		public static final boolean backRightSteerInvert = true;
 	}
+
+	public static class ElevConstants {
+		// Motor configuration
+		public static final int elev1ID = 3;
+		public static final int elev2ID = 4;
+		// PID for elevator
+		public static final double elevP = 0.0;
+		public static final double elevI = 0;
+		public static final double elevD = 0.0;
+		// trapezoid controller (works with PID to make more smoothe)
+		public static final double elevTime = 1.0;
+		// movement
+		public static final double elevUp = 0.7;
+		public static final double elevDown = 0.5;
+		// setpoints
+		public static final double l1 = 1.00;
+		public static final double l2 = 2.00;
+		public static final double l3 = 3.00;
+		public static final double l4 = 4.00;
+		public static final double changeVar = l1;
+	}
+
+	public static class IntakeConstants {
+		public static final int intakeTopID = 6;
+		public static final int intakeBottomID = 5;
+		public static final double intakeIn = 0.55;   // need testing
+		public static final double intakeOut = 0.3;
+	}
+
 }

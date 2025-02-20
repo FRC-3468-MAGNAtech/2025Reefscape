@@ -1,0 +1,37 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "back reef"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "bottem human player"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Back to back of reef"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "To processer"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
