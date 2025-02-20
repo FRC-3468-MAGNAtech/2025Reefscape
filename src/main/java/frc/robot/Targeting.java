@@ -12,12 +12,37 @@ public class Targeting {
 
 
     public static double alignToReedLeft() {
-        double tx = LimelightHelpers.getTX("null");
-        return LimeLightConstants.llPIDctrlDrive.calculate(tx);
+        double tx = LimelightHelpers.getTX("limelight-right");
+        return LimeLightConstants.llPIDctrlStraifLeft.calculate(tx);
     }
 
     public static double alignToReedRight() {
-        double tx = LimelightHelpers.getTX("null");
-        return LimeLightConstants.llPIDctrlDrive.calculate(tx);
+        double tx = LimelightHelpers.getTX("limelight-left");
+        return LimeLightConstants.llPIDctrlStraifRight.calculate(tx);
     }
+
+    public static double driveToReedLeft() {
+        double ta = LimelightHelpers.getTA("limelight-right");
+        return LimeLightConstants.llPIDctrlDriveLeft.calculate(ta);
+    }
+
+    public static double driveToReedRight() {
+        double ta = LimelightHelpers.getTA("limelight-left");
+        return LimeLightConstants.llPIDctrlDriveRight.calculate(ta);
+    }
+
+    public static double driveToAlgae() {
+        double ta = LimelightHelpers.getTA("limelight-forward");
+        return LimeLightConstants.llPIDctrlAlgaeDrive.calculate(ta);
+    }
+    public static double rotToAlgae() {
+        double ty = LimelightHelpers.getTY("limelight-forward");
+        return LimeLightConstants.llPIDctrlAlgaeRot.calculate(ty);
+    }
+    public static double alignToAlgae() {
+        double tx = LimelightHelpers.getTX("limelight-forward");
+        return LimeLightConstants.llPIDctrlAlgaeAlign.calculate(tx);
+    }
+
+
 }
