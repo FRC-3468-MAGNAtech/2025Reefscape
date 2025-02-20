@@ -7,10 +7,11 @@ package frc.robot;
 import frc.robot.Constants.HIDConstants;
 import frc.robot.Constants.LimeLightConstants;
 import frc.robot.Subsystems.SwerveSys;
-import frc.robot.commands.AlignLeft;
-import frc.robot.commands.AlignRight;
 import frc.robot.commands.DriveLeft;
 import frc.robot.commands.SwerveDrive;
+import frc.robot.commands.alignment.Algae;
+import frc.robot.commands.alignment.AlignLeft;
+import frc.robot.commands.alignment.AlignRight;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -45,6 +46,7 @@ public class RobotContainer {
   private final JoystickButton zeroGyro = new JoystickButton(driverController, 2);
   private final JoystickButton alignLeft = new JoystickButton(topbuttonPad, 4);
   private final JoystickButton alignRight = new JoystickButton(topbuttonPad, 3);
+  private final JoystickButton algaefloor = new JoystickButton(topbuttonPad, 9);
 
 
 	private final SendableChooser<Command> autoChooser;
@@ -63,6 +65,10 @@ public class RobotContainer {
     LimeLightConstants.llPIDctrlDriveLeft.setTolerance(1);
     LimeLightConstants.llPIDctrlDriveRight.setSetpoint(7);
     LimeLightConstants.llPIDctrlDriveRight.setTolerance(1);
+
+    LimeLightConstants.llPIDctrlAlgaeDrive.setSetpoint(81);
+    LimeLightConstants.llPIDctrlAlgaeRot.setSetpoint(0);
+    LimeLightConstants.llPIDctrlAlgaeAlign.setSetpoint(1);
 
 
     autoChooser.addOption("2 Back L4 to pro", new PathPlannerAuto("2 Back L4 to pro"));
@@ -108,6 +114,7 @@ public class RobotContainer {
     //auto movements
     alignLeft.whileTrue(new AlignLeft(m_SwerveSys));
     alignRight.whileTrue(new AlignRight(m_SwerveSys));
+    algaefloor.whileTrue(new Algae(m_SwerveSys));
 
   }
 

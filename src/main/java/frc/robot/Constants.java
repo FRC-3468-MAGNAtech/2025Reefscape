@@ -142,6 +142,14 @@ public final class Constants {
 		public static final double driveKP = .1;
 		public static final PIDController llPIDctrlDriveLeft = new PIDController(driveKP, 0,0);
 		public static final PIDController llPIDctrlDriveRight = new PIDController(driveKP, 0,0);
+
+		public static final double algaeDriveKP = .1;
+		public static final double algaeRotKP = .1;
+		public static final double algaeAlignKP = .1;
+		public static final PIDController llPIDctrlAlgaeDrive = new PIDController(algaeDriveKP, 0, 0);
+		public static final PIDController llPIDctrlAlgaeRot = new PIDController(algaeRotKP, 0, 0);
+		public static final PIDController llPIDctrlAlgaeAlign = new PIDController(algaeAlignKP, 0, 0);
+		
 		
 	}
 

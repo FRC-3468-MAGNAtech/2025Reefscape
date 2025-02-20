@@ -30,4 +30,19 @@ public class Targeting {
         double ta = LimelightHelpers.getTA("limelight-left");
         return LimeLightConstants.llPIDctrlDriveRight.calculate(ta);
     }
+
+    public static double driveToAlgae() {
+        double ta = LimelightHelpers.getTA("limelight-forward");
+        return LimeLightConstants.llPIDctrlAlgaeDrive.calculate(ta);
+    }
+    public static double rotToAlgae() {
+        double ty = LimelightHelpers.getTY("limelight-forward");
+        return LimeLightConstants.llPIDctrlAlgaeRot.calculate(ty);
+    }
+    public static double alignToAlgae() {
+        double tx = LimelightHelpers.getTX("limelight-forward");
+        return LimeLightConstants.llPIDctrlAlgaeAlign.calculate(tx);
+    }
+
+
 }
