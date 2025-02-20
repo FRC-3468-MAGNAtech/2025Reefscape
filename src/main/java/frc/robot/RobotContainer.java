@@ -14,10 +14,10 @@ import frc.robot.commands.IntakeOut;
 import frc.robot.commands.IntakeStop;
 import frc.robot.commands.ElevSetpoints;
 import frc.robot.commands.SwerveDrive;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
+import com.ctre.phoenix6.Utils;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -54,6 +54,7 @@ public class RobotContainer {
 
   private SwerveSys m_SwerveSys = new SwerveSys();
   private Intake intake = new Intake();
+  private final JoystickButton zeroGyro = new JoystickButton(driverController, 11);
 
   private final JoystickButton zeroGyro = new JoystickButton(driverController, 2);
   private final JoystickButton elevUp = new JoystickButton(mechanoBoard, 1);
@@ -120,7 +121,9 @@ public class RobotContainer {
     l2Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l2;}), new ElevSetpoints(m_Evelator)));
     l3Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l3;}), new ElevSetpoints(m_Evelator)));
     l4Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l4;}), new ElevSetpoints(m_Evelator)));
-  }
+    zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
+    }
+  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
