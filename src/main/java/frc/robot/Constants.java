@@ -155,6 +155,9 @@ public final class Constants {
 		// Motor configuration
 		public static final int elev1ID = 3;
 		public static final int elev2ID = 4;
+		//soft limits
+		public static final double bLimit = 0.0;
+		public static final double tLimit = 3.0;
 		// PID for elevator
 		public static final double elevP = 0.0;
 		public static final double elevI = 0;

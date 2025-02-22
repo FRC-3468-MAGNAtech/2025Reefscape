@@ -13,6 +13,7 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SoftLimitConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -29,21 +30,30 @@ private final SparkMax elevMtr2;
 private final SparkClosedLoopController eLoopController;
 private final ProfiledPIDController ePIDController;
 private final AbsoluteEncoder elevEncoder;
-private final SparkLimitSwitch elevBottomLimit;
+private final SoftLimitConfig elevBottomLimit;
 private TrapezoidProfile.State goal;
 private TrapezoidProfile.State current;
+private SoftLimitConfig elevTopLimit;
 
   public Evelator() {
     elevMtr1 = new SparkMax(ElevConstants.elev1ID, MotorType.kBrushless);
     elevMtr2 = new SparkMax(ElevConstants.elev2ID, MotorType.kBrushless);
+    
     goal = new TrapezoidProfile.State();
     current = new TrapezoidProfile.State();
+
+    elevTopLimit = new SoftLimitConfig().forwardSoftLimit(ElevConstants.tLimit);
+    elevTopLimit.forwardSoftLimitEnabled(true);
+    elevBottomLimit = new SoftLimitConfig().forwardSoftLimit(ElevConstants.bLimit);
+    elevBottomLimit.forwardSoftLimitEnabled(true);
 
     SparkMaxConfig conf = new SparkMaxConfig();
     conf.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
     conf.closedLoop.pid(ElevConstants.elevP, ElevConstants.elevI, ElevConstants.elevD);
     conf.limitSwitch.reverseLimitSwitchEnabled(true);
     conf.idleMode(IdleMode.kBrake);
+    conf.softLimit.apply(elevTopLimit);
+    conf.softLimit.apply(elevBottomLimit);
     elevMtr1.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
     SparkMaxConfig conf2 = new SparkMaxConfig();
@@ -52,7 +62,7 @@ private TrapezoidProfile.State current;
 
     ePIDController = new ProfiledPIDController(ElevConstants.elevP, ElevConstants.elevI, ElevConstants.elevD, new TrapezoidProfile.Constraints(1.75, 0.75));
     
-    elevBottomLimit = elevMtr1.getReverseLimitSwitch();
+    //elevBottomLimit = elevMtr1.getReverseLimitSwitch();
     eLoopController = elevMtr1.getClosedLoopController();
     elevEncoder = elevMtr1.getAbsoluteEncoder();
   }
