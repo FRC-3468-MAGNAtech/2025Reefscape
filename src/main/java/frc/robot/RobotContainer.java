@@ -92,10 +92,12 @@ public class RobotContainer {
     LimeLightConstants.llPIDctrlAlgaeAlign.setSetpoint(23);
     LimeLightConstants.llPIDctrlAlgaeAlign.setTolerance(1);
 
-    autoChooser.addOption("2 Back L4 to pro", new PathPlannerAuto("2 Back L4 to pro"));
-    autoChooser.addOption("opp. to top right(1), top left(2)", new PathPlannerAuto("opp. to top right(1), top left(2)"));
-    autoChooser.addOption("bottom right(1), bottom left (2)", new PathPlannerAuto("bottom right(1), bottom left (2)"));
-    autoChooser.addOption("btm. right(1), btm. left(2)", new PathPlannerAuto("btm. right(1), btm. left(2)"));
+    autoChooser.addOption("RedM-BkReef(2)-Pro", new PathPlannerAuto("RedM-BkReef(2)-Pro"));
+    autoChooser.addOption("BlueT-TopRreef(1)-TopLreef(2)", new PathPlannerAuto("BlueT-TopRreef(1)-TopLreef(2)"));
+    autoChooser.addOption("RedT-BtmRreef(1)-BtmLreef(2)", new PathPlannerAuto("RedT-BtmRreef(1)-BtmLreef(2)"));
+    autoChooser.addOption("BlueM-BkRF(1)-TopLreef(2)", new PathPlannerAuto("BlueM-BkRF(1)-TopLreef(2)"));
+    autoChooser.addOption("Center-FrRf(1)-BtmLreef(2)", new PathPlannerAuto("Center-FrRf(1)-BtmLreef(2)"));
+    autoChooser.addOption("BlueM-BkRF(2)-Pro", new PathPlannerAuto("BlueM-BkRF(2)-Pro"));
     // Configure the trigger bindings
     //Camera.UpdateLimelight("limelight", m_SwerveSys.odometry, m_SwerveSys.imu.getAngularVelocityZDevice().getValueAsDouble());
     configureBindings();

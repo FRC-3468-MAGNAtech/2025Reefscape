@@ -44,8 +44,8 @@ private SoftLimitConfig elevTopLimit;
 
     elevTopLimit = new SoftLimitConfig().forwardSoftLimit(ElevConstants.tLimit);
     elevTopLimit.forwardSoftLimitEnabled(true);
-    elevBottomLimit = new SoftLimitConfig().forwardSoftLimit(ElevConstants.bLimit);
-    elevBottomLimit.forwardSoftLimitEnabled(true);
+    elevBottomLimit = new SoftLimitConfig().reverseSoftLimit(ElevConstants.bLimit);
+    elevBottomLimit.reverseSoftLimitEnabled(true);
 
     SparkMaxConfig conf = new SparkMaxConfig();
     conf.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
