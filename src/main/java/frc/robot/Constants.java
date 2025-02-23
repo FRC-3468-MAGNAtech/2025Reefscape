@@ -130,6 +130,12 @@ public final class Constants {
 	public static class ArmConstants {
 		public static final int armID = 8008;
 
+		//feedforawrd values
+		public static final double Ks = 1;
+		public static final double Kg = 1;
+		public static final double Kv = 1;
+
+
 		//speeds for forward and backward
 		public static final double armBackward = -0.1;
 		public static final double armForward = 0.1;

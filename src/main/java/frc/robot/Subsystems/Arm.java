@@ -4,6 +4,7 @@
 
 package frc.robot.Subsystems;
 
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
@@ -59,12 +60,11 @@ public class Arm extends SubsystemBase {
     if (position < 0.1){
       position = 0.1;
     }
-    armController.setReference(position, ControlType.kPosition);
+    armController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward.calculate(position, 0));
   }
 
   @Override
   public void periodic() {
-    armController.
     // This method will be called once per scheduler run
   }
 }
