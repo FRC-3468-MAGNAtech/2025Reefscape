@@ -13,6 +13,7 @@ import com.pathplanner.lib.controllers.PathFollowingController;
 import com.pathplanner.lib.util.DriveFeedforwards;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -90,7 +91,9 @@ public class SwerveSys extends SubsystemBase {
             DriveConstants.kinematics,
             getHeading(),
             getModulePositions(),
-            new Pose2d()
+            new Pose2d(),
+            VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5)),
+            VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30))
         );
 
     /**
@@ -110,6 +113,7 @@ public class SwerveSys extends SubsystemBase {
 
         
     }
+
 
     // This method will be called once per scheduler run
     @Override
@@ -251,6 +255,7 @@ public class SwerveSys extends SubsystemBase {
             backRightMod.getPosition()
         };
     }
+
 
     /**
      * @return The current estimated position of the robot on the field
@@ -433,4 +438,56 @@ public class SwerveSys extends SubsystemBase {
             ()->RobotContainer.isRedAlliance(), 
             this);
     }
+
+    public boolean useMegaTag2 = false; //set to false to use MegaTag1
+    public boolean doRejectUpdate = false;
+
+    // if(useMegaTag2 == false)
+    // {
+    //   LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-right");
+      
+    //   if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
+    //   {
+    //     if(mt1.rawFiducials[0].ambiguity > .7)
+    //     {
+    //       doRejectUpdate = true;
+    //     }
+    //     if(mt1.rawFiducials[0].distToCamera > 3)
+    //     {
+    //       doRejectUpdate = true;
+    //     }
+    //   }
+    //   if(mt1.tagCount == 0)
+    //   {
+    //     doRejectUpdate = true;
+    //   }
+
+    //   if(!doRejectUpdate)
+    //   {
+    //     odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
+    //     odometry.addVisionMeasurement(
+    //         mt1.pose,
+    //         mt1.timestampSeconds);
+    //   }
+    // }
+    // else if (useMegaTag2 == true)
+    // {
+    //   LimelightHelpers.SetRobotOrientation("limelight-right", odometry.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+    //   LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-right");
+    //   if(Math.abs(imu.getRate()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
+    //   {
+    //     doRejectUpdate = true;
+    //   }
+    //   if(mt2.tagCount == 0)
+    //   {
+    //     doRejectUpdate = true;
+    //   }
+    //   if(!doRejectUpdate)
+    //   {
+    //     odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+    //     odometry.addVisionMeasurement(
+    //         mt2.pose,
+    //         mt2.timestampSeconds);
+    //   }
+    // }
 }
