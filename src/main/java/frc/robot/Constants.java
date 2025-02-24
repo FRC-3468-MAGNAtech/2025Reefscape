@@ -181,5 +181,10 @@ public final class Constants {
 		public static final double intakeIn = 0.55;   // need testing
 		public static final double intakeOut = 0.3;
 	}
+	public static class ClimberConstants {
+		public static final int climbID = 0;
+		public static final double climbSpeed = 0.3;
+		public static final double unClimbSpeed = -0.3;
+	}
 
 }
