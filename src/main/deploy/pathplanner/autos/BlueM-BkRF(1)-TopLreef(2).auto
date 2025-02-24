@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueM to BkRF"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BkRF to TopCO"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TpCo to TpLreef"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TopLreef to TopCo"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TpCo to TpLreef"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

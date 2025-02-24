@@ -15,6 +15,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevConstants;
 import frc.robot.Constants.IntakeConstants;
@@ -43,13 +44,13 @@ public class Intake extends SubsystemBase {
   }
 
   public void BallsIn() {
-    intakeMotor1.set(IntakeConstants.intakeIn);
-    intakeMotor2.set(-IntakeConstants.intakeIn);
+    intakeMotor1.set(-IntakeConstants.intakeIn);
+    intakeMotor2.set(IntakeConstants.intakeIn);
   }
 
   public void BallsOut() {
-    intakeMotor1.set(-IntakeConstants.intakeOut);
-    intakeMotor2.set(IntakeConstants.intakeOut);
+    intakeMotor1.set(IntakeConstants.intakeOut);
+    intakeMotor2.set(-IntakeConstants.intakeOut);
   }
 
   public void IntakeStop() {
@@ -57,8 +58,13 @@ public class Intake extends SubsystemBase {
     intakeMotor2.set(0);
   }
 
+  public boolean limitSwitch() {
+    return intakeBottomLimit.isPressed();
+  }
+
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("limit Switch", intakeBottomLimit.isPressed());
     // This method will be called once per scheduler run
   }
 }

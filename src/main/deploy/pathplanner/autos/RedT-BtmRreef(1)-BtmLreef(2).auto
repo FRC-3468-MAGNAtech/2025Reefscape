@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RedT to BtmRreef"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BtmRreef to BtmCO"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BtmCo to BtmLreef"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BtmLFreef to BtmCO"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BtmCo to BtmLreef"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
