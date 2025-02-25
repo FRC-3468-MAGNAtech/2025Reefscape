@@ -28,6 +28,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.CANDevices;
 import frc.robot.Constants.DriveConstants;
@@ -489,9 +490,9 @@ public class SwerveSys extends SubsystemBase {
             this::getChassisSpeeds, 
             this::setChassisSpeeds, 
             new PPHolonomicDriveController(
-                new PIDConstants(1), new PIDConstants(1)), 
+                new PIDConstants(2,0.1,1), new PIDConstants(1)), 
             config, 
-            ()->RobotContainer.isRedAlliance(), 
+            ()->!RobotContainer.isRedAlliance(), 
             this);
     }
 }

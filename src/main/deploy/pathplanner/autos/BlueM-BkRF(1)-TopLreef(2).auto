@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "odometry"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "BlueM to BkRF"

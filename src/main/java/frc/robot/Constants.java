@@ -22,7 +22,10 @@ public final class Constants {
 	public static class HIDConstants {
 		public static final int driverController = 0;
 		public static final int topButtonPad = 1;
-		public static final int bottomButtonPad = 2;
+		public static final int middleButtonPad = 2;
+		public static final int bottomButtonPad = 3;
+		public static final int sideButtonPad = 4;
+
 		public static final double joystickDeadband = 0.15;
 		// Buttons 
 	}
