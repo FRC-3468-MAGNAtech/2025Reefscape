@@ -182,9 +182,17 @@ public final class Constants {
 		public static final double intakeOut = 0.3;
 	}
 	public static class ClimberConstants {
+		//motor IDs
 		public static final int climbID = 0;
+		//speeds for manual
 		public static final double climbSpeed = 0.3;
 		public static final double unClimbSpeed = -0.3;
+		//PID values
+		public static final double climbP = 0.1;
+		public static final double climbI = 0.2;
+		public static final double climbD = 0.3;
+		//PID setpoints
+		public static final double climbPos = 0.5;
 	}
 
 }

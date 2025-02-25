@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.ElevConstants;
 import frc.robot.Constants.HIDConstants;
+import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.Evelator;
 import frc.robot.Subsystems.Intake;
 import frc.robot.Constants.LimeLightConstants;
@@ -46,6 +47,7 @@ public class RobotContainer {
   private SwerveSys m_SwerveSys = new SwerveSys();
   private Evelator m_Evelator = new Evelator();
   private Intake intake = new Intake();
+  private Climber m_climber = new Climber();
   public static double currentHeight = 0.1;
 
   // Buttons
@@ -68,6 +70,10 @@ public class RobotContainer {
   private final JoystickButton l3Button = new JoystickButton(topbuttonPad, 5);
   private final JoystickButton l4Button = new JoystickButton(topbuttonPad, 6);
 
+  private final JoystickButton climbUp = new JoystickButton(bottomButtonPad, 12);   //these three are all placeholder buttons
+  private final JoystickButton climbDown = new JoystickButton(bottomButtonPad, 13);
+  private final JoystickButton autoClimb = new JoystickButton(bottomButtonPad, 14);
+  
   public RobotContainer() {
     m_SwerveSys.BuilderConfigure();
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -140,13 +146,21 @@ public class RobotContainer {
     // Intake
     algaeIn.onTrue(new IntakeIn(intake));
     algaeOut.onTrue(new IntakeOut(intake));
+
+    //Elevator
     elevUp.whileTrue(new frc.robot.commands.elevator.elevUp(m_Evelator));
     elevDown.whileTrue(new frc.robot.commands.elevator.elevDown(m_Evelator));
     l1Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l1;}), new ElevSetpoints(m_Evelator)));
     l2Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l2;}), new ElevSetpoints(m_Evelator)));
     l3Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l3;}), new ElevSetpoints(m_Evelator)));
     l4Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l4;}), new ElevSetpoints(m_Evelator)));
-    zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
+   
+    //climber
+    climbUp.whileTrue(new frc.robot.commands.Climb.ClimbUp(m_climber));
+    climbDown.whileTrue(new frc.robot.commands.Climb.ClimbDown(m_climber));
+    autoClimb.onTrue(new frc.robot.commands.Climb.ClimberSetpoint(m_climber));
+
+    zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading())); //is this a duplicate? Cuz it kinda seems like it's a duplicate
 
     //auto movements
     alignLeft.whileTrue(new AlignLeft(m_SwerveSys));

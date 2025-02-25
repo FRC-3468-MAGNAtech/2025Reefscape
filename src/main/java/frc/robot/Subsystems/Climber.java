@@ -4,7 +4,9 @@
 
 package frc.robot.Subsystems;
 
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -17,22 +19,35 @@ import frc.robot.Constants.ClimberConstants;
 public class Climber extends SubsystemBase {
   
   private final SparkMax climbMtr;
+  private final SparkClosedLoopController climbLoopController;
 
   public Climber() {
     climbMtr = new SparkMax(ClimberConstants.climbID, MotorType.kBrushless);
 
     SparkMaxConfig conf = new SparkMaxConfig();
     conf.idleMode(IdleMode.kBrake);
+    conf.closedLoop.pid(ClimberConstants.climbP, ClimberConstants.climbI, ClimberConstants.climbD);
     climbMtr.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+
+    climbLoopController = climbMtr.getClosedLoopController(); 
   }
 
   public void Go() {
     climbMtr.set(ClimberConstants.climbSpeed); 
   }
 
-  public void DontGo() {
+  public void GoDown() {
     climbMtr.set(ClimberConstants.unClimbSpeed);
   }
+
+  public void Stop() {
+    climbMtr.set(0);
+  }
+
+  public void PointMove() {
+    climbLoopController.setReference(ClimberConstants.climbPos, ControlType.kPosition);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
