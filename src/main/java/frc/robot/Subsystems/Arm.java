@@ -38,7 +38,7 @@ public class Arm extends SubsystemBase {
     SparkMaxConfig config = new SparkMaxConfig();
     config.idleMode(IdleMode.kBrake);
     armEncoder = armMotor.getAbsoluteEncoder();
-    //config.closedLoop.pid(0, 0, 0);
+    config.closedLoop.pid(0, 0, 0);
     
     armController = armMotor.getClosedLoopController();
     armMotor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
@@ -52,6 +52,10 @@ public class Arm extends SubsystemBase {
 
   public void back() {
     armMotor.set(ArmConstants.armBackward);
+  }
+  
+  public void stop() {
+    armMotor.set(0);
   }
 
   public void PointMove(double position) {

@@ -5,16 +5,18 @@
 package frc.robot.commands.Arm;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
 import frc.robot.Subsystems.Arm;
+import frc.robot.Subsystems.Evelator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ArmSetpoints extends Command {
-  private final Arm arm;
+public class ArmStop extends Command {
+  
+  private Arm arm;
 
-  public ArmSetpoints(Arm arm) {
+  public ArmStop(Arm arm) {
     this.arm = arm;
     addRequirements(arm);
+
   }
 
   // Called when the command is initially scheduled.
@@ -24,14 +26,12 @@ public class ArmSetpoints extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.PointMove(RobotContainer.currentAngle);
+    arm.stop();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    arm.stop();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
