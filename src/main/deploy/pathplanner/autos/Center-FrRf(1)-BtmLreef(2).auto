@@ -5,33 +5,45 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "barge to bottom right reef"
+            "name": "alignLeft"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Bottom right reef to bottom coral station"
+            "pathName": "FrontRF to BtmCo"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "bottom coral station to bottom left reef"
+            "pathName": "BtmCo to BtmLreef"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "alignRight"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "BtmLFreef to BtmCO"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "bottom coral station to bottom left reef"
+            "pathName": "BtmCo to BtmLreef"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "alignLeft"
           }
         }
       ]

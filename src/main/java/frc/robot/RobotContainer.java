@@ -21,6 +21,7 @@ import frc.robot.commands.alignment.AlignLeft;
 import frc.robot.commands.alignment.AlignRight;
 import frc.robot.commands.elevator.ElevSetpoints;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.MathUtil;
@@ -52,14 +53,16 @@ public class RobotContainer {
   // Buttons
   private final Joystick driverController = new Joystick(HIDConstants.driverController);
   private final Joystick topbuttonPad = new Joystick(HIDConstants.topButtonPad);
+  private final Joystick middleButtonPad = new Joystick(HIDConstants.middleButtonPad);
   private final Joystick bottomButtonPad = new Joystick(HIDConstants.bottomButtonPad);
+  private final Joystick sideButtonPad = new Joystick(HIDConstants.sideButtonPad);
   private final JoystickButton zeroGyro = new JoystickButton(driverController, 11);
   private final JoystickButton algaeOut = new JoystickButton(bottomButtonPad, 2);
   private final JoystickButton algaeIn = new JoystickButton(bottomButtonPad, 7);
 
   private final JoystickButton alignLeft = new JoystickButton(topbuttonPad, 4);
   private final JoystickButton alignRight = new JoystickButton(topbuttonPad, 3);
-  private final JoystickButton algaefloor = new JoystickButton(topbuttonPad, 9);
+  private final JoystickButton algaefloor = new JoystickButton(bottomButtonPad, 9);
 
 	private final SendableChooser<Command> autoChooser;
   private final JoystickButton elevUp = new JoystickButton(topbuttonPad, 1);
@@ -68,6 +71,8 @@ public class RobotContainer {
   private final JoystickButton l2Button = new JoystickButton(bottomButtonPad, 4);
   private final JoystickButton l3Button = new JoystickButton(topbuttonPad, 5);
   private final JoystickButton l4Button = new JoystickButton(topbuttonPad, 6);
+  private final JoystickButton odometry = new JoystickButton(sideButtonPad, 1);
+
 
   public RobotContainer() {
     m_SwerveSys.BuilderConfigure();
@@ -75,6 +80,10 @@ public class RobotContainer {
     SmartDashboard.putData("Auto", autoChooser);
 
     intake.setDefaultCommand(new IntakeStop(intake));  // maybe fix, hopefully stop
+
+    NamedCommands.registerCommand("alignLeft", new AlignLeft(m_SwerveSys));
+    NamedCommands.registerCommand("alignRight", new AlignRight(m_SwerveSys));
+    NamedCommands.registerCommand("zeroGyro", new InstantCommand(() -> SwerveSys.resetHeading()));
 
     LimeLightConstants.llPIDctrlStraifLeft.setSetpoint(-2);
     LimeLightConstants.llPIDctrlStraifLeft.setTolerance(1);
@@ -88,25 +97,31 @@ public class RobotContainer {
 
     LimeLightConstants.llPIDctrlAlgaeDrive.setSetpoint(81);
     LimeLightConstants.llPIDctrlAlgaeDrive.setTolerance(1);
-    LimeLightConstants.llPIDctrlAlgaeRot.setSetpoint(0);
+    LimeLightConstants.llPIDctrlAlgaeRot.setSetpoint(1);
     LimeLightConstants.llPIDctrlAlgaeRot.setTolerance(1);
-    LimeLightConstants.llPIDctrlAlgaeAlign.setSetpoint(1);
+    LimeLightConstants.llPIDctrlAlgaeAlign.setSetpoint(23);
     LimeLightConstants.llPIDctrlAlgaeAlign.setTolerance(1);
 
-    autoChooser.addOption("2 Back L4 to pro", new PathPlannerAuto("2 Back L4 to pro"));
-    autoChooser.addOption("opp. to top right(1), top left(2)", new PathPlannerAuto("opp. to top right(1), top left(2)"));
-    autoChooser.addOption("bottom right(1), bottom left (2)", new PathPlannerAuto("bottom right(1), bottom left (2)"));
-    autoChooser.addOption("btm. right(1), btm. left(2)", new PathPlannerAuto("btm. right(1), btm. left(2)"));
-
-    //Camera.UpdateLimelight("limelight", m_SwerveSys.odometry, m_SwerveSys.imu.getAngularVelocityZDevice().getValueAsDouble());
+    autoChooser.addOption("RedM-BkReef(2)-Pro", new PathPlannerAuto("RedM-BkReef(2)-Pro"));
+    autoChooser.addOption("BlueT-TopRreef(1)-TopLreef(2)", new PathPlannerAuto("BlueT-TopRreef(1)-TopLreef(2)"));
+    autoChooser.addOption("RedT-BtmRreef(1)-BtmLreef(2)", new PathPlannerAuto("RedT-BtmRreef(1)-BtmLreef(2)"));
+    autoChooser.addOption("BlueM-BkRF(1)-TopLreef(2)", new PathPlannerAuto("BlueM-BkRF(1)-TopLreef(2)"));
+    autoChooser.addOption("Center-FrRf(1)-BtmLreef(2)", new PathPlannerAuto("Center-FrRf(1)-BtmLreef(2)"));
+    autoChooser.addOption("BlueM-BkRF(2)-Pro", new PathPlannerAuto("BlueM-BkRF(2)-Pro"));
+    autoChooser.addOption("Align", new PathPlannerAuto("Align"));
+    autoChooser.addOption("stright`", new PathPlannerAuto("Straight"));
+    // Configure the trigger bindings
+    //Camera.UpdateLimelight("limelight", m_SwerveSys.odometry, m_SweveSys.imu.getAngularVelocityZDevice().getValueAsDouble());
     configureBindings();
   }
 
   public void updateDashboard() {
     SmartDashboard.putNumber("ThrottleSlider", getThrottle());
+    SmartDashboard.putBoolean("red or blue", isRedAlliance());
   }
 
   private double getThrottle() {
+
     double throttle = ((1-driverController.getThrottle())/2.5) + 0.2;
     return throttle;
   }

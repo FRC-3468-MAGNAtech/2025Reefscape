@@ -5,33 +5,39 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "barge to bottom right reef"
+            "name": "odometry"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Bottom right reef to bottom coral station"
+            "pathName": "BlueM to BkRF"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "bottom coral station to bottom left reef"
+            "pathName": "BkRF to TopCO"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "TpCo to TpLreef"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "bottom coral station to bottom left reef"
+            "pathName": "TopLreef to TopCo"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TpCo to TpLreef"
           }
         }
       ]

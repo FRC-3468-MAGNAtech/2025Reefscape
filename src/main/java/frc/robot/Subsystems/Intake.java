@@ -15,6 +15,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevConstants;
 import frc.robot.Constants.IntakeConstants;
@@ -33,7 +34,7 @@ public class Intake extends SubsystemBase {
     intakeMotor2 = new SparkMax(IntakeConstants.intakeBottomID, MotorType.kBrushless);
 
     SparkMaxConfig conf = new SparkMaxConfig();
-    conf.limitSwitch.reverseLimitSwitchEnabled(true);
+    conf.limitSwitch.reverseLimitSwitchEnabled(false);
     conf.idleMode(IdleMode.kBrake);
 
     intakeMotor1.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
@@ -57,8 +58,13 @@ public class Intake extends SubsystemBase {
     intakeMotor2.set(0);
   }
 
+  public boolean limitSwitch() {
+    return intakeBottomLimit.isPressed();
+  }
+
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("limit Switch", intakeBottomLimit.isPressed());
     // This method will be called once per scheduler run
   }
 }

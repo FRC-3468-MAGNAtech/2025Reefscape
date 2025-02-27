@@ -5,33 +5,51 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "barge to bottom right reef"
+            "name": "zeroGyro"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Bottom right reef to bottom coral station"
+            "pathName": "RedT to BtmRreef"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "bottom coral station to bottom left reef"
+            "pathName": "BtmRreef to BtmCO"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "BtmCo to BtmLreef"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "alignRight"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "bottom coral station to bottom left reef"
+            "pathName": "BtmLFreef to BtmCO"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BtmCo to BtmLreef"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "alignLeft"
           }
         }
       ]

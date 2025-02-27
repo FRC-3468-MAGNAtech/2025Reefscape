@@ -22,7 +22,10 @@ public final class Constants {
 	public static class HIDConstants {
 		public static final int driverController = 0;
 		public static final int topButtonPad = 1;
-		public static final int bottomButtonPad = 2;
+		public static final int middleButtonPad = 2;
+		public static final int bottomButtonPad = 3;
+		public static final int sideButtonPad = 4;
+
 		public static final double joystickDeadband = 0.15;
 		// Buttons 
 	}
@@ -163,7 +166,7 @@ public final class Constants {
 		public static final PIDController llPIDctrlDriveRight = new PIDController(driveKP, 0,0);
 
 		public static final double algaeDriveKP = .1;
-		public static final double algaeRotKP = .1;
+		public static final double algaeRotKP = .25;
 		public static final double algaeAlignKP = .1;
 		public static final PIDController llPIDctrlAlgaeDrive = new PIDController(algaeDriveKP, 0, 0);
 		public static final PIDController llPIDctrlAlgaeRot = new PIDController(algaeRotKP, 0, 0);
@@ -174,6 +177,9 @@ public final class Constants {
 		// Motor configuration
 		public static final int elev1ID = 3;
 		public static final int elev2ID = 4;
+		//soft limits
+		public static final double bLimit = 0.0;
+		public static final double tLimit = 3.0;
 		// PID for elevator
 		public static final double elevP = 0.0;
 		public static final double elevI = 0;

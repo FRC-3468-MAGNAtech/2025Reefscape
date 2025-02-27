@@ -7,31 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "barge to bottom right reef"
+            "pathName": "BlueTop to TpRreef"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Bottom right reef to bottom coral station"
+            "pathName": "TopRreef to TopCo"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "bottom coral station to bottom left reef"
+            "pathName": "TpCo to TpLreef"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "TopLreef to TopCo"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "bottom coral station to bottom left reef"
+            "pathName": "TpCo to TpLreef"
           }
         }
       ]

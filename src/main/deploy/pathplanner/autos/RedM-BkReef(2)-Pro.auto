@@ -7,31 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "barge to bottom right reef"
+            "pathName": "RedMid to BkRF"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Bottom right reef to bottom coral station"
+            "pathName": "BkRf to BtmCo"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "bottom coral station to bottom left reef"
+            "pathName": "BtmCo to BkRf"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "bottom coral station to bottom left reef"
+            "pathName": "bkRF to Pro"
           }
         }
       ]

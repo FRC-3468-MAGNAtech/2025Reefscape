@@ -13,25 +13,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "bottom right reef to bottom coral station"
+            "pathName": null
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Bottom coral station to bottom left reef"
+            "pathName": null
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Bottom left reef to bottom coral station"
+            "pathName": null
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Bottom coral station to bottom left reef"
+            "pathName": null
           }
         }
       ]
