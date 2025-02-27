@@ -12,9 +12,9 @@ import frc.robot.Subsystems.SwerveSys;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Algae extends Command {
   SwerveSys swerveSys;
+
   /** Creates a new Algae. */
   public Algae(SwerveSys sys) {
-    // Use addRequirements() here to declare subsystem dependencies.
     swerveSys = sys;
     addRequirements(swerveSys);
   }
@@ -40,7 +40,6 @@ public class Algae extends Command {
     rot = Math.copySign(Math.pow(rot, 2), rot);
 
     swerveSys.drive(.2, drive, 0, rot, false);
-
   }
 
   // Called once the command ends or is interrupted.

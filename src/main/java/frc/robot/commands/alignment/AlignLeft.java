@@ -12,9 +12,9 @@ import frc.robot.Subsystems.SwerveSys;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AlignLeft extends Command {
   SwerveSys swerveSys;
+
   /** Creates a new AlignLeft. */
   public AlignLeft(SwerveSys sys) {
-    // Use addRequirements() here to declare subsystem dependencies.
     swerveSys = sys;
     addRequirements(swerveSys);
   }
@@ -29,17 +29,13 @@ public class AlignLeft extends Command {
     double straif = Targeting.alignToReedLeft();
     double drive = Targeting.driveToReedLeft();
     
-
     double theta = Math.atan2(drive, straif);
     double r = Math.pow(Math.hypot(drive, straif), 2);
-
 
     straif = r * Math.cos(theta);
     drive = r * Math.sin(theta);
 
     swerveSys.drive(.4, drive, straif, 0, false);
-
-
   }
 
   // Called once the command ends or is interrupted.

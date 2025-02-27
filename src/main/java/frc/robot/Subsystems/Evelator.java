@@ -4,7 +4,6 @@
 
 package frc.robot.Subsystems;
 
-
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLimitSwitch;
@@ -17,23 +16,22 @@ import com.revrobotics.spark.config.SoftLimitConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevConstants;
 
+
 public class Evelator extends SubsystemBase {
-  
-private final SparkMax elevMtr1;
-private final SparkMax elevMtr2;
-private final SparkClosedLoopController eLoopController;
-private final ProfiledPIDController ePIDController;
-private final AbsoluteEncoder elevEncoder;
-private final SoftLimitConfig elevBottomLimit;
-private TrapezoidProfile.State goal;
-private TrapezoidProfile.State current;
-private SoftLimitConfig elevTopLimit;
+  private final SparkMax elevMtr1;
+  private final SparkMax elevMtr2;
+  private final SparkClosedLoopController eLoopController;
+  private final ProfiledPIDController ePIDController;
+  private final AbsoluteEncoder elevEncoder;
+  private final SoftLimitConfig elevBottomLimit;
+  private TrapezoidProfile.State goal;
+  private TrapezoidProfile.State current;
+  private SoftLimitConfig elevTopLimit;
 
   public Evelator() {
     elevMtr1 = new SparkMax(ElevConstants.elev1ID, MotorType.kBrushless);

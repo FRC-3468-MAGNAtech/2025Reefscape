@@ -9,13 +9,10 @@ import frc.robot.Subsystems.Evelator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class elevDown extends Command {
+  private Evelator evelator;
+  
   /** Creates a new elevDown. */
-
-  private final Evelator evelator;
-
   public elevDown(Evelator evelator) {
-    // Use addRequirements() here to declare subsystem dependencies.
-
     this.evelator = evelator;
     addRequirements(evelator);
   }

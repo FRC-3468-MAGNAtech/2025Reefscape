@@ -15,13 +15,12 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SoftLimitConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 
+
 public class Arm extends SubsystemBase {
-  
   private final SparkMax armMotor;
   private final SparkClosedLoopController armController;
   private final ArmFeedforward feedForward;
@@ -29,7 +28,6 @@ public class Arm extends SubsystemBase {
   private final SoftLimitConfig forwardLimit;
   private final SoftLimitConfig backwardLimit;
   
-
   public Arm() {
     armMotor = new SparkMax(ArmConstants.armID, MotorType.kBrushless);
     forwardLimit = new SoftLimitConfig().forwardSoftLimit(0);
@@ -56,7 +54,7 @@ public class Arm extends SubsystemBase {
     armMotor.set(ArmConstants.armBackward);
   }
 
-    public void PointMove(double position) {
+  public void PointMove(double position) {
     if (position < 0.1){
       position = 0.1;
     }
