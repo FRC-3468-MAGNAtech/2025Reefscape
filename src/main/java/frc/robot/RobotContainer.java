@@ -10,10 +10,10 @@ import frc.robot.Subsystems.Evelator;
 import frc.robot.Subsystems.Intake;
 import frc.robot.Constants.LimeLightConstants;
 import frc.robot.Subsystems.SwerveSys;
-import frc.robot.commands.ArmSetpoints;
 import frc.robot.commands.Intake.IntakeIn;
 import frc.robot.commands.Intake.IntakeOut;
 import frc.robot.commands.Intake.IntakeStop;
+import frc.robot.commands.Arm.ArmSetpoints;
 import frc.robot.commands.Drive.DriveLeft;
 import frc.robot.commands.Drive.SwerveDrive;
 import frc.robot.commands.alignment.Algae;
@@ -97,7 +97,7 @@ public class RobotContainer {
     autoChooser.addOption("opp. to top right(1), top left(2)", new PathPlannerAuto("opp. to top right(1), top left(2)"));
     autoChooser.addOption("bottom right(1), bottom left (2)", new PathPlannerAuto("bottom right(1), bottom left (2)"));
     autoChooser.addOption("btm. right(1), btm. left(2)", new PathPlannerAuto("btm. right(1), btm. left(2)"));
-    // Configure the trigger bindings
+
     //Camera.UpdateLimelight("limelight", m_SwerveSys.odometry, m_SwerveSys.imu.getAngularVelocityZDevice().getValueAsDouble());
     configureBindings();
   }
