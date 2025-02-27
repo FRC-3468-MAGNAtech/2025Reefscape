@@ -10,6 +10,7 @@ import frc.robot.Subsystems.Evelator;
 import frc.robot.Subsystems.Intake;
 import frc.robot.Constants.LimeLightConstants;
 import frc.robot.Subsystems.SwerveSys;
+import frc.robot.commands.ArmSetpoints;
 import frc.robot.commands.Intake.IntakeIn;
 import frc.robot.commands.Intake.IntakeOut;
 import frc.robot.commands.Intake.IntakeStop;
@@ -145,6 +146,12 @@ public class RobotContainer {
     l3Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l3;}), new ElevSetpoints(m_Evelator)));
     l4Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l4;}), new ElevSetpoints(m_Evelator)));
     zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
+
+    //l1Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l1;}), new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.l1;}), new ArmSetpoints(m_Arm)));
+    //l2Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l2;}), new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.l2;}), new ArmSetpoints(m_Arm)));
+    //l3Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l3;}), new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.l3;}), new ArmSetpoints(m_Arm)));
+    //l4Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l4;}), new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.l4;}), new ArmSetpoints(m_Arm)));
+  
 
     //auto movements
     alignLeft.whileTrue(new AlignLeft(m_SwerveSys));

@@ -133,6 +133,25 @@ public final class Constants {
 		public static final boolean backLeftSteerInvert = true;
 		public static final boolean backRightSteerInvert = true;
 	}
+	public static class ArmConstants {
+		public static final int armID = 8008;
+
+		//feedforawrd values
+		public static final double Ks = 1;
+		public static final double Kg = 1;
+		public static final double Kv = 1;
+
+
+		//speeds for forward and backward
+		public static final double armBackward = -0.1;
+		public static final double armForward = 0.1;
+
+		//setpoints for PID
+		public static final double l1 = 0.1;
+		public static final double l2 = 0.2;
+		public static final double l3 = 0.3;
+		public static final double l4 = 0.4;
+	}
 
 	public static final class LimeLightConstants {
 		public static final double straifKP = 0.12;
