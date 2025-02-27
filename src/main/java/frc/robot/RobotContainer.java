@@ -69,12 +69,24 @@ public class RobotContainer {
   private final JoystickButton algaefloor = new JoystickButton(bottomButtonPad, 9);
 
 	private final SendableChooser<Command> autoChooser;
+
+  //setpoint buttons
   private final JoystickButton elevUp = new JoystickButton(topbuttonPad, 1);
   private final JoystickButton elevDown = new JoystickButton(topbuttonPad, 2);
-  private final JoystickButton l1Button = new JoystickButton(bottomButtonPad, 3);
-  private final JoystickButton l2Button = new JoystickButton(bottomButtonPad, 4);
-  private final JoystickButton l3Button = new JoystickButton(topbuttonPad, 5);
+  private final JoystickButton armForward = new JoystickButton(bottomButtonPad, 8);
+  private final JoystickButton armbackward = new JoystickButton(bottomButtonPad, 9);
+  private final JoystickButton aGroundButton = new JoystickButton(middleButtonPad, 5);
+  private final JoystickButton cGroundButton = new JoystickButton(middleButtonPad, 4);
+  private final JoystickButton l1Button = new JoystickButton(bottomButtonPad, 10);
+  private final JoystickButton l2Button = new JoystickButton(middleButtonPad, 6);
+  private final JoystickButton l3Button = new JoystickButton(middleButtonPad, 12);
   private final JoystickButton l4Button = new JoystickButton(topbuttonPad, 6);
+  private final JoystickButton processorButton = new JoystickButton(bottomButtonPad, 3);
+  private final JoystickButton humanPlayerButton = new JoystickButton(bottomButtonPad, 3);
+  private final JoystickButton netButton = new JoystickButton(bottomButtonPad, 3);
+  private final JoystickButton topAlg = new JoystickButton(topbuttonPad, 4);
+  private final JoystickButton botAlg = new JoystickButton(middleButtonPad, 10);
+
   private final JoystickButton odometry = new JoystickButton(sideButtonPad, 1);
 
 
@@ -158,16 +170,63 @@ public class RobotContainer {
     // Intake
     algaeIn.onTrue(new IntakeIn(intake));
     algaeOut.onTrue(new IntakeOut(intake));
+
+    // Elevator
     elevUp.whileTrue(new frc.robot.commands.elevator.elevUp(m_Evelator));
     elevDown.whileTrue(new frc.robot.commands.elevator.elevDown(m_Evelator));
-    
-    zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
 
-    l1Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l1;}), new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.l1;}), new ArmSetpoints(m_Arm)));
-    l2Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l2;}), new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.l2;}), new ArmSetpoints(m_Arm)));
-    l3Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l3;}), new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.l3;}), new ArmSetpoints(m_Arm)));
-    l4Button.onTrue(new SequentialCommandGroup(new InstantCommand(() -> {currentHeight = ElevConstants.l4;}), new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.l4;}), new ArmSetpoints(m_Arm)));
-  
+    // Arm
+    armForward.whileTrue(new frc.robot.commands.Arm.ArmForward(m_Arm));
+    armbackward.whileTrue(new frc.robot.commands.Arm.ArmBackward(m_Arm));
+
+    zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
+    
+    // Setpoints for Elevator
+    aGroundButton.onTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> {currentHeight = ElevConstants.aGround;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.aGround;}), 
+        new ArmSetpoints(m_Arm)));
+    cGroundButton.onTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> {currentHeight = ElevConstants.cGround;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.cGround;}), 
+        new ArmSetpoints(m_Arm)));
+    l1Button.onTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> {currentHeight = ElevConstants.l1;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.l1;}), 
+        new ArmSetpoints(m_Arm)));
+    l2Button.onTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> {currentHeight = ElevConstants.l2;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.l2;}), 
+        new ArmSetpoints(m_Arm)));
+    l3Button.onTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> {currentHeight = ElevConstants.l3;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.l3;}), 
+        new ArmSetpoints(m_Arm)));
+    l4Button.onTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> {currentHeight = ElevConstants.l4;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.l4;}), 
+        new ArmSetpoints(m_Arm)));
+    processorButton.onTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> {currentHeight = ElevConstants.processor;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.processor;}), 
+        new ArmSetpoints(m_Arm)));
+    netButton.onTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> {currentHeight = ElevConstants.net;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.net;}), 
+        new ArmSetpoints(m_Arm)));
+    humanPlayerButton.onTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> {currentHeight = ElevConstants.humanPlayer;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.humanPlayer;}), 
+        new ArmSetpoints(m_Arm)));
+    topAlg.onTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> {currentHeight = ElevConstants.topAlg;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.topAlg;}), 
+        new ArmSetpoints(m_Arm)));
+    botAlg.onTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> {currentHeight = ElevConstants.botAlg;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.botAlg;}), 
+        new ArmSetpoints(m_Arm)));
+    
 
     //auto movements
     alignLeft.whileTrue(new AlignLeft(m_SwerveSys));

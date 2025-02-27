@@ -150,10 +150,17 @@ public final class Constants {
 		public static final double armForward = 0.1;
 
 		//setpoints for PID
+		public static final double aGround = 0.0;
+		public static final double cGround = 0.0;
 		public static final double l1 = 0.1;
 		public static final double l2 = 0.2;
 		public static final double l3 = 0.3;
 		public static final double l4 = 0.4;
+		public static final double processor = 0.1;
+		public static final double net = 0.1;
+		public static final double humanPlayer = 0.1;
+		public static final double topAlg = 69.0;
+		public static final double botAlg = 69.0;
 	}
 
 	public static final class LimeLightConstants {
@@ -190,11 +197,18 @@ public final class Constants {
 		public static final double elevUp = 0.7;
 		public static final double elevDown = 0.5;
 		// setpoints
+		public static final double aGround = 0.0;
+		public static final double cGround = 0.0;
 		public static final double l1 = 1.00;
 		public static final double l2 = 2.00;
 		public static final double l3 = 3.00;
 		public static final double l4 = 4.00;
-		public static final double changeVar = l1;
+		public static final double processor = 0.1;
+		public static final double net = 0.1;
+		public static final double humanPlayer = 0.1;
+		public static final double topAlg = 69.0;
+		public static final double botAlg = 69.0;
+
 	}
 
 	public static class IntakeConstants {
