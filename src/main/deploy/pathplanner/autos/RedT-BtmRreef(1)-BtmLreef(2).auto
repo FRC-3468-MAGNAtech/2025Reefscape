@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "zeroGyro"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "RedT to BtmRreef"
@@ -23,6 +29,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "alignRight"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "BtmLFreef to BtmCO"
@@ -32,6 +44,12 @@
           "type": "path",
           "data": {
             "pathName": "BtmCo to BtmLreef"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "alignLeft"
           }
         }
       ]

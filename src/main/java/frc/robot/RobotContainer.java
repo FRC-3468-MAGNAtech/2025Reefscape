@@ -82,7 +82,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("alignLeft", new AlignLeft(m_SwerveSys));
     NamedCommands.registerCommand("alignRight", new AlignRight(m_SwerveSys));
-    NamedCommands.registerCommand("zeroGyro", new InstantCommand(()-> SwerveSys.resetHeading()));
+    NamedCommands.registerCommand("zeroGyro", new InstantCommand(() -> SwerveSys.resetHeading()));
 
     LimeLightConstants.llPIDctrlStraifLeft.setSetpoint(-2);
     LimeLightConstants.llPIDctrlStraifLeft.setTolerance(1);
@@ -108,6 +108,7 @@ public class RobotContainer {
     autoChooser.addOption("Center-FrRf(1)-BtmLreef(2)", new PathPlannerAuto("Center-FrRf(1)-BtmLreef(2)"));
     autoChooser.addOption("BlueM-BkRF(2)-Pro", new PathPlannerAuto("BlueM-BkRF(2)-Pro"));
     autoChooser.addOption("Align", new PathPlannerAuto("Align"));
+    autoChooser.addOption("stright`", new PathPlannerAuto("Straight"));
     // Configure the trigger bindings
     //Camera.UpdateLimelight("limelight", m_SwerveSys.odometry, m_SweveSys.imu.getAngularVelocityZDevice().getValueAsDouble());
     configureBindings();
