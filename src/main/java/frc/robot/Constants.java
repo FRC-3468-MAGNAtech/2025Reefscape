@@ -164,8 +164,8 @@ public final class Constants {
 	}
 
 	public static final class LimeLightConstants {
-		public static final double straifKP = 0.12;
-		public static final PIDController llPIDctrlStraifLeft = new PIDController(straifKP, 0, 0);
+		public static final double straifKP = 0.03;
+		public static final PIDController llPIDctrlStraifLeft = new PIDController(straifKP, 0.0023, 0);
 		public static final PIDController llPIDctrlStraifRight = new PIDController(straifKP, 0, 0);
 
 		public static final double driveKP = .1;
@@ -182,8 +182,8 @@ public final class Constants {
 
 	public static class ElevConstants {
 		// Motor configuration
-		public static final int elev1ID = 3;
-		public static final int elev2ID = 4;
+		public static final int elev1ID = 7;
+		public static final int elev2ID = 8;
 		//soft limits
 		public static final double bLimit = 0.0;
 		public static final double tLimit = 3.0;

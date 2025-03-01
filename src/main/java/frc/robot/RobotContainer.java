@@ -64,8 +64,8 @@ public class RobotContainer {
   private final JoystickButton algaeOut = new JoystickButton(bottomButtonPad, 2);
   private final JoystickButton algaeIn = new JoystickButton(bottomButtonPad, 7);
 
-  private final JoystickButton alignLeft = new JoystickButton(topbuttonPad, 4);
-  private final JoystickButton alignRight = new JoystickButton(topbuttonPad, 3);
+  private final JoystickButton alignLeft = new JoystickButton(topbuttonPad, 9);
+  private final JoystickButton alignRight = new JoystickButton(topbuttonPad, 10);
   private final JoystickButton algaefloor = new JoystickButton(bottomButtonPad, 9);
 
 	private final SendableChooser<Command> autoChooser;

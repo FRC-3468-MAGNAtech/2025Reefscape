@@ -5,9 +5,9 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "alignLeft"
+            "pathName": "Center to FrontRF"
           }
         },
         {
@@ -23,12 +23,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "alignRight"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "BtmLFreef to BtmCO"
@@ -38,12 +32,6 @@
           "type": "path",
           "data": {
             "pathName": "BtmCo to BtmLreef"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "alignLeft"
           }
         }
       ]

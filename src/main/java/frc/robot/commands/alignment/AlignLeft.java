@@ -47,7 +47,7 @@ public class AlignLeft extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (LimelightHelpers.getTX("limelight-right")<= -1.5 && LimelightHelpers.getTX("limelight-right")>= -3.5 && LimelightHelpers.getTA("limelight-right")>= 7 && LimelightHelpers.getTA("limelight-right")<= 7.5) {
+    if (LimelightHelpers.getTX("limelight-right")<= -1.3 && LimelightHelpers.getTX("limelight-right")>= -3.7 && LimelightHelpers.getTA("limelight-right")>= 7 && LimelightHelpers.getTA("limelight-right")<= 7.5) {
         return true;
     } else {
       return false;
