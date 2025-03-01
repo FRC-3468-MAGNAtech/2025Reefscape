@@ -41,8 +41,8 @@ public final class Constants {
 		public static final int frontRightDriveMtrId = 22;
 		public static final int frontRightCanCoderId = 23;
 
-		public static final int backLeftSteerMtrId = 15;
-		public static final int backLeftDriveMtrId = 14;
+		public static final int backLeftSteerMtrId = 14;
+		public static final int backLeftDriveMtrId = 15;
 		public static final int backLeftCanCoderId = 16;
 
 		public static final int backRightSteerMtrId = 25;
@@ -126,9 +126,9 @@ public final class Constants {
 		
 		// Some wheels would spin backwards
 		public static final boolean frontLeftDriveInvert = false;
-		public static final boolean frontRightDriveInvert = true;
-		public static final boolean backLeftDriveInvert = true;
-		public static final boolean backRightDriveInvert = true;
+		public static final boolean frontRightDriveInvert = false;
+		public static final boolean backLeftDriveInvert = false;
+		public static final boolean backRightDriveInvert = false;
 
 		// This is just-in-case
 		public static final boolean frontLeftSteerInvert = true;

@@ -71,8 +71,8 @@ public class RobotContainer {
 	private final SendableChooser<Command> autoChooser;
 
   //setpoint buttons
-  private final JoystickButton elevUp = new JoystickButton(topbuttonPad, 1);
-  private final JoystickButton elevDown = new JoystickButton(topbuttonPad, 2);
+  private final JoystickButton elevUp = new JoystickButton(topbuttonPad, 5);
+  private final JoystickButton elevDown = new JoystickButton(middleButtonPad, 11);
   private final JoystickButton armForward = new JoystickButton(bottomButtonPad, 8);
   private final JoystickButton armbackward = new JoystickButton(bottomButtonPad, 9);
   private final JoystickButton aGroundButton = new JoystickButton(middleButtonPad, 5);

@@ -17,6 +17,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "alignLeft"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "BtmRreef to BtmCO"
@@ -29,6 +35,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "alignLeft"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "BtmLFreef to BtmCO"
@@ -38,6 +50,12 @@
           "type": "path",
           "data": {
             "pathName": "BtmCo to BtmLreef"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "alignLeft"
           }
         }
       ]
