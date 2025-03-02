@@ -16,10 +16,12 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.SoftLimitConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 
@@ -34,20 +36,26 @@ public class Arm extends SubsystemBase {
   
   public Arm() {
     armMotor = new SparkMax(ArmConstants.armID, MotorType.kBrushless);
-    forwardLimit = new SoftLimitConfig().forwardSoftLimit(0);
+    forwardLimit = new SoftLimitConfig().forwardSoftLimit(45);
     forwardLimit.forwardSoftLimitEnabled(true);
-    backwardLimit = new SoftLimitConfig().reverseSoftLimit(0.015);
+    backwardLimit = new SoftLimitConfig().reverseSoftLimit(-45);
     backwardLimit.reverseSoftLimitEnabled(true);
 
     SparkMaxConfig config = new SparkMaxConfig();
     armEncoder = armMotor.getAbsoluteEncoder();
+    config.absoluteEncoder.zeroCentered(true);
+
     config.idleMode(IdleMode.kBrake);
     config.closedLoop.pid(0, 0, 0);
+    config.apply(backwardLimit);
+    config.apply(forwardLimit);
+    config.inverted(true);
+    config.closedLoop.feedbackSensor(ClosedLoopConfig.FeedbackSensor.kAbsoluteEncoder);
     
     armController = armMotor.getClosedLoopController();
     armMotor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
-    feedForward= new ArmFeedforward(0.5, 1, 1.58);
+    feedForward = new ArmFeedforward(0.5, 1, 1.58);
   }
 
   public void front() {
@@ -68,10 +76,13 @@ public class Arm extends SubsystemBase {
       position = 0.1;
     }
     armController.setReference(position - ArmConstants.armOffSet, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward.calculate(position, 0));
+   
   }
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("arm angle", armEncoder.getPosition());
+    SmartDashboard.putNumber("output", armMotor.getAppliedOutput());
     // This method will be called once per scheduler run
   }
 }

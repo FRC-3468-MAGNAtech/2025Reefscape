@@ -16,6 +16,9 @@ import com.revrobotics.spark.config.SoftLimitConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -32,6 +35,7 @@ public class Evelator extends SubsystemBase {
   private TrapezoidProfile.State goal;
   private TrapezoidProfile.State current;
   private SoftLimitConfig elevTopLimit;
+  private final ElevatorFeedforward feedForward;
 
   public Evelator() {
     elevMtr1 = new SparkMax(ElevConstants.elev1ID, MotorType.kBrushless);
@@ -55,7 +59,7 @@ public class Evelator extends SubsystemBase {
     elevMtr1.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
     SparkMaxConfig conf2 = new SparkMaxConfig();
-    conf2.follow(ElevConstants.elev1ID, true);
+    conf2.follow(ElevConstants.elev1ID, false);
     elevMtr2.configure(conf2, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
     ePIDController = new ProfiledPIDController(ElevConstants.elevP, ElevConstants.elevI, ElevConstants.elevD, new TrapezoidProfile.Constraints(1.75, 0.75));
@@ -63,6 +67,9 @@ public class Evelator extends SubsystemBase {
     //elevBottomLimit = elevMtr1.getReverseLimitSwitch();
     eLoopController = elevMtr1.getClosedLoopController();
     elevEncoder = elevMtr1.getAbsoluteEncoder();
+
+    feedForward = new ElevatorFeedforward(0.65, 1.3, 3);
+    
   }
 
   public void ElevUp() {
@@ -75,6 +82,10 @@ public class Evelator extends SubsystemBase {
 
   public void ElevStop() {
     elevMtr1.set(0);
+  }
+
+  public void elevZero() {
+    
   }
 
   /*

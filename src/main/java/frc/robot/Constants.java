@@ -147,8 +147,8 @@ public final class Constants {
 
 
 		//speeds for forward and backward
-		public static final double armBackward = -0.1;
-		public static final double armForward = 0.1;
+		public static final double armBackward = -0.25;
+		public static final double armForward = 0.25;
 
 		//setpoints for PID
 		public static final double aGround = 0.0;
@@ -160,7 +160,6 @@ public final class Constants {
 
 		//offsets
 		public static final double armOffSet = 0.3;
-	}
 		public static final double processor = 0.1;
 		public static final double net = 0.1;
 		public static final double humanPlayer = 0.1;
@@ -199,8 +198,8 @@ public final class Constants {
 		// trapezoid controller (works with PID to make more smoothe)
 		public static final double elevTime = 1.0;
 		// movement
-		public static final double elevUp = 0.7;
-		public static final double elevDown = 0.5;
+		public static final double elevUp = 0.2;
+		public static final double elevDown = -0.2;
 		// setpoints
 		public static final double aGround = 0.0;
 		public static final double cGround = 0.0;

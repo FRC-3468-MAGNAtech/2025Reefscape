@@ -15,13 +15,21 @@ import frc.robot.Subsystems.SwerveSys;
 import frc.robot.commands.Intake.IntakeIn;
 import frc.robot.commands.Intake.IntakeOut;
 import frc.robot.commands.Intake.IntakeStop;
+import frc.robot.commands.Arm.ArmBackward;
+import frc.robot.commands.Arm.ArmForward;
 import frc.robot.commands.Arm.ArmSetpoints;
+import frc.robot.commands.Arm.ArmStop;
 import frc.robot.commands.Drive.DriveLeft;
 import frc.robot.commands.Drive.SwerveDrive;
 import frc.robot.commands.alignment.Algae;
 import frc.robot.commands.alignment.AlignLeft;
 import frc.robot.commands.alignment.AlignRight;
 import frc.robot.commands.elevator.ElevSetpoints;
+import frc.robot.commands.elevator.elevDown;
+import frc.robot.commands.elevator.elevUp;
+
+import org.w3c.dom.stylesheets.MediaList;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -51,30 +59,38 @@ public class RobotContainer {
   private Evelator m_Evelator = new Evelator();
   private Intake intake = new Intake();
   private Arm m_Arm = new Arm();
-  public static double currentHeight = 0.0;
-  public static double currentAngle = 0.0;
+  public static double setHeight = 0.0;
+  public static double setAngle = 0.0;
 
-  // Buttons
+  private final SendableChooser<Command> autoChooser;
+
+
+  // Controllers
+
   private final Joystick driverController = new Joystick(HIDConstants.driverController);
   private final Joystick topbuttonPad = new Joystick(HIDConstants.topButtonPad);
   private final Joystick middleButtonPad = new Joystick(HIDConstants.middleButtonPad);
   private final Joystick bottomButtonPad = new Joystick(HIDConstants.bottomButtonPad);
   private final Joystick sideButtonPad = new Joystick(HIDConstants.sideButtonPad);
-  private final JoystickButton zeroGyro = new JoystickButton(driverController, 11);
-  private final JoystickButton algaeOut = new JoystickButton(bottomButtonPad, 2);
-  private final JoystickButton algaeIn = new JoystickButton(bottomButtonPad, 7);
+  
+  
+  // Button Pad Buttons
 
+  private final JoystickButton zeroGyro = new JoystickButton(driverController, 11);
+    // Intake
+  private final JoystickButton algaeOut = new JoystickButton(topbuttonPad, 7);
+  private final JoystickButton algaeIn = new JoystickButton(topbuttonPad, 8);
+    // Elevator
+  private final JoystickButton elevUp = new JoystickButton(topbuttonPad, 5);
+  private final JoystickButton elevDown = new JoystickButton(middleButtonPad, 11);
+    // Arm
+  private final JoystickButton armForward = new JoystickButton(topbuttonPad, 2);
+  private final JoystickButton armbackward = new JoystickButton(middleButtonPad, 8);
+    // Limelight
   private final JoystickButton alignLeft = new JoystickButton(topbuttonPad, 9);
   private final JoystickButton alignRight = new JoystickButton(topbuttonPad, 10);
   private final JoystickButton algaefloor = new JoystickButton(bottomButtonPad, 9);
-
-	private final SendableChooser<Command> autoChooser;
-
-  //setpoint buttons
-  private final JoystickButton elevUp = new JoystickButton(topbuttonPad, 5);
-  private final JoystickButton elevDown = new JoystickButton(middleButtonPad, 11);
-  private final JoystickButton armForward = new JoystickButton(bottomButtonPad, 8);
-  private final JoystickButton armbackward = new JoystickButton(bottomButtonPad, 9);
+    // Setpoints
   private final JoystickButton aGroundButton = new JoystickButton(middleButtonPad, 5);
   private final JoystickButton cGroundButton = new JoystickButton(middleButtonPad, 4);
   private final JoystickButton l1Button = new JoystickButton(bottomButtonPad, 10);
@@ -95,7 +111,9 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto", autoChooser);
 
-    intake.setDefaultCommand(new IntakeStop(intake));  // maybe fix, hopefully stop
+    intake.setDefaultCommand(new IntakeStop(intake)); 
+    m_Arm.setDefaultCommand(new ArmStop(m_Arm));
+    // m_Evelator.setDefaultCommand(new);
 
     NamedCommands.registerCommand("alignLeft", new AlignLeft(m_SwerveSys));
     NamedCommands.registerCommand("alignRight", new AlignRight(m_SwerveSys));
@@ -137,7 +155,6 @@ public class RobotContainer {
   }
 
   private double getThrottle() {
-
     double throttle = ((1-driverController.getThrottle())/2.5) + 0.2;
     return throttle;
   }
@@ -172,59 +189,63 @@ public class RobotContainer {
     algaeOut.onTrue(new IntakeOut(intake));
 
     // Elevator
-    elevUp.whileTrue(new frc.robot.commands.elevator.elevUp(m_Evelator));
-    elevDown.whileTrue(new frc.robot.commands.elevator.elevDown(m_Evelator));
+    elevUp.whileTrue(new elevUp(m_Evelator));
+    elevDown.whileTrue(new elevDown(m_Evelator));
 
     // Arm
-    armForward.whileTrue(new frc.robot.commands.Arm.ArmForward(m_Arm));
-    armbackward.whileTrue(new frc.robot.commands.Arm.ArmBackward(m_Arm));
+    armForward.whileTrue(new ArmForward(m_Arm));
+    armbackward.whileTrue(new ArmBackward(m_Arm));
 
     zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
     
     // Setpoints for Elevator
     aGroundButton.onTrue(new SequentialCommandGroup(
-        new InstantCommand(() -> {currentHeight = ElevConstants.aGround;}), 
-        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.aGround;}), 
+        new InstantCommand(() -> {setHeight = ElevConstants.aGround;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {setAngle = ArmConstants.aGround;}), 
         new ArmSetpoints(m_Arm)));
     cGroundButton.onTrue(new SequentialCommandGroup(
-        new InstantCommand(() -> {currentHeight = ElevConstants.cGround;}), 
-        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.cGround;}), 
+        new InstantCommand(() -> {setHeight = ElevConstants.cGround;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {setAngle = ArmConstants.cGround;}), 
         new ArmSetpoints(m_Arm)));
+
     l1Button.onTrue(new SequentialCommandGroup(
-        new InstantCommand(() -> {currentHeight = ElevConstants.l1;}), 
-        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.l1;}), 
+        new InstantCommand(() -> {setHeight = ElevConstants.l1;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {setAngle = ArmConstants.l1;}), 
         new ArmSetpoints(m_Arm)));
     l2Button.onTrue(new SequentialCommandGroup(
-        new InstantCommand(() -> {currentHeight = ElevConstants.l2;}), 
-        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.l2;}), 
+        new InstantCommand(() -> {setHeight = ElevConstants.l2;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {setAngle = ArmConstants.l2;}), 
         new ArmSetpoints(m_Arm)));
     l3Button.onTrue(new SequentialCommandGroup(
-        new InstantCommand(() -> {currentHeight = ElevConstants.l3;}), 
-        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.l3;}), 
+        new InstantCommand(() -> {setHeight = ElevConstants.l3;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {setAngle = ArmConstants.l3;}), 
         new ArmSetpoints(m_Arm)));
     l4Button.onTrue(new SequentialCommandGroup(
-        new InstantCommand(() -> {currentHeight = ElevConstants.l4;}), 
-        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.l4;}), 
+        new InstantCommand(() -> {setHeight = ElevConstants.l4;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {setAngle = ArmConstants.l4;}), 
         new ArmSetpoints(m_Arm)));
+
     processorButton.onTrue(new SequentialCommandGroup(
-        new InstantCommand(() -> {currentHeight = ElevConstants.processor;}), 
-        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.processor;}), 
+        new InstantCommand(() -> {setHeight = ElevConstants.processor;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {setAngle = ArmConstants.processor;}), 
         new ArmSetpoints(m_Arm)));
     netButton.onTrue(new SequentialCommandGroup(
-        new InstantCommand(() -> {currentHeight = ElevConstants.net;}), 
-        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.net;}), 
+        new InstantCommand(() -> {setHeight = ElevConstants.net;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {setAngle = ArmConstants.net;}), 
         new ArmSetpoints(m_Arm)));
+
     humanPlayerButton.onTrue(new SequentialCommandGroup(
-        new InstantCommand(() -> {currentHeight = ElevConstants.humanPlayer;}), 
-        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.humanPlayer;}), 
+        new InstantCommand(() -> {setHeight = ElevConstants.humanPlayer;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {setAngle = ArmConstants.humanPlayer;}), 
         new ArmSetpoints(m_Arm)));
+
     topAlg.onTrue(new SequentialCommandGroup(
-        new InstantCommand(() -> {currentHeight = ElevConstants.topAlg;}), 
-        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.topAlg;}), 
+        new InstantCommand(() -> {setHeight = ElevConstants.topAlg;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {setAngle = ArmConstants.topAlg;}), 
         new ArmSetpoints(m_Arm)));
     botAlg.onTrue(new SequentialCommandGroup(
-        new InstantCommand(() -> {currentHeight = ElevConstants.botAlg;}), 
-        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {currentAngle = ArmConstants.botAlg;}), 
+        new InstantCommand(() -> {setHeight = ElevConstants.botAlg;}), 
+        new ElevSetpoints(m_Evelator), new InstantCommand(() -> {setAngle = ArmConstants.botAlg;}), 
         new ArmSetpoints(m_Arm)));
     
 
@@ -232,7 +253,6 @@ public class RobotContainer {
     alignLeft.whileTrue(new AlignLeft(m_SwerveSys));
     alignRight.whileTrue(new AlignRight(m_SwerveSys));
     algaefloor.whileTrue(new Algae(m_SwerveSys));
-
   }
 
   /**
