@@ -4,10 +4,14 @@
 
 package frc.robot.Subsystems;
 
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkMaxAlternateEncoder;
+import com.revrobotics.spark.SparkRelativeEncoder;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -24,7 +28,7 @@ public class Arm extends SubsystemBase {
   private final SparkMax armMotor;
   private final SparkClosedLoopController armController;
   private final ArmFeedforward feedForward;
-  private final SparkAbsoluteEncoder armEncoder;
+  private final AbsoluteEncoder armEncoder;
   private final SoftLimitConfig forwardLimit;
   private final SoftLimitConfig backwardLimit;
   
@@ -32,18 +36,18 @@ public class Arm extends SubsystemBase {
     armMotor = new SparkMax(ArmConstants.armID, MotorType.kBrushless);
     forwardLimit = new SoftLimitConfig().forwardSoftLimit(0);
     forwardLimit.forwardSoftLimitEnabled(true);
-    backwardLimit = new SoftLimitConfig().reverseSoftLimit(0);
+    backwardLimit = new SoftLimitConfig().reverseSoftLimit(0.015);
     backwardLimit.reverseSoftLimitEnabled(true);
 
     SparkMaxConfig config = new SparkMaxConfig();
-    config.idleMode(IdleMode.kBrake);
     armEncoder = armMotor.getAbsoluteEncoder();
+    config.idleMode(IdleMode.kBrake);
     config.closedLoop.pid(0, 0, 0);
     
     armController = armMotor.getClosedLoopController();
     armMotor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
-    feedForward= new ArmFeedforward(0, 0, 0);
+    feedForward= new ArmFeedforward(0.5, 1, 1.58);
   }
 
   public void front() {
@@ -59,10 +63,11 @@ public class Arm extends SubsystemBase {
   }
 
   public void PointMove(double position) {
+    position = armEncoder.getPosition() * 360;
     if (position < 0.1){
       position = 0.1;
     }
-    armController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward.calculate(position, 0));
+    armController.setReference(position - ArmConstants.armOffSet, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward.calculate(position, 0));
   }
 
   @Override

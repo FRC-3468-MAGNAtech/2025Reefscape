@@ -136,8 +136,9 @@ public final class Constants {
 		public static final boolean backLeftSteerInvert = true;
 		public static final boolean backRightSteerInvert = true;
 	}
+	
 	public static class ArmConstants {
-		public static final int armID = 8008;
+		public static final int armID = 4;
 
 		//feedforawrd values
 		public static final double Ks = 1;
@@ -156,6 +157,10 @@ public final class Constants {
 		public static final double l2 = 0.2;
 		public static final double l3 = 0.3;
 		public static final double l4 = 0.4;
+
+		//offsets
+		public static final double armOffSet = 0.3;
+	}
 		public static final double processor = 0.1;
 		public static final double net = 0.1;
 		public static final double humanPlayer = 0.1;
@@ -163,7 +168,7 @@ public final class Constants {
 		public static final double botAlg = 69.0;
 	}
 
-	public static final class LimeLightConstants {
+	public static class LimeLightConstants {
 		public static final double straifKP = 0.03;
 		public static final PIDController llPIDctrlStraifLeft = new PIDController(straifKP, 0.0023, 0);
 		public static final PIDController llPIDctrlStraifRight = new PIDController(straifKP, 0, 0);
