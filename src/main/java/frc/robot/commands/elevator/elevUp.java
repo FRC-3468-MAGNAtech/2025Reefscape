@@ -9,12 +9,12 @@ import frc.robot.Subsystems.Evelator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevUp extends Command {
-  private final Evelator evelator;
+  private Evelator subsystem;
   
   /** Creates a new elevUp. */
-  public ElevUp(Evelator evelator) {
-    this.evelator = evelator;
-    addRequirements(evelator);
+  public ElevUp(Evelator i_subsytem) {
+    subsystem = i_subsytem;
+    addRequirements(i_subsytem);
   }
 
   // Called when the command is initially scheduled.
@@ -24,13 +24,13 @@ public class ElevUp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    evelator.elevUp();
+    subsystem.elevUp();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    evelator.elevStop();
+    subsystem.elevStop();
   }
 
   // Returns true when the command should end.

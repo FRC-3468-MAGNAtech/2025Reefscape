@@ -21,15 +21,12 @@ import frc.robot.commands.Arm.ArmSetpoints;
 import frc.robot.commands.Arm.ArmStop;
 import frc.robot.commands.Drive.DriveLeft;
 import frc.robot.commands.Drive.SwerveDrive;
+import frc.robot.commands.Elevator.ElevDown;
 import frc.robot.commands.Elevator.ElevSetpoints;
 import frc.robot.commands.Elevator.ElevUp;
-import frc.robot.commands.Elevator.ElevDown;
 import frc.robot.commands.alignment.Algae;
 import frc.robot.commands.alignment.AlignLeft;
 import frc.robot.commands.alignment.AlignRight;
-
-import org.w3c.dom.stylesheets.MediaList;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -193,10 +190,10 @@ public class RobotContainer {
     elevDown.whileTrue(new ElevDown(m_Evelator));
 
     // Arm
-    // armForward.whileTrue(new ArmForward(m_Arm));
-    // armbackward.whileTrue(new ArmBackward(m_Arm));
-    armForward.whileTrue(new InstantCommand(() -> SmartDashboard.putBoolean("ButtonPressUp", true)));
-    armbackward.whileTrue(new InstantCommand(() -> SmartDashboard.putBoolean("ButtonPressDown", true)));
+    armForward.whileTrue(new ArmForward(m_Arm));
+    armbackward.whileTrue(new ArmBackward(m_Arm));
+    //armForward.whileTrue(new InstantCommand(() -> SmartDashboard.putBoolean("ButtonPressUp", true)));
+    //armbackward.whileTrue(new InstantCommand(() -> SmartDashboard.putBoolean("ButtonPressDown", true)));
 
     zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
     
