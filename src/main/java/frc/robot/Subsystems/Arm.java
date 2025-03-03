@@ -70,7 +70,7 @@ public class Arm extends SubsystemBase {
     armMotor.set(0);
   }
 
-  public void PointMove(double position) {
+  public void pointMove(double position) {
     position = armEncoder.getPosition() * 360;
     if (position < 0.1){
       position = 0.1;

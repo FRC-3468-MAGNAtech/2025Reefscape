@@ -72,15 +72,15 @@ public class Evelator extends SubsystemBase {
     
   }
 
-  public void ElevUp() {
+  public void elevUp() {
     elevMtr1.set(ElevConstants.elevUp);
   }
 
-  public void ElevDown() {
+  public void elevDown() {
     elevMtr1.set(ElevConstants.elevDown);
   }
 
-  public void ElevStop() {
+  public void elevStop() {
     elevMtr1.set(0);
   }
 
@@ -96,7 +96,7 @@ public class Evelator extends SubsystemBase {
   }
   */
   
-  public void PointMove(double position) {
+  public void pointMove(double position) {
     if (position < 0.1){
       position = 0.1;
     }
