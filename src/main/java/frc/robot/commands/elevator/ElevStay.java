@@ -5,17 +5,16 @@
 package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
 import frc.robot.Subsystems.Evelator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ElevSetpoints extends Command {
-  private final Evelator evelator;
-  
-  /** Creates a new ElevSetpoints. */
-  public ElevSetpoints(Evelator evelator) {
-    this.evelator = evelator;
-    addRequirements(evelator);
+public class ElevStay extends Command {
+  private Evelator subsystem;
+
+  /** Creates a new ElevStay. */
+  public ElevStay(Evelator i_subsytem) {
+    subsystem = i_subsytem;
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -25,13 +24,13 @@ public class ElevSetpoints extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    evelator.pointMove(RobotContainer.setHeight);
+    subsystem.elevStay();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    evelator.elevStop();
+    subsystem.elevStop();
   }
 
   // Returns true when the command should end.

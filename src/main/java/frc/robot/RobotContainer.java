@@ -15,19 +15,19 @@ import frc.robot.Subsystems.SwerveSys;
 import frc.robot.commands.Intake.IntakeIn;
 import frc.robot.commands.Intake.IntakeOut;
 import frc.robot.commands.Intake.IntakeStop;
-import frc.robot.commands.Alignment.Algae;
-import frc.robot.commands.Alignment.AlignLeft;
-import frc.robot.commands.Alignment.AlignRight;
+import frc.robot.commands.alignment.Algae;
+import frc.robot.commands.alignment.AlignLeft;
+import frc.robot.commands.alignment.AlignRight;
 import frc.robot.commands.Arm.ArmBackward;
 import frc.robot.commands.Arm.ArmForward;
 import frc.robot.commands.Arm.ArmSetpoints;
 import frc.robot.commands.Arm.ArmStop;
 import frc.robot.commands.Drive.DriveLeft;
 import frc.robot.commands.Drive.SwerveDrive;
-import frc.robot.commands.Elevator.ElevDown;
-import frc.robot.commands.Elevator.ElevSetpoints;
-import frc.robot.commands.Elevator.ElevUp;
-
+import frc.robot.commands.elevator.elevDown;
+import frc.robot.commands.elevator.ElevSetpoints;
+import frc.robot.commands.elevator.ElevStay;
+import frc.robot.commands.elevator.elevUp;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -111,7 +111,7 @@ public class RobotContainer {
 
     intake.setDefaultCommand(new IntakeStop(intake)); 
     m_Arm.setDefaultCommand(new ArmStop(m_Arm));
-    // m_Evelator.setDefaultCommand(new);
+    m_Evelator.setDefaultCommand(new ElevStay(m_Evelator));
 
     NamedCommands.registerCommand("alignLeft", new AlignLeft(m_SwerveSys));
     NamedCommands.registerCommand("alignRight", new AlignRight(m_SwerveSys));
@@ -187,14 +187,12 @@ public class RobotContainer {
     algaeOut.onTrue(new IntakeOut(intake));
 
     // Elevator
-    elevUp.whileTrue(new ElevUp(m_Evelator));
-    elevDown.whileTrue(new ElevDown(m_Evelator));
+    elevUp.whileTrue(new elevUp(m_Evelator));
+    elevDown.whileTrue(new elevDown(m_Evelator));
 
     // Arm
     armForward.whileTrue(new ArmForward(m_Arm));
     armbackward.whileTrue(new ArmBackward(m_Arm));
-    // armForward.whileTrue(new InstantCommand(() -> SmartDashboard.putBoolean("ButtonPressUp", true)));
-    // armbackward.whileTrue(new InstantCommand(() -> SmartDashboard.putBoolean("ButtonPressDown", true)));
 
     zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
     

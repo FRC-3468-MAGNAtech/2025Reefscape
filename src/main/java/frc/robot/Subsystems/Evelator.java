@@ -8,6 +8,7 @@ import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -16,7 +17,6 @@ import com.revrobotics.spark.config.SoftLimitConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -36,6 +36,7 @@ public class Evelator extends SubsystemBase {
   private TrapezoidProfile.State current;
   private SoftLimitConfig elevTopLimit;
   private final ElevatorFeedforward feedForward;
+  private double position;
 
   public Evelator() {
     elevMtr1 = new SparkMax(ElevConstants.elev1ID, MotorType.kBrushless);
@@ -87,6 +88,12 @@ public class Evelator extends SubsystemBase {
   public void elevZero() {
     
   }
+
+  public void elevStay() {
+    position = elevEncoder.getPosition();
+    eLoopController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward.calculate(position));
+  }
+
 
   /*
   public void PointMove( double position) {
