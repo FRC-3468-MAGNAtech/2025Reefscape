@@ -151,15 +151,15 @@ public final class Constants {
 		public static final double armForward = 0.25;
 
 		//setpoints for PID
-		public static final double aGround = 0.0;
-		public static final double cGround = 0.0;
-		public static final double l1 = 0.1;
-		public static final double l2 = 0.2;
-		public static final double l3 = 0.3;
-		public static final double l4 = 0.4;
+		public static final double aGround = 90;
+		public static final double cGround = 90;
+		public static final double l1 = 90;
+		public static final double l2 = 90;
+		public static final double l3 = 90;
+		public static final double l4 = 90;
 
 		//offsets
-		public static final double armOffSet = 0.3;
+		public static final double armOffSet = 90;
 		public static final double processor = 0.1;
 		public static final double net = 0.1;
 		public static final double humanPlayer = 0.1;
@@ -201,8 +201,8 @@ public final class Constants {
 		public static final double elevUp = 0.2;
 		public static final double elevDown = -0.2;
 		// setpoints
-		public static final double aGround = 0.0;
-		public static final double cGround = 0.0;
+		public static final double aGround = 0.1;
+		public static final double cGround = 0.5;
 		public static final double l1 = 1.00;
 		public static final double l2 = 2.00;
 		public static final double l3 = 3.00;
@@ -210,8 +210,8 @@ public final class Constants {
 		public static final double processor = 0.1;
 		public static final double net = 0.1;
 		public static final double humanPlayer = 0.1;
-		public static final double topAlg = 69.0;
-		public static final double botAlg = 69.0;
+		public static final double topAlg = 2.0;
+		public static final double botAlg = 3.0;
 
 	}
 
