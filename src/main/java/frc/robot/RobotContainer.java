@@ -15,19 +15,19 @@ import frc.robot.Subsystems.SwerveSys;
 import frc.robot.commands.Intake.IntakeIn;
 import frc.robot.commands.Intake.IntakeOut;
 import frc.robot.commands.Intake.IntakeStop;
-import frc.robot.commands.alignment.Algae;
-import frc.robot.commands.alignment.AlignLeft;
-import frc.robot.commands.alignment.AlignRight;
+import frc.robot.commands.Alignment.Algae;
+import frc.robot.commands.Alignment.AlignLeft;
+import frc.robot.commands.Alignment.AlignRight;
 import frc.robot.commands.Arm.ArmBackward;
 import frc.robot.commands.Arm.ArmForward;
 import frc.robot.commands.Arm.ArmSetpoints;
 import frc.robot.commands.Arm.ArmStop;
 import frc.robot.commands.Drive.DriveLeft;
 import frc.robot.commands.Drive.SwerveDrive;
-import frc.robot.commands.elevator.elevDown;
-import frc.robot.commands.elevator.ElevSetpoints;
-import frc.robot.commands.elevator.ElevStay;
-import frc.robot.commands.elevator.elevUp;
+import frc.robot.commands.Elevator.elevDown;
+import frc.robot.commands.Elevator.ElevSetpoints;
+import frc.robot.commands.Elevator.ElevStay;
+import frc.robot.commands.Elevator.elevUp;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -82,8 +82,8 @@ public class RobotContainer {
   private final JoystickButton elevUp = new JoystickButton(topbuttonPad, 5);
   private final JoystickButton elevDown = new JoystickButton(middleButtonPad, 11);
     // Arm
-  private final JoystickButton armForward = new JoystickButton(topbuttonPad, 2);
-  private final JoystickButton armbackward = new JoystickButton(middleButtonPad, 8);
+  private final JoystickButton armForward = new JoystickButton(topbuttonPad, 4);
+  private final JoystickButton armbackward = new JoystickButton(middleButtonPad, 10);
     // Limelight
   private final JoystickButton alignLeft = new JoystickButton(topbuttonPad, 9);
   private final JoystickButton alignRight = new JoystickButton(topbuttonPad, 10);
@@ -98,9 +98,8 @@ public class RobotContainer {
   private final JoystickButton processorButton = new JoystickButton(bottomButtonPad, 3);
   private final JoystickButton humanPlayerButton = new JoystickButton(bottomButtonPad, 3);
   private final JoystickButton netButton = new JoystickButton(bottomButtonPad, 3);
-  private final JoystickButton topAlg = new JoystickButton(topbuttonPad, 4);
-  private final JoystickButton botAlg = new JoystickButton(middleButtonPad, 10);
-
+  private final JoystickButton topAlg = new JoystickButton(topbuttonPad, 3);
+  private final JoystickButton botAlg = new JoystickButton(middleButtonPad, 9);
   private final JoystickButton odometry = new JoystickButton(sideButtonPad, 1);
 
 
