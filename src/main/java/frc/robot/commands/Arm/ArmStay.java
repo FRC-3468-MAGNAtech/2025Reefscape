@@ -2,22 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.elevator;
+package frc.robot.commands.Arm;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
-import frc.robot.Subsystems.Evelator;
+import frc.robot.Subsystems.Arm;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ElevSetpoints extends Command {
-  private final Evelator evelator;
-  
-  /** Creates a new ElevSetpoints. */
-  public ElevSetpoints(Evelator evelator) {
-    this.evelator = evelator;
-    addRequirements(evelator);
-  }
+public class ArmStay extends Command {
+  private Arm arm;
 
+  public ArmStay(Arm arm) {
+    this.arm = arm;
+    addRequirements(arm);
+
+  }  
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
@@ -25,13 +23,13 @@ public class ElevSetpoints extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    evelator.pointMove(RobotContainer.setHeight);
+    arm.armStay();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    evelator.elevStop();
+    arm.stop();
   }
 
   // Returns true when the command should end.

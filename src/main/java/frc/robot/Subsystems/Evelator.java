@@ -21,6 +21,7 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevConstants;
 
@@ -31,7 +32,7 @@ public class Evelator extends SubsystemBase {
   private final SparkClosedLoopController eLoopController;
   private final ProfiledPIDController ePIDController;
   private final AbsoluteEncoder elevEncoder;
-  private final SoftLimitConfig elevBottomLimit;
+  //private final SoftLimitConfig elevBottomLimit;
   private TrapezoidProfile.State goal;
   private TrapezoidProfile.State current;
   private SoftLimitConfig elevTopLimit;
@@ -47,8 +48,8 @@ public class Evelator extends SubsystemBase {
 
     elevTopLimit = new SoftLimitConfig().forwardSoftLimit(ElevConstants.tLimit);
     elevTopLimit.forwardSoftLimitEnabled(true);
-    elevBottomLimit = new SoftLimitConfig().reverseSoftLimit(ElevConstants.bLimit);
-    elevBottomLimit.reverseSoftLimitEnabled(true);
+    //elevBottomLimit = new SoftLimitConfig().reverseSoftLimit(ElevConstants.bLimit);
+    //elevBottomLimit.reverseSoftLimitEnabled(true);
 
     SparkMaxConfig conf = new SparkMaxConfig();
     conf.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
@@ -56,7 +57,8 @@ public class Evelator extends SubsystemBase {
     conf.limitSwitch.reverseLimitSwitchEnabled(true);
     conf.idleMode(IdleMode.kBrake);
     conf.softLimit.apply(elevTopLimit);
-    conf.softLimit.apply(elevBottomLimit);
+    //conf.softLimit.apply(elevBottomLimit);
+    conf.absoluteEncoder.inverted(true);
     elevMtr1.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
     SparkMaxConfig conf2 = new SparkMaxConfig();
@@ -69,7 +71,7 @@ public class Evelator extends SubsystemBase {
     eLoopController = elevMtr1.getClosedLoopController();
     elevEncoder = elevMtr1.getAbsoluteEncoder();
 
-    feedForward = new ElevatorFeedforward(0.65, 1.3, 3);
+    feedForward = new ElevatorFeedforward(0.25, .5, 0);
     
   }
 
@@ -114,5 +116,6 @@ public class Evelator extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     current = new TrapezoidProfile.State(elevEncoder.getPosition(), 0.0);
+    SmartDashboard.putNumber("Elevator position", elevEncoder.getPosition());
   }
 }

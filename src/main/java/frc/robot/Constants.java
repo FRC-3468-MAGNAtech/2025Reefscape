@@ -186,10 +186,10 @@ public final class Constants {
 
 	public static class ElevConstants {
 		// Motor configuration
-		public static final int elev1ID = 7;
-		public static final int elev2ID = 8;
+		public static final int elev1ID = 8;
+		public static final int elev2ID = 7;
 		//soft limits
-		public static final double bLimit = 0.0;
+		//public static final double bLimit = 0.0;
 		public static final double tLimit = 3.0;
 		// PID for elevator
 		public static final double elevP = 0.0;
@@ -198,8 +198,8 @@ public final class Constants {
 		// trapezoid controller (works with PID to make more smoothe)
 		public static final double elevTime = 1.0;
 		// movement
-		public static final double elevUp = 0.2;
-		public static final double elevDown = -0.2;
+		public static final double elevUp = 0.3;
+		public static final double elevDown = -0.05;
 		// setpoints
 		public static final double aGround = 0.1;
 		public static final double cGround = 0.5;

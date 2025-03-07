@@ -79,6 +79,11 @@ public class Arm extends SubsystemBase {
    
   }
 
+  public void armStay() {
+    final double position = armEncoder.getPosition();
+    armController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward.calculate(position, 0));
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("arm angle", armEncoder.getPosition());
