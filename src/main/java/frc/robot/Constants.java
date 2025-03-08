@@ -140,28 +140,32 @@ public final class Constants {
 	public static class ArmConstants {
 		public static final int armID = 4;
 
-		//feedforawrd values
-		public static final double Ks = 1;
-		public static final double Kg = 1;
-		public static final double Kv = 1;
+		//feedforward values
+		public static final double ffKS = 0.4;
+		public static final double ffKG = .8;
+		public static final double ffKV = 0;
 
+		//PID values
+		public static final double kP = 0.006;
+		public static final double kI = 0;
+		public static final double kD = 0.015;
 
 		//speeds for forward and backward
 		public static final double armBackward = -0.25;
 		public static final double armForward = 0.25;
 
 		//setpoints for PID
-		public static final double aGround = 90;
+		public static final double aGround = 50;
 		public static final double cGround = 90;
 		public static final double l1 = 90;
 		public static final double l2 = 90;
 		public static final double l3 = 90;
-		public static final double l4 = 90;
+		public static final double l4 = -112;
 
 		//offsets
-		public static final double armOffSet = 90;
+		public static final double armOffSet = 0;
 		public static final double processor = 0.1;
-		public static final double net = 0.1;
+		public static final double net = 34;
 		public static final double humanPlayer = 0.1;
 		public static final double topAlg = 69.0;
 		public static final double botAlg = 69.0;
@@ -189,26 +193,30 @@ public final class Constants {
 		public static final int elev1ID = 8;
 		public static final int elev2ID = 7;
 		//soft limits
-		//public static final double bLimit = 0.0;
-		public static final double tLimit = 3.0;
+		public static final double bLimit = 0.0;
+		public static final double tLimit = 40.0;
 		// PID for elevator
-		public static final double elevP = 0.0;
+		public static final double elevP = .015;
 		public static final double elevI = 0;
-		public static final double elevD = 0.0;
+		public static final double elevD = 1;
+		// Feed Forward
+		public static final double ffKS = 0.25;
+		public static final double ffKG = 0.5;
+		public static final double ffKV = 0;
 		// trapezoid controller (works with PID to make more smoothe)
-		public static final double elevTime = 1.0;
+		public static final double elevTime = 7.0;
 		// movement
-		public static final double elevUp = 0.3;
+		public static final double elevUp = 0.30;
 		public static final double elevDown = -0.05;
 		// setpoints
 		public static final double aGround = 0.1;
 		public static final double cGround = 0.5;
 		public static final double l1 = 1.00;
 		public static final double l2 = 2.00;
-		public static final double l3 = 3.00;
-		public static final double l4 = 4.00;
+		public static final double l3 = 33;
+		public static final double l4 = 39;
 		public static final double processor = 0.1;
-		public static final double net = 0.1;
+		public static final double net = 46;
 		public static final double humanPlayer = 0.1;
 		public static final double topAlg = 2.0;
 		public static final double botAlg = 3.0;
@@ -218,8 +226,8 @@ public final class Constants {
 	public static class IntakeConstants {
 		public static final int intakeTopID = 6;
 		public static final int intakeBottomID = 5;
-		public static final double intakeIn = 0.55;   // need testing
-		public static final double intakeOut = 0.3;
+		public static final double intakeIn = 0.3;   // need testing
+		public static final double intakeOut = 0.55;
 	}
 
 }

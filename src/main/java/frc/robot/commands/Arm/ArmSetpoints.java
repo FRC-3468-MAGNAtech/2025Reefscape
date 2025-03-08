@@ -5,15 +5,16 @@
 package frc.robot.commands.Arm;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
 import frc.robot.Subsystems.Arm;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ArmSetpoints extends Command {
   private final Arm arm;
+  private double setpoint;
 
-  public ArmSetpoints(Arm arm) {
+  public ArmSetpoints(Arm arm, double angle) {
     this.arm = arm;
+    setpoint = angle;
     addRequirements(arm);
   }
 
@@ -24,7 +25,7 @@ public class ArmSetpoints extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.pointMove(RobotContainer.setAngle);
+    arm.pointMove(setpoint);
   }
 
   // Called once the command ends or is interrupted.

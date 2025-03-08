@@ -41,13 +41,13 @@ public class Intake extends SubsystemBase {
   }
 
   public void BallsIn() {
-    intakeMotor1.set(-IntakeConstants.intakeIn);
-    intakeMotor2.set(IntakeConstants.intakeIn);
+    intakeMotor1.set(IntakeConstants.intakeIn);
+    intakeMotor2.set(-IntakeConstants.intakeIn);
   }
 
   public void BallsOut() {
-    intakeMotor1.set(IntakeConstants.intakeOut);
-    intakeMotor2.set(-IntakeConstants.intakeOut);
+    intakeMotor1.set(-IntakeConstants.intakeOut);
+    intakeMotor2.set(IntakeConstants.intakeOut);
   }
 
   public void IntakeStop() {

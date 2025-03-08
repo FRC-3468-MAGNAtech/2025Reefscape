@@ -27,18 +27,19 @@ import frc.robot.Constants.ArmConstants;
 
 
 public class Arm extends SubsystemBase {
-  private final SparkMax armMotor;
-  private final SparkClosedLoopController armController;
-  private final ArmFeedforward feedForward;
-  private final AbsoluteEncoder armEncoder;
-  private final SoftLimitConfig forwardLimit;
-  private final SoftLimitConfig backwardLimit;
+  private SparkMax armMotor;
+  private SparkClosedLoopController armController;
+  private ArmFeedforward feedForward;
+  private AbsoluteEncoder armEncoder;
+  private SoftLimitConfig forwardLimit;
+  private SoftLimitConfig backwardLimit;
+  private double position;
   
   public Arm() {
     armMotor = new SparkMax(ArmConstants.armID, MotorType.kBrushless);
-    forwardLimit = new SoftLimitConfig().forwardSoftLimit(45);
+    forwardLimit = new SoftLimitConfig().forwardSoftLimit(90);
     forwardLimit.forwardSoftLimitEnabled(true);
-    backwardLimit = new SoftLimitConfig().reverseSoftLimit(-45);
+    backwardLimit = new SoftLimitConfig().reverseSoftLimit(-150);
     backwardLimit.reverseSoftLimitEnabled(true);
 
     SparkMaxConfig config = new SparkMaxConfig();
@@ -46,16 +47,16 @@ public class Arm extends SubsystemBase {
     config.absoluteEncoder.zeroCentered(true);
 
     config.idleMode(IdleMode.kBrake);
-    config.closedLoop.pid(0, 0, 0);
+    config.closedLoop.pid( ArmConstants.kP, ArmConstants.kI, ArmConstants.kD);
+    config.closedLoop.feedbackSensor(ClosedLoopConfig.FeedbackSensor.kAbsoluteEncoder);
     config.apply(backwardLimit);
     config.apply(forwardLimit);
     config.inverted(true);
-    config.closedLoop.feedbackSensor(ClosedLoopConfig.FeedbackSensor.kAbsoluteEncoder);
     
     armController = armMotor.getClosedLoopController();
     armMotor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
-    feedForward = new ArmFeedforward(0.5, 1, 1.58);
+    feedForward = new ArmFeedforward(ArmConstants.ffKS, ArmConstants.ffKG, ArmConstants.ffKV);
   }
 
   public void front() {
@@ -70,18 +71,13 @@ public class Arm extends SubsystemBase {
     armMotor.set(0);
   }
 
-  public void pointMove(double position) {
-    position = armEncoder.getPosition() * 360;
-    if (position < 0.1){
-      position = 0.1;
-    }
-    armController.setReference(position - ArmConstants.armOffSet, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward.calculate(position, 0));
-   
+  public void pointMove(double angle) {
+    armController.setReference(angle, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward.calculate(position, 0));
   }
 
   public void armStay() {
-    final double position = armEncoder.getPosition();
-    armController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward.calculate(position, 0));
+    position = armEncoder.getPosition();
+    armController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot1, feedForward.calculate(position, 0));
   }
 
   @Override
