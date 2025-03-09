@@ -32,7 +32,7 @@ public class ElevSetpoints extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    evelator.elevStop();
+    evelator.elevStay();
   }
 
   // Returns true when the command should end.

@@ -38,9 +38,9 @@ public class Arm extends SubsystemBase {
   
   public Arm() {
     armMotor = new SparkMax(ArmConstants.armID, MotorType.kBrushless);
-    forwardLimit = new SoftLimitConfig().forwardSoftLimit(83);
+    forwardLimit = new SoftLimitConfig().forwardSoftLimit(ArmConstants.forwardSoftLimit);
     forwardLimit.forwardSoftLimitEnabled(true);
-    backwardLimit = new SoftLimitConfig().reverseSoftLimit(-120);
+    backwardLimit = new SoftLimitConfig().reverseSoftLimit(ArmConstants.reverseSoftLimit);
     backwardLimit.reverseSoftLimitEnabled(true);
 
     SparkMaxConfig config = new SparkMaxConfig();
@@ -50,6 +50,7 @@ public class Arm extends SubsystemBase {
     config.idleMode(IdleMode.kBrake);
     config.closedLoop.pid( ArmConstants.kP, ArmConstants.kI, ArmConstants.kD);
     config.closedLoop.feedbackSensor(ClosedLoopConfig.FeedbackSensor.kAbsoluteEncoder);
+    config.closedLoopRampRate(.6);
     config.apply(backwardLimit);
     config.apply(forwardLimit);
     config.inverted(true);

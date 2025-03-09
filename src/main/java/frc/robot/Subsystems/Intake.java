@@ -29,20 +29,21 @@ public class Intake extends SubsystemBase {
   public Intake() {
     intakeMotor1 = new SparkMax(IntakeConstants.intakeTopID, MotorType.kBrushless);
     intakeMotor2 = new SparkMax(IntakeConstants.intakeBottomID, MotorType.kBrushless);
+    intakeBottomLimit = intakeMotor2.getReverseLimitSwitch();
 
     SparkMaxConfig conf = new SparkMaxConfig();
-    conf.limitSwitch.forwardLimitSwitchEnabled(false);
+    conf.limitSwitch.reverseLimitSwitchEnabled(true);
     conf.idleMode(IdleMode.kBrake);
 
     intakeMotor1.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     intakeMotor2.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
-    intakeBottomLimit = intakeMotor2.getForwardLimitSwitch();
+    
   }
 
   public void BallsIn() {
-    intakeMotor1.set(IntakeConstants.intakeIn);
-    intakeMotor2.set(-IntakeConstants.intakeIn);
+    intakeMotor1.set(-IntakeConstants.intakeIn);
+    intakeMotor2.set(IntakeConstants.intakeIn);
   }
 
   public void BallsOut() {

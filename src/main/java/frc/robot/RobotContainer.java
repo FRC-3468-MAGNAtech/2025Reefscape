@@ -8,6 +8,7 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ElevConstants;
 import frc.robot.Constants.HIDConstants;
 import frc.robot.Subsystems.Arm;
+import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.Evelator;
 import frc.robot.Subsystems.Intake;
 import frc.robot.Constants.LimeLightConstants;
@@ -23,6 +24,9 @@ import frc.robot.commands.Arm.ArmForward;
 import frc.robot.commands.Arm.ArmSetpoints;
 import frc.robot.commands.Arm.ArmStay;
 import frc.robot.commands.Arm.ArmStop;
+import frc.robot.commands.Climber.ClimbDown;
+import frc.robot.commands.Climber.ClimbUp;
+import frc.robot.commands.Climber.ClimberStop;
 import frc.robot.commands.Drive.DriveLeft;
 import frc.robot.commands.Drive.SwerveDrive;
 import frc.robot.commands.elevator.elevDown;
@@ -60,23 +64,17 @@ public class RobotContainer {
   private Evelator m_Evelator = new Evelator();
   private Intake intake = new Intake();
   private Arm m_Arm = new Arm();
-  public static double setHeight;
-  public static double setAngle;
-
+  private Climber climber = new Climber();
   private final SendableChooser<Command> autoChooser;
 
-
   // Controllers
-
   private final Joystick driverController = new Joystick(HIDConstants.driverController);
   private final Joystick topbuttonPad = new Joystick(HIDConstants.topButtonPad);
   private final Joystick middleButtonPad = new Joystick(HIDConstants.middleButtonPad);
   private final Joystick bottomButtonPad = new Joystick(HIDConstants.bottomButtonPad);
   private final Joystick sideButtonPad = new Joystick(HIDConstants.sideButtonPad);
   
-  
   // Button Pad Buttons
-
   private final JoystickButton zeroGyro = new JoystickButton(driverController, 11);
     // Intake
   private final JoystickButton algaeOut = new JoystickButton(topbuttonPad, 8);
@@ -94,6 +92,9 @@ public class RobotContainer {
   private final JoystickButton alignLeft = new JoystickButton(topbuttonPad, 9);
   private final JoystickButton alignRight = new JoystickButton(topbuttonPad, 10);
   private final JoystickButton algaefloor = new JoystickButton(bottomButtonPad, 9);
+    // Climber
+  private final JoystickButton ClimbUp = new JoystickButton(middleButtonPad, 1);
+  private final JoystickButton ClimbDown = new JoystickButton(bottomButtonPad, 5);
     // Setpoints
   private final JoystickButton aGroundButton = new JoystickButton(middleButtonPad, 5);
   private final JoystickButton cGroundButton = new JoystickButton(middleButtonPad, 4);
@@ -117,9 +118,9 @@ public class RobotContainer {
     intake.setDefaultCommand(new IntakeStop(intake)); 
     m_Arm.setDefaultCommand(new ArmStay(m_Arm));
     m_Evelator.setDefaultCommand(new ElevStay(m_Evelator));
+    climber.setDefaultCommand(new ClimberStop(climber));
 
   // Start of the commands for AUTO
-
     NamedCommands.registerCommand("zeroGyro", new InstantCommand(() -> SwerveSys.resetHeading()));
 
     // Align commands for auto
@@ -154,9 +155,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Net",new ParallelCommandGroup(
       new ElevSetpoints(m_Evelator, ElevConstants.net), 
       new ArmSetpoints(m_Arm, ArmConstants.net)));
-
   // End for AUTO commands
-
 
     LimeLightConstants.llPIDctrlStraifLeft.setSetpoint(-2);
     LimeLightConstants.llPIDctrlStraifLeft.setTolerance(1);
@@ -208,7 +207,6 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-
     // Defaults
 		m_SwerveSys.setDefaultCommand(new SwerveDrive(
       () -> getThrottle(),
@@ -217,8 +215,7 @@ public class RobotContainer {
 			() -> MathUtil.applyDeadband(driverController.getZ(), HIDConstants.joystickDeadband),
 			true,
 			true,
-			m_SwerveSys
-		));
+			m_SwerveSys));
 
     // Swerve
     zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
@@ -243,9 +240,12 @@ public class RobotContainer {
       new ArmSetpoints(m_Arm, ArmConstants.net)));
 
     zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
+
+    // Climber 
+    ClimbUp.whileTrue(new ClimbUp(climber));
+    ClimbDown.whileTrue(new ClimbDown(climber));
     
     // Setpoints for Elevator
-    // Test Parallel group?
     aGroundButton.onTrue(new ParallelCommandGroup(
         new ElevSetpoints(m_Evelator, ElevConstants.aGround),  
         new ArmSetpoints(m_Arm, ArmConstants.aGround)));
@@ -262,7 +262,7 @@ public class RobotContainer {
     l2Button.onTrue(new ParallelCommandGroup(
         new ElevSetpoints(m_Evelator, ElevConstants.l2),
         new ArmSetpoints(m_Arm, ArmConstants.l2))); 
-    l3Button.whileTrue(new ParallelCommandGroup(
+    l3Button.onTrue(new ParallelCommandGroup(
         new ElevSetpoints(m_Evelator, ElevConstants.l3), 
         new ArmSetpoints(m_Arm, ArmConstants.l3)));
     l4Button.onTrue(new SequentialCommandGroup(

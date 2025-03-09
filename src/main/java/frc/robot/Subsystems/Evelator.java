@@ -48,6 +48,7 @@ public class Evelator extends SubsystemBase {
     conf.idleMode(IdleMode.kBrake);
     conf.closedLoop.pid(ElevConstants.elevP, ElevConstants.elevI, ElevConstants.elevD);
     conf.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
+    conf.closedLoopRampRate(.6);
     conf.limitSwitch.reverseLimitSwitchEnabled(true);
     conf.apply(elevTopLimit);
     conf.apply(elevBottomLimit);
@@ -86,9 +87,9 @@ public class Evelator extends SubsystemBase {
     eLoopController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot1, feedForward2.calculate(position));
   }
   
-  public void pointMove(double position) {
-    this.position = position;
-    eLoopController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward2.calculate(position));
+  public void pointMove(double height) {
+    position = height;
+    eLoopController.setReference(height, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward2.calculate(position));
   }
 
   public boolean isAtSetpoint() {
@@ -99,5 +100,6 @@ public class Evelator extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Elevator position", elevEncoder.getPosition());
+    SmartDashboard.putNumber("Elev Set Pos", position);
   }
 }
