@@ -15,9 +15,9 @@ import frc.robot.Subsystems.SwerveSys;
 import frc.robot.commands.Intake.IntakeIn;
 import frc.robot.commands.Intake.IntakeOut;
 import frc.robot.commands.Intake.IntakeStop;
-import frc.robot.commands.alignment.Algae;
-import frc.robot.commands.alignment.AlignLeft;
-import frc.robot.commands.alignment.AlignRight;
+import frc.robot.commands.Alignment.Algae;
+import frc.robot.commands.Alignment.AlignLeft;
+import frc.robot.commands.Alignment.AlignRight;
 import frc.robot.commands.Arm.ArmBackward;
 import frc.robot.commands.Arm.ArmForward;
 import frc.robot.commands.Arm.ArmSetpoints;
@@ -265,9 +265,10 @@ public class RobotContainer {
     l3Button.whileTrue(new ParallelCommandGroup(
         new ElevSetpoints(m_Evelator, ElevConstants.l3), 
         new ArmSetpoints(m_Arm, ArmConstants.l3)));
-    l4Button.onTrue(new ParallelCommandGroup(
-        new ElevSetpoints(m_Evelator, ElevConstants.l4),  
-        new ArmSetpoints(m_Arm, ArmConstants.l4)));
+    l4Button.onTrue(new SequentialCommandGroup(
+        new ParallelCommandGroup(new ElevSetpoints(m_Evelator, ElevConstants.l4), new ArmSetpoints(m_Arm, ArmConstants.l4)),
+        new IntakeOut(intake), 
+        new ParallelCommandGroup(new ArmSetpoints(m_Arm, 90), new IntakeOut(intake))));
 
     processorButton.onTrue(new ParallelCommandGroup(
         new ElevSetpoints(m_Evelator, ElevConstants.processor), 
