@@ -88,6 +88,8 @@ public class RobotContainer {
     // Arm
   private final JoystickButton armForward = new JoystickButton(middleButtonPad, 10);
   private final JoystickButton armbackward = new JoystickButton(topbuttonPad, 4);
+  private final JoystickButton cStore = new JoystickButton(topbuttonPad, 2);
+  private final JoystickButton aStore = new JoystickButton(middleButtonPad, 8);
     // Limelight
   private final JoystickButton alignLeft = new JoystickButton(topbuttonPad, 9);
   private final JoystickButton alignRight = new JoystickButton(topbuttonPad, 10);
@@ -116,9 +118,45 @@ public class RobotContainer {
     m_Arm.setDefaultCommand(new ArmStay(m_Arm));
     m_Evelator.setDefaultCommand(new ElevStay(m_Evelator));
 
+  // Start of the commands for AUTO
+
+    NamedCommands.registerCommand("zeroGyro", new InstantCommand(() -> SwerveSys.resetHeading()));
+
+    // Align commands for auto
     NamedCommands.registerCommand("alignLeft", new AlignLeft(m_SwerveSys));
     NamedCommands.registerCommand("alignRight", new AlignRight(m_SwerveSys));
-    NamedCommands.registerCommand("zeroGyro", new InstantCommand(() -> SwerveSys.resetHeading()));
+    NamedCommands.registerCommand("coralStation",new ParallelCommandGroup(
+      new ElevSetpoints(m_Evelator, ElevConstants.humanPlayer), 
+      new ArmSetpoints(m_Arm, ArmConstants.humanPlayer)));
+    
+    // Intake commands for auto
+    NamedCommands.registerCommand("algaeIN", new IntakeIn(intake));
+    NamedCommands.registerCommand("coralIN", new IntakeOut(intake));
+    
+    // Reef setpoints for auto
+    NamedCommands.registerCommand("L1",new ParallelCommandGroup(
+      new ElevSetpoints(m_Evelator, ElevConstants.l1), 
+      new ArmSetpoints(m_Arm, ArmConstants.l1)));
+    NamedCommands.registerCommand("L2",new ParallelCommandGroup(
+      new ElevSetpoints(m_Evelator, ElevConstants.l2), 
+      new ArmSetpoints(m_Arm, ArmConstants.l2)));
+    NamedCommands.registerCommand("L3",new ParallelCommandGroup(
+      new ElevSetpoints(m_Evelator, ElevConstants.l3), 
+      new ArmSetpoints(m_Arm, ArmConstants.l3)));
+    NamedCommands.registerCommand("L4",new ParallelCommandGroup(
+      new ElevSetpoints(m_Evelator, ElevConstants.l4), 
+      new ArmSetpoints(m_Arm, ArmConstants.l4)));
+
+    // Algae commands for auto
+    NamedCommands.registerCommand("Processor",new ParallelCommandGroup(
+      new ElevSetpoints(m_Evelator, ElevConstants.processor), 
+      new ArmSetpoints(m_Arm, ArmConstants.processor)));
+    NamedCommands.registerCommand("Net",new ParallelCommandGroup(
+      new ElevSetpoints(m_Evelator, ElevConstants.net), 
+      new ArmSetpoints(m_Arm, ArmConstants.net)));
+
+  // End for AUTO commands
+
 
     LimeLightConstants.llPIDctrlStraifLeft.setSetpoint(-2);
     LimeLightConstants.llPIDctrlStraifLeft.setTolerance(1);
@@ -197,45 +235,51 @@ public class RobotContainer {
     // Arm
     armForward.whileTrue(new ArmForward(m_Arm));
     armbackward.whileTrue(new ArmBackward(m_Arm));
+    cStore.onTrue(new ParallelCommandGroup(
+      new ElevSetpoints(m_Evelator, ElevConstants.cStore),  
+      new ArmSetpoints(m_Arm, ArmConstants.cStore)));
+    aStore.onTrue(new ParallelCommandGroup(
+      new ElevSetpoints(m_Evelator, ElevConstants.aStore),  
+      new ArmSetpoints(m_Arm, ArmConstants.net)));
 
     zeroGyro.onTrue(new InstantCommand(() -> SwerveSys.resetHeading()));
     
     // Setpoints for Elevator
     // Test Parallel group?
-    aGroundButton.onTrue(new SequentialCommandGroup(
+    aGroundButton.onTrue(new ParallelCommandGroup(
         new ElevSetpoints(m_Evelator, ElevConstants.aGround),  
         new ArmSetpoints(m_Arm, ArmConstants.aGround)));
-    cGroundButton.onTrue(new SequentialCommandGroup( 
+    cGroundButton.onTrue(new ParallelCommandGroup( 
         new ElevSetpoints(m_Evelator, ElevConstants.cGround), 
         new ArmSetpoints(m_Arm, ArmConstants.cGround)));
-    humanPlayerButton.onTrue(new SequentialCommandGroup(
+    humanPlayerButton.onTrue(new ParallelCommandGroup(
         new ElevSetpoints(m_Evelator, ElevConstants.humanPlayer), 
         new ArmSetpoints(m_Arm, ArmConstants.humanPlayer)));
 
-    l1Button.onTrue(new SequentialCommandGroup(
+    l1Button.onTrue(new ParallelCommandGroup(
         new ElevSetpoints(m_Evelator, ElevConstants.l1), 
         new ArmSetpoints(m_Arm, ArmConstants.l1)));
-    l2Button.onTrue(new SequentialCommandGroup(
+    l2Button.onTrue(new ParallelCommandGroup(
         new ElevSetpoints(m_Evelator, ElevConstants.l2),
         new ArmSetpoints(m_Arm, ArmConstants.l2))); 
-    l3Button.onTrue(new ParallelCommandGroup(
+    l3Button.whileTrue(new ParallelCommandGroup(
         new ElevSetpoints(m_Evelator, ElevConstants.l3), 
         new ArmSetpoints(m_Arm, ArmConstants.l3)));
     l4Button.onTrue(new ParallelCommandGroup(
         new ElevSetpoints(m_Evelator, ElevConstants.l4),  
         new ArmSetpoints(m_Arm, ArmConstants.l4)));
 
-    processorButton.onTrue(new SequentialCommandGroup(
+    processorButton.onTrue(new ParallelCommandGroup(
         new ElevSetpoints(m_Evelator, ElevConstants.processor), 
         new ArmSetpoints(m_Arm, ArmConstants.processor)));
-    netButton.onTrue(new SequentialCommandGroup(
+    netButton.onTrue(new ParallelCommandGroup(
         new ElevSetpoints(m_Evelator, ElevConstants.net),
         new ArmSetpoints(m_Arm, ArmConstants.net)));
 
-    topAlg.onTrue(new SequentialCommandGroup(
+    topAlg.onTrue(new ParallelCommandGroup(
         new ElevSetpoints(m_Evelator, ElevConstants.topAlg), 
         new ArmSetpoints(m_Arm, ArmConstants.topAlg)));
-    botAlg.onTrue(new SequentialCommandGroup(
+    botAlg.onTrue(new ParallelCommandGroup(
         new ElevSetpoints(m_Evelator, ElevConstants.botAlg), 
         new ArmSetpoints(m_Arm, ArmConstants.botAlg)));
 

@@ -24,6 +24,7 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ElevConstants;
 
 
 public class Arm extends SubsystemBase {
@@ -37,9 +38,9 @@ public class Arm extends SubsystemBase {
   
   public Arm() {
     armMotor = new SparkMax(ArmConstants.armID, MotorType.kBrushless);
-    forwardLimit = new SoftLimitConfig().forwardSoftLimit(90);
+    forwardLimit = new SoftLimitConfig().forwardSoftLimit(83);
     forwardLimit.forwardSoftLimitEnabled(true);
-    backwardLimit = new SoftLimitConfig().reverseSoftLimit(-150);
+    backwardLimit = new SoftLimitConfig().reverseSoftLimit(-120);
     backwardLimit.reverseSoftLimitEnabled(true);
 
     SparkMaxConfig config = new SparkMaxConfig();
@@ -72,12 +73,17 @@ public class Arm extends SubsystemBase {
   }
 
   public void pointMove(double angle) {
+    position = angle;
     armController.setReference(angle, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward.calculate(position, 0));
   }
 
   public void armStay() {
     position = armEncoder.getPosition();
     armController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot1, feedForward.calculate(position, 0));
+  }
+
+  public boolean isAtSetpoint() {
+    return ((Math.abs(position-armEncoder.getPosition())) <= ArmConstants.tolerance);
   }
 
   @Override

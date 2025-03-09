@@ -30,6 +30,7 @@ public class Evelator extends SubsystemBase {
   private SoftLimitConfig elevBottomLimit;
   private SoftLimitConfig elevTopLimit;
   private ElevatorFeedforward feedForward;
+  private ElevatorFeedforward feedForward2;
   private double position;
 
 
@@ -61,6 +62,7 @@ public class Evelator extends SubsystemBase {
     elevEncoder = elevMtr1.getEncoder();
 
     feedForward = new ElevatorFeedforward(ElevConstants.ffKS, ElevConstants.ffKG, ElevConstants.ffKV);
+    feedForward2 = new ElevatorFeedforward(ElevConstants.ffKS2, ElevConstants.ffKG2, ElevConstants.ffKV2);
   }
 
   public void elevUp() {
@@ -81,11 +83,16 @@ public class Evelator extends SubsystemBase {
 
   public void elevStay() {
     position = elevEncoder.getPosition();
-    eLoopController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot1, feedForward.calculate(position));
+    eLoopController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot1, feedForward2.calculate(position));
   }
   
   public void pointMove(double position) {
-    eLoopController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward.calculate(position));
+    this.position = position;
+    eLoopController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward2.calculate(position));
+  }
+
+  public boolean isAtSetpoint() {
+    return ((Math.abs(position-elevEncoder.getPosition())) <= ElevConstants.tolerance);
   }
 
   @Override

@@ -31,13 +31,13 @@ public class Intake extends SubsystemBase {
     intakeMotor2 = new SparkMax(IntakeConstants.intakeBottomID, MotorType.kBrushless);
 
     SparkMaxConfig conf = new SparkMaxConfig();
-    conf.limitSwitch.reverseLimitSwitchEnabled(false);
+    conf.limitSwitch.forwardLimitSwitchEnabled(false);
     conf.idleMode(IdleMode.kBrake);
 
     intakeMotor1.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     intakeMotor2.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
-    intakeBottomLimit = intakeMotor2.getReverseLimitSwitch();
+    intakeBottomLimit = intakeMotor2.getForwardLimitSwitch();
   }
 
   public void BallsIn() {

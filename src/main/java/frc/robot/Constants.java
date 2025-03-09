@@ -125,7 +125,7 @@ public final class Constants {
 		public static final SimpleMotorFeedforward driveFF = new SimpleMotorFeedforward(ksVolts, kvVoltSecsPerMeter, kaVoltSecsPerMeterSq);
 		
 		// Some wheels would spin backwards
-		public static final boolean frontLeftDriveInvert = false;
+		public static final boolean frontLeftDriveInvert = true;
 		public static final boolean frontRightDriveInvert = false;
 		public static final boolean backLeftDriveInvert = false;
 		public static final boolean backRightDriveInvert = false;
@@ -155,17 +155,19 @@ public final class Constants {
 		public static final double armForward = 0.25;
 
 		//setpoints for PID
-		public static final double aGround = 50;
-		public static final double cGround = 90;
+		public static final double cStore = 9;
+		public static final double aGround = 85;
+		public static final double cGround = 83;
 		public static final double l1 = 90;
 		public static final double l2 = 90;
-		public static final double l3 = 90;
+		public static final double l3 = 93;
 		public static final double l4 = -112;
+		public static final double tolerance = 0.8;
 
 		//offsets
 		public static final double armOffSet = 0;
 		public static final double processor = 0.1;
-		public static final double net = 34;
+		public static final double net = 30;
 		public static final double humanPlayer = 0.1;
 		public static final double topAlg = 69.0;
 		public static final double botAlg = 69.0;
@@ -192,31 +194,44 @@ public final class Constants {
 		// Motor configuration
 		public static final int elev1ID = 8;
 		public static final int elev2ID = 7;
+
 		//soft limits
 		public static final double bLimit = 0.0;
-		public static final double tLimit = 40.0;
+		public static final double tLimit = 38;
+
 		// PID for elevator
 		public static final double elevP = .015;
-		public static final double elevI = 0;
-		public static final double elevD = 1;
+		public static final double elevI = 0.000003;
+		public static final double elevD = 3;
+		public static final double tolerance = 0.8;
+
 		// Feed Forward
 		public static final double ffKS = 0.25;
 		public static final double ffKG = 0.5;
 		public static final double ffKV = 0;
+
+		public static final double ffKS2 = 0.3;
+		public static final double ffKG2 = .6;
+		public static final double ffKV2 = 0;
+
 		// trapezoid controller (works with PID to make more smoothe)
 		public static final double elevTime = 7.0;
+
 		// movement
 		public static final double elevUp = 0.30;
 		public static final double elevDown = -0.05;
+
 		// setpoints
-		public static final double aGround = 0.1;
-		public static final double cGround = 0.5;
+		public static final double aGround = 0.4;
+		public static final double cGround = 3.8;
+		public static final double cStore = 1;
+		public static final double aStore = 10;
 		public static final double l1 = 1.00;
 		public static final double l2 = 2.00;
-		public static final double l3 = 33;
+		public static final double l3 = 31;
 		public static final double l4 = 39;
 		public static final double processor = 0.1;
-		public static final double net = 46;
+		public static final double net = 37.5;
 		public static final double humanPlayer = 0.1;
 		public static final double topAlg = 2.0;
 		public static final double botAlg = 3.0;
