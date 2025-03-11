@@ -141,12 +141,12 @@ public final class Constants {
 		public static final int armID = 4;
 
 		//feedforward values
-		public static final double ffKS = 0.4;
-		public static final double ffKG = .8;
+		public static final double ffKS = 0.5;
+		public static final double ffKG = 1;
 		public static final double ffKV = 0;
 
 		//PID values
-		public static final double kP = 0.006;
+		public static final double kP = 0.012;
 		public static final double kI = 0;
 		public static final double kD = 0.015;
 
@@ -163,18 +163,18 @@ public final class Constants {
 		public static final double aGround = 85;
 		public static final double cGround = 83;
 		public static final double l1 = 90;
-		public static final double l2 = 90;
+		public static final double l2 = 93;
 		public static final double l3 = 93;
 		public static final double l4 = -112;
 		public static final double tolerance = 0.8;
 
 		//offsets
 		public static final double armOffSet = 0;
-		public static final double processor = 0.1;
+		public static final double processor = 90;
 		public static final double net = 30;
-		public static final double humanPlayer = 0.1;
-		public static final double topAlg = 69.0;
-		public static final double botAlg = 69.0;
+		public static final double humanPlayer = 40.4;
+		public static final double topAlg = 84.6;
+		public static final double botAlg = 84.6;
 	}
 
 	public static class LimeLightConstants {
@@ -204,8 +204,8 @@ public final class Constants {
 		public static final double tLimit = 38;
 
 		// PID for elevator
-		public static final double elevP = .0155;
-		public static final double elevI = 0.000003;
+		public static final double elevP = .029;
+		public static final double elevI = 0;
 		public static final double elevD = 1.5;
 		public static final double tolerance = 0.5;
 
@@ -230,15 +230,15 @@ public final class Constants {
 		public static final double cGround = 3.8;
 		public static final double cStore = 1;
 		public static final double aStore = 10;
-		public static final double l1 = 1.00;
-		public static final double l2 = 2.00;
+		public static final double l1 = 12.8;
+		public static final double l2 = 19.1;
 		public static final double l3 = 31;
 		public static final double l4 = 37;
-		public static final double processor = 0.1;
+		public static final double processor = 6.6;
 		public static final double net = 37;
-		public static final double humanPlayer = 0.1;
-		public static final double topAlg = 2.0;
-		public static final double botAlg = 3.0;
+		public static final double humanPlayer = 8.8;
+		public static final double topAlg = 25.7;
+		public static final double botAlg = 17.1;
 
 	}
 

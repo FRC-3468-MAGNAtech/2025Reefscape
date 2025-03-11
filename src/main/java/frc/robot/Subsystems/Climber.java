@@ -47,6 +47,7 @@ public class Climber extends SubsystemBase {
     conf.apply(forwardLimit);
 
     conf2.follow(ClimberConstants.climbID, false);
+    conf2.inverted(true);
     
     climbMtr.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     climbMtr2.configure(conf2, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);

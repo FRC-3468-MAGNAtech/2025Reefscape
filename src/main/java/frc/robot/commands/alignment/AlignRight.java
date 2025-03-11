@@ -26,8 +26,8 @@ public class AlignRight extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double straif = Targeting.alignToReedRight();
-    double drive = Targeting.driveToReedRight();
+    double straif = Targeting.alignToReed(false);
+    double drive = Targeting.driveToReed(false);
 
     double theta = Math.atan2(drive, straif);
     double r = Math.pow(Math.hypot(drive, straif), 2);
@@ -47,7 +47,7 @@ public class AlignRight extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (LimelightHelpers.getTX("limelight-left")>= 14 && LimelightHelpers.getTX("limelight-left")<= 16 && LimelightHelpers.getTA("limelight-left")>= 6.5 && LimelightHelpers.getTA("limelight-left")<= 7.5) {
+    if (LimelightHelpers.getTX("limelight-front")>= 14 && LimelightHelpers.getTX("limelight-front")<= 16 && LimelightHelpers.getTA("limelight-front")>= 6.5 && LimelightHelpers.getTA("limelight-front")<= 7.5) {
       return true;
     } else {
       return false;

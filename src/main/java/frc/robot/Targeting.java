@@ -10,27 +10,45 @@ import frc.robot.Subsystems.LimelightHelpers;
 /** Add your docs here. */
 public class Targeting {
 
-
-    public static double alignToReedLeft() {
-        double tx = LimelightHelpers.getTX("limelight-right");
-        return LimeLightConstants.llPIDctrlStraifLeft.calculate(tx);
+    // L1 through L3 commands
+    public static double alignToReed(boolean left) {
+        double tx = LimelightHelpers.getTX("limelight-front");
+        if (left) {
+            return LimeLightConstants.llPIDctrlStraifLeft.calculate(tx);
+        } else {
+            return LimeLightConstants.llPIDctrlStraifRight.calculate(tx);
+        }
     }
 
-    public static double alignToReedRight() {
-        double tx = LimelightHelpers.getTX("limelight-left");
-        return LimeLightConstants.llPIDctrlStraifRight.calculate(tx);
+    public static double driveToReed(boolean left) {
+        double ta = LimelightHelpers.getTA("limelight-front");
+        if (left) {
+            return LimeLightConstants.llPIDctrlDriveLeft.calculate(ta);
+        } else {
+            return LimeLightConstants.llPIDctrlDriveRight.calculate(ta);
+        }
     }
 
-    public static double driveToReedLeft() {
-        double ta = LimelightHelpers.getTA("limelight-right");
-        return LimeLightConstants.llPIDctrlDriveLeft.calculate(ta);
+    // L4 specific commands
+    public static double l4alignToReed(boolean left) {
+        double tx = LimelightHelpers.getTX("limelight-back");
+        if (left) {
+            return LimeLightConstants.llPIDctrlStraifLeft.calculate(tx);
+        } else {
+            return LimeLightConstants.llPIDctrlStraifRight.calculate(tx);
+        }
     }
 
-    public static double driveToReedRight() {
-        double ta = LimelightHelpers.getTA("limelight-left");
-        return LimeLightConstants.llPIDctrlDriveRight.calculate(ta);
+    public static double l4driveToReed(boolean left) {
+        double ta = LimelightHelpers.getTA("limelight-back");
+        if (left) {
+            return LimeLightConstants.llPIDctrlDriveLeft.calculate(ta);
+        } else {
+            return LimeLightConstants.llPIDctrlDriveRight.calculate(ta);
+        }
     }
-
+    
+    // failed algea pickup commands
     public static double driveToAlgae() {
         double ta = LimelightHelpers.getTA("limelight-forward");
         return LimeLightConstants.llPIDctrlAlgaeDrive.calculate(ta);

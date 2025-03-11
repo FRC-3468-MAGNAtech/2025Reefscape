@@ -6,6 +6,7 @@ package frc.robot.Subsystems;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -29,6 +30,7 @@ public class Evelator extends SubsystemBase {
   private RelativeEncoder elevEncoder;
   private SoftLimitConfig elevBottomLimit;
   private SoftLimitConfig elevTopLimit;
+  private SparkLimitSwitch elevSwitch;
   private ElevatorFeedforward feedForward;
   private ElevatorFeedforward feedForward2;
   private double position;
@@ -61,6 +63,7 @@ public class Evelator extends SubsystemBase {
     // elevBottomLimit = elevMtr1.getReverseLimitSwitch();
     eLoopController = elevMtr1.getClosedLoopController();
     elevEncoder = elevMtr1.getEncoder();
+    elevSwitch = elevMtr1.getReverseLimitSwitch();
 
     feedForward = new ElevatorFeedforward(ElevConstants.ffKS, ElevConstants.ffKG, ElevConstants.ffKV);
     feedForward2 = new ElevatorFeedforward(ElevConstants.ffKS2, ElevConstants.ffKG2, ElevConstants.ffKV2);
@@ -76,6 +79,10 @@ public class Evelator extends SubsystemBase {
 
   public void elevStop() {
     elevMtr1.set(0);
+  }
+
+  public boolean limitSwitch() {
+    return elevSwitch.isPressed();
   }
 
   public void elevZero() {
