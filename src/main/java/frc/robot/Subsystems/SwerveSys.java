@@ -492,7 +492,7 @@ public class SwerveSys extends SubsystemBase {
             new PPHolonomicDriveController(
                 new PIDConstants(1,0,0), new PIDConstants(1)), 
             config, 
-            ()->!RobotContainer.isRedAlliance(), 
+            ()->RobotContainer.isRedAlliance(), 
             this);
     }
 }

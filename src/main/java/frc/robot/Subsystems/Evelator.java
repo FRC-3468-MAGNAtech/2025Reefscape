@@ -16,6 +16,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SoftLimitConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.LimitSwitchConfig.Type;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -51,7 +52,8 @@ public class Evelator extends SubsystemBase {
     conf.closedLoop.pid(ElevConstants.elevP, ElevConstants.elevI, ElevConstants.elevD);
     conf.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
     conf.closedLoopRampRate(.6);
-    conf.limitSwitch.reverseLimitSwitchEnabled(true);
+    conf.limitSwitch.forwardLimitSwitchEnabled(false);
+    conf.limitSwitch.forwardLimitSwitchType(Type.kNormallyClosed);
     conf.apply(elevTopLimit);
     conf.apply(elevBottomLimit);
 
@@ -63,7 +65,7 @@ public class Evelator extends SubsystemBase {
     // elevBottomLimit = elevMtr1.getReverseLimitSwitch();
     eLoopController = elevMtr1.getClosedLoopController();
     elevEncoder = elevMtr1.getEncoder();
-    elevSwitch = elevMtr1.getReverseLimitSwitch();
+    elevSwitch = elevMtr1.getForwardLimitSwitch();
 
     feedForward = new ElevatorFeedforward(ElevConstants.ffKS, ElevConstants.ffKG, ElevConstants.ffKV);
     feedForward2 = new ElevatorFeedforward(ElevConstants.ffKS2, ElevConstants.ffKG2, ElevConstants.ffKV2);
@@ -108,5 +110,6 @@ public class Evelator extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Elevator position", elevEncoder.getPosition());
     SmartDashboard.putNumber("Elev Set Pos", position);
+    SmartDashboard.putBoolean("elev limit", limitSwitch());
   }
 }

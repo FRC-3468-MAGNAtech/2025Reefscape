@@ -31,6 +31,7 @@ public class Arm extends SubsystemBase {
   private SparkMax armMotor;
   private SparkClosedLoopController armController;
   private ArmFeedforward feedForward;
+  //private ArmFeedForward feedForward2;
   private AbsoluteEncoder armEncoder;
   private SoftLimitConfig forwardLimit;
   private SoftLimitConfig backwardLimit;
@@ -46,6 +47,8 @@ public class Arm extends SubsystemBase {
     SparkMaxConfig config = new SparkMaxConfig();
     armEncoder = armMotor.getAbsoluteEncoder();
     config.absoluteEncoder.zeroCentered(true);
+    
+    
 
     config.idleMode(IdleMode.kBrake);
     config.closedLoop.pid( ArmConstants.kP, ArmConstants.kI, ArmConstants.kD);
@@ -58,8 +61,10 @@ public class Arm extends SubsystemBase {
     
     armController = armMotor.getClosedLoopController();
     armMotor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    
 
     feedForward = new ArmFeedforward(ArmConstants.ffKS, ArmConstants.ffKG, ArmConstants.ffKV);
+    //feed
   }
 
   public void front() {
@@ -76,7 +81,7 @@ public class Arm extends SubsystemBase {
 
   public void pointMove(double angle) {
     position = angle;
-    armController.setReference(angle, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward.calculate(position, 0));
+    armController.setReference(angle , ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward.calculate(position, 0));
   }
 
   public void armStay() {

@@ -163,6 +163,18 @@ public class RobotContainer {
     NamedCommands.registerCommand("Net",new ParallelCommandGroup(
       new ElevSetpoints(m_Evelator, ElevConstants.net), 
       new ArmSetpoints(m_Arm, ArmConstants.net)));
+    NamedCommands.registerCommand("store",new ParallelCommandGroup(
+      new ElevSetpoints(m_Evelator, ElevConstants.cStore),  
+      new ArmSetpoints(m_Arm, ArmConstants.cStore)));
+    NamedCommands.registerCommand("human",new ParallelCommandGroup(
+      new ElevSetpoints(m_Evelator, ElevConstants.humanPlayer), 
+      new ArmSetpoints(m_Arm, ArmConstants.humanPlayer)));
+      NamedCommands.registerCommand("algStore", new ParallelCommandGroup(
+        new ElevSetpoints(m_Evelator, ElevConstants.aStore),  
+        new ArmSetpoints(m_Arm, ArmConstants.net)));
+      NamedCommands.registerCommand("topAlg", new ParallelCommandGroup(
+        new ElevSetpoints(m_Evelator, ElevConstants.topAlg), 
+        new ArmSetpoints(m_Arm, ArmConstants.topAlg)));
   // End for AUTO commands
 
     LimeLightConstants.llPIDctrlStraifLeft.setSetpoint(-2);
@@ -318,9 +330,9 @@ public class RobotContainer {
     algaefloor.whileTrue(new Algae(m_SwerveSys));
 
     // auto store
-    intakeLimit.onTrue(new ParallelCommandGroup(
-        new ElevSetpoints(m_Evelator, ElevConstants.cStore),
-        new ArmSetpoints(m_Arm, ArmConstants.cStore)));
+    // intakeLimit.onTrue(new ParallelCommandGroup(
+    //     new ElevSetpoints(m_Evelator, ElevConstants.cStore),
+    //     new ArmSetpoints(m_Arm, ArmConstants.cStore)));
     elevLimit.onTrue(new ElevZero(m_Evelator));
   }
 
@@ -333,7 +345,11 @@ public class RobotContainer {
     return autoChooser.getSelected();
   }
 
-  public static Boolean isRedAlliance() {
-    return DriverStation.getAlliance().get() == Alliance.Red;
+  public static boolean isRedAlliance() {
+    if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
