@@ -25,18 +25,6 @@
         {
           "type": "path",
           "data": {
-            "pathName": "bottom human player"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Back to back of reef"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
             "pathName": "To processer"
           }
         }

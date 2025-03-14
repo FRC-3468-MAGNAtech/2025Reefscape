@@ -198,10 +198,9 @@ public class RobotContainer {
     autoChooser.addOption("RedM-BkReef(2)-Pro", new PathPlannerAuto("RedM-BkReef(2)-Pro"));
     autoChooser.addOption("BlueT-TopRreef(1)-TopLreef(2)", new PathPlannerAuto("BlueT-TopRreef(1)-TopLreef(2)"));
     autoChooser.addOption("RedT-BtmRreef(1)-BtmLreef(2)", new PathPlannerAuto("RedT-BtmRreef(1)-BtmLreef(2)"));
-    autoChooser.addOption("BlueM-BkRF(1)-TopLreef(2)", new PathPlannerAuto("BlueM-BkRF(1)-TopLreef(2)"));
-    autoChooser.addOption("Center-FrRf(1)-BtmLreef(2)", new PathPlannerAuto("Center-FrRf(1)-BtmLreef(2)"));
+    autoChooser.addOption("BlueM-frontside(1)", new PathPlannerAuto("BlueM-frontside(1)"));
+    autoChooser.addOption("Center-leave", new PathPlannerAuto("Center-leave"));
     autoChooser.addOption("BlueM-BkRF(2)-Pro", new PathPlannerAuto("BlueM-BkRF(2)-Pro"));
-    autoChooser.addOption("Align", new PathPlannerAuto("Align"));
     autoChooser.addOption("stright`", new PathPlannerAuto("Straight"));
     // Configure the trigger bindings
     //Camera.UpdateLimelight("limelight", m_SwerveSys.odometry, m_SweveSys.imu.getAngularVelocityZDevice().getValueAsDouble());
