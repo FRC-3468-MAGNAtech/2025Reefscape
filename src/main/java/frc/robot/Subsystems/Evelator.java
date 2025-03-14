@@ -51,7 +51,7 @@ public class Evelator extends SubsystemBase {
     conf.idleMode(IdleMode.kBrake);
     conf.closedLoop.pid(ElevConstants.elevP, ElevConstants.elevI, ElevConstants.elevD);
     conf.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
-    conf.closedLoopRampRate(.6);
+    conf.closedLoopRampRate(1);
     conf.limitSwitch.forwardLimitSwitchEnabled(false);
     conf.limitSwitch.forwardLimitSwitchType(Type.kNormallyClosed);
     conf.apply(elevTopLimit);

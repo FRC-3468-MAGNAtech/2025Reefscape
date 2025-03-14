@@ -111,6 +111,7 @@ public class RobotContainer {
   private final JoystickButton topAlg = new JoystickButton(topbuttonPad, 3);
   private final JoystickButton botAlg = new JoystickButton(middleButtonPad, 9);
   private final JoystickButton odometry = new JoystickButton(sideButtonPad, 1);
+  private final JoystickButton l4Egt = new JoystickButton(bottomButtonPad, 8);
 
   private Trigger intakeLimit = new Trigger(() -> intake.limitSwitch());
   private Trigger elevLimit = new Trigger(() -> m_Evelator.limitSwitch());
@@ -306,9 +307,9 @@ public class RobotContainer {
           new L4AlignRight(m_SwerveSys);
           }}), 
         new SequentialCommandGroup(
-        new ParallelCommandGroup(new ElevSetpoints(m_Evelator, ElevConstants.l4), new ArmSetpoints(m_Arm, ArmConstants.l4)),
-        new IntakeOut(intake), 
-        new ParallelCommandGroup(new ArmSetpoints(m_Arm, 90), new IntakeOut(intake)))));
+        new ParallelCommandGroup(new ElevSetpoints(m_Evelator, ElevConstants.l4), new ArmSetpoints(m_Arm, ArmConstants.l4))
+        // new IntakeOut(intake),
+        )));
 
     processorButton.onTrue(new ParallelCommandGroup(
         new ElevSetpoints(m_Evelator, ElevConstants.processor), 
@@ -328,6 +329,7 @@ public class RobotContainer {
     left.onTrue(new InstantCommand(() -> reefDirection = false));
     right.onTrue(new InstantCommand(() -> reefDirection = true));
     algaefloor.whileTrue(new Algae(m_SwerveSys));
+    l4Egt.whileTrue(new ParallelCommandGroup(new ArmSetpoints(m_Arm, -80), new IntakeOut(intake)));
 
     // auto store
     // intakeLimit.onTrue(new ParallelCommandGroup(
