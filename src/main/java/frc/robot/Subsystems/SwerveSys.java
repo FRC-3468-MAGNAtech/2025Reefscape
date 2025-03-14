@@ -470,6 +470,10 @@ public class SwerveSys extends SubsystemBase {
         imu.setYaw(0.0);
     }
 
+    public static void zeroGyro180() {
+        imu.setYaw(180);
+    }
+
     public boolean PathFlip() {
         return true;
     }

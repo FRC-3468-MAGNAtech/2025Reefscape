@@ -129,6 +129,7 @@ public class RobotContainer {
 
   // Start of the commands for AUTO
     NamedCommands.registerCommand("zeroGyro", new InstantCommand(() -> SwerveSys.resetHeading()));
+    NamedCommands.registerCommand("zeroGyro180", new InstantCommand(() -> SwerveSys.zeroGyro180()));
 
     // Align commands for auto
     NamedCommands.registerCommand("alignLeft", new AlignLeft(m_SwerveSys));
