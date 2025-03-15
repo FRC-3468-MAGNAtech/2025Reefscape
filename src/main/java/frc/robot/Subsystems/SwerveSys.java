@@ -13,6 +13,7 @@ import com.pathplanner.lib.controllers.PathFollowingController;
 import com.pathplanner.lib.util.DriveFeedforwards;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -24,6 +25,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -35,128 +37,128 @@ import frc.robot.Constants.DriveConstants;
 public class SwerveSys extends SubsystemBase {
 
     // Initializes swerve module objects
-    public final static SwerveModule frontLeftMod = 
-        new SwerveModule(
+    public final static SwerveModule frontLeftMod = new SwerveModule(
             CANDevices.frontLeftDriveMtrId,
             CANDevices.frontLeftSteerMtrId,
             CANDevices.frontLeftCanCoderId,
             DriveConstants.frontLeftDriveInvert,
-            DriveConstants.frontLeftSteerInvert
-        );
+            DriveConstants.frontLeftSteerInvert);
 
-    public final static SwerveModule frontRightMod = 
-        new SwerveModule(
+    public final static SwerveModule frontRightMod = new SwerveModule(
             CANDevices.frontRightDriveMtrId,
             CANDevices.frontRightSteerMtrId,
             CANDevices.frontRightCanCoderId,
             DriveConstants.frontRightDriveInvert,
-            DriveConstants.frontRightSteerInvert
-        );
+            DriveConstants.frontRightSteerInvert);
 
-    public final static SwerveModule backLeftMod = 
-        new SwerveModule(
+    public final static SwerveModule backLeftMod = new SwerveModule(
             CANDevices.backLeftDriveMtrId,
             CANDevices.backLeftSteerMtrId,
             CANDevices.backLeftCanCoderId,
             DriveConstants.backLeftDriveInvert,
-            DriveConstants.backLeftSteerInvert
-        );
+            DriveConstants.backLeftSteerInvert);
 
-    public final static SwerveModule backRightMod = 
-        new SwerveModule(
+    public final static SwerveModule backRightMod = new SwerveModule(
             CANDevices.backRightDriveMtrId,
             CANDevices.backRightSteerMtrId,
             CANDevices.backRightCanCoderId,
             DriveConstants.backRightDriveInvert,
-            DriveConstants.backRightSteerInvert
-        );
+            DriveConstants.backRightSteerInvert);
 
     private boolean isLocked = false;
+
     public boolean isLocked() {
         return isLocked;
     }
 
     private boolean isFieldOriented = true;
+
     public boolean isFieldOriented() {
         return isFieldOriented;
     }
 
     public final static Pigeon2 imu = new Pigeon2(CANDevices.pigeonId);
 
-    // Odometry for the robot, measured in meters for linear motion and radians for rotational motion
+    // Odometry for the robot, measured in meters for linear motion and radians for
+    // rotational motion
     // Takes in kinematics and robot angle for parameters
 
-    public static SwerveDrivePoseEstimator odometry = 
-        new SwerveDrivePoseEstimator(
+    public static SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(
             DriveConstants.kinematics,
             getHeading(),
             getModulePositions(),
             new Pose2d()
-            // ,
-            // VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5)),
-            // VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30))
-        );
-
+    // ,
+    // VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5)),
+    // VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30))
+    );
 
     public void updateOdometry() {
         odometry.update(getHeading(), getModulePositions());
 
         // boolean useMegaTag2 = false; //set to false to use MegaTag1
         // boolean doRejectUpdate = false;
-    
+
         // if(useMegaTag2 == false)
         // {
-        //   LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-right");
-          
-        //   if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
-        //   {
-        //     if(mt1.rawFiducials[0].ambiguity > .7)
-        //     {
-        //       doRejectUpdate = true;
-        //     }
-        //     if(mt1.rawFiducials[0].distToCamera > 3)
-        //     {
-        //       doRejectUpdate = true;
-        //     }
-        //   }
-        //   if(mt1.tagCount == 0)
-        //   {
-        //     doRejectUpdate = true;
-        //   }
-    
-        //   if(!doRejectUpdate)
-        //   {
-        //     odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
-        //     odometry.addVisionMeasurement(
-        //         mt1.pose,
-        //         mt1.timestampSeconds);
-        //   }
+        // LimelightHelpers.PoseEstimate mt1 =
+        // LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-right");
+
+        // if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
+        // {
+        // if(mt1.rawFiducials[0].ambiguity > .7)
+        // {
+        // doRejectUpdate = true;
+        // }
+        // if(mt1.rawFiducials[0].distToCamera > 3)
+        // {
+        // doRejectUpdate = true;
+        // }
+        // }
+        // if(mt1.tagCount == 0)
+        // {
+        // doRejectUpdate = true;
+        // }
+
+        // if(!doRejectUpdate)
+        // {
+        // odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
+        // odometry.addVisionMeasurement(
+        // mt1.pose,
+        // mt1.timestampSeconds);
+        // }
         // }
         // else if (useMegaTag2 == true)
         // {
-        //   LimelightHelpers.SetRobotOrientation("limelight-right", odometry.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
-        //   LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-right");
-        //   if(Math.abs(imu.getRate()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
-        //   {
-        //     doRejectUpdate = true;
-        //   }
-        //   if(mt2.tagCount == 0)
-        //   {
-        //     doRejectUpdate = true;
-        //   }
-        //   if(!doRejectUpdate)
-        //   {
-        //     odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-        //     odometry.addVisionMeasurement(
-        //         mt2.pose,
-        //         mt2.timestampSeconds);
-        //   }
+        // LimelightHelpers.SetRobotOrientation("limelight-right",
+        // odometry.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+        // LimelightHelpers.PoseEstimate mt2 =
+        // LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-right");
+        // if(Math.abs(imu.getRate()) > 720) // if our angular velocity is greater than
+        // 720 degrees per second, ignore vision updates
+        // {
+        // doRejectUpdate = true;
+        // }
+        // if(mt2.tagCount == 0)
+        // {
+        // doRejectUpdate = true;
+        // }
+        // if(!doRejectUpdate)
+        // {
+        // odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+        // odometry.addVisionMeasurement(
+        // mt2.pose,
+        // mt2.timestampSeconds);
+        // }
         // }
     }
+
     /**
      * Constructs a new SwerveSys.
      * 
-     * <p>SwerveCmd contains 4 {@link SwerveModule}, a gyro, and methods to control the drive base and odometry.
+     * <p>
+     * SwerveCmd contains 4 {@link SwerveModule}, a gyro, and methods to control the
+     * drive base and odometry.
      */
     public SwerveSys() {
         // Resets the measured distance driven for each module
@@ -165,12 +167,10 @@ public class SwerveSys extends SubsystemBase {
         backLeftMod.resetDriveDistance();
         backRightMod.resetDriveDistance();
 
-        resetHeading();
+        zeroGyro180();
         resetPose(new Pose2d());
 
-        
     }
-
 
     // This method will be called once per scheduler run
     @Override
@@ -178,43 +178,46 @@ public class SwerveSys extends SubsystemBase {
         // Updates the odometry every 20ms
         odometry.update(getHeading(), getModulePositions());
     }
-    
+
     /**
      * Inputs drive values into the swerve drive base.
      * 
-     * @param driveX The desired forward/backward lateral motion, in meters per second.
-     * @param driveY The desired left/right lateral motion, in meters per second.
-     * @param rotation The desired rotational motion, in radians per second.
+     * @param driveX          The desired forward/backward lateral motion, in meters
+     *                        per second.
+     * @param driveY          The desired left/right lateral motion, in meters per
+     *                        second.
+     * @param rotation        The desired rotational motion, in radians per second.
      * @param isFieldOriented whether driving is field- or robot-oriented.
      */
-    public void drive(double speedFactor, double driveX, double driveY, double rotation, boolean isFieldOriented) {  
-        if(driveX != 0.0 || driveY != 0.0 || rotation != 0.0) isLocked = false;
-        
-        if(isLocked) {
+    public void drive(double speedFactor, double driveX, double driveY, double rotation, boolean isFieldOriented) {
+        if (driveX != 0.0 || driveY != 0.0 || rotation != 0.0)
+            isLocked = false;
+
+        if (isLocked) {
             setModuleStatesOpenLoop(new SwerveModuleState[] {
-                new SwerveModuleState(0.0, new Rotation2d(0.25 * Math.PI)),
-                new SwerveModuleState(0.0, new Rotation2d(-0.25 * Math.PI)),
-                new SwerveModuleState(0.0, new Rotation2d(-0.25 * Math.PI)),
-                new SwerveModuleState(0.0, new Rotation2d(0.25 * Math.PI))
+                    new SwerveModuleState(0.0, new Rotation2d(0.25 * Math.PI)),
+                    new SwerveModuleState(0.0, new Rotation2d(-0.25 * Math.PI)),
+                    new SwerveModuleState(0.0, new Rotation2d(-0.25 * Math.PI)),
+                    new SwerveModuleState(0.0, new Rotation2d(0.25 * Math.PI))
             });
-        }
-        else {
+        } else {
             // Reduces the speed of the drive base for "turtle" or "sprint" modes.
             driveX *= speedFactor;
             driveY *= speedFactor;
             rotation *= speedFactor;
 
             // Represents the overall state of the drive base.
-            ChassisSpeeds speeds =
-            isFieldOriented
-                ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                    driveX, driveY, rotation, getHeading())
-                : new ChassisSpeeds(driveX, driveY, rotation);
+            ChassisSpeeds speeds = isFieldOriented
+                    ? ChassisSpeeds.fromFieldRelativeSpeeds(
+                            driveX, driveY, rotation, getHeading())
+                    : new ChassisSpeeds(driveX, driveY, rotation);
 
-            // Uses kinematics (wheel placements) to convert overall robot state to array of individual module states.
+            // Uses kinematics (wheel placements) to convert overall robot state to array of
+            // individual module states.
             SwerveModuleState[] states = DriveConstants.kinematics.toSwerveModuleStates(speeds);
-            
-            // Makes sure the wheels don't try to spin faster than the maximum speed possible
+
+            // Makes sure the wheels don't try to spin faster than the maximum speed
+            // possible
             SwerveDriveKinematics.desaturateWheelSpeeds(states, DriveConstants.maxDriveSpeedMetersPerSec);
 
             setModuleStatesOpenLoop(states);
@@ -223,7 +226,9 @@ public class SwerveSys extends SubsystemBase {
 
     /**
      * Stops the driving of the drive base.
-     * <p>Sets all drive inputs to zero. This will set the drive power of each module to zero while maintaining module headings.
+     * <p>
+     * Sets all drive inputs to zero. This will set the drive power of each module
+     * to zero while maintaining module headings.
      */
     public void stop() {
         drive(1.0, 0.0, 0.0, 0.0, isFieldOriented);
@@ -238,9 +243,12 @@ public class SwerveSys extends SubsystemBase {
 
     /**
      * Sets the desired state for each swerve module.
-     * <p>Controls the lienar and rotational values for the modules based on the free speed of the drive motors (open-loop).
+     * <p>
+     * Controls the lienar and rotational values for the modules based on the free
+     * speed of the drive motors (open-loop).
      * 
-     * @param moduleStates An array of module states to set. The order is FL, FR, BL, BR.
+     * @param moduleStates An array of module states to set. The order is FL, FR,
+     *                     BL, BR.
      */
     public void setModuleStatesOpenLoop(SwerveModuleState[] moduleStates) {
         frontLeftMod.setDesiredState(moduleStates[0], false);
@@ -251,9 +259,12 @@ public class SwerveSys extends SubsystemBase {
 
     /**
      * Sets the desired state for each swerve module.
-     * <p>Uses PID and feedforward control (closed-loop) to control the linear and rotational values for the modules.
+     * <p>
+     * Uses PID and feedforward control (closed-loop) to control the linear and
+     * rotational values for the modules.
      * 
-     * @param moduleStates An array module states to set. The order is FL, FR, BL, BR.
+     * @param moduleStates An array module states to set. The order is FL, FR, BL,
+     *                     BR.
      */
     public void setModuleStatesClosedLoop(SwerveModuleState[] moduleStates) {
         frontLeftMod.setDesiredState(moduleStates[0], true);
@@ -283,19 +294,19 @@ public class SwerveSys extends SubsystemBase {
     public void setChassisSpeeds(ChassisSpeeds chassisSpeeds, DriveFeedforwards feedforwards) {
         setModuleStatesClosedLoop(DriveConstants.kinematics.toSwerveModuleStates(chassisSpeeds));
     }
-    
 
     /**
-     * Returns an array of module states of the drive base. The order is FL, FR, BL, BR.
+     * Returns an array of module states of the drive base. The order is FL, FR, BL,
+     * BR.
      * 
      * @return An array of SwerveModuleState.
      */
     public SwerveModuleState[] getModuleStates() {
         return new SwerveModuleState[] {
-            new SwerveModuleState(frontLeftMod.getVelocityMetersPerSec(), frontLeftMod.getSteerEncAngle()),
-            new SwerveModuleState(frontRightMod.getVelocityMetersPerSec(), frontRightMod.getSteerEncAngle()),
-            new SwerveModuleState(backLeftMod.getVelocityMetersPerSec(), backLeftMod.getSteerEncAngle()),
-            new SwerveModuleState(backRightMod.getVelocityMetersPerSec(), backRightMod.getSteerEncAngle())
+                new SwerveModuleState(frontLeftMod.getVelocityMetersPerSec(), frontLeftMod.getSteerEncAngle()),
+                new SwerveModuleState(frontRightMod.getVelocityMetersPerSec(), frontRightMod.getSteerEncAngle()),
+                new SwerveModuleState(backLeftMod.getVelocityMetersPerSec(), backLeftMod.getSteerEncAngle()),
+                new SwerveModuleState(backRightMod.getVelocityMetersPerSec(), backRightMod.getSteerEncAngle())
         };
     }
 
@@ -306,17 +317,16 @@ public class SwerveSys extends SubsystemBase {
      */
     public static SwerveModulePosition[] getModulePositions() {
         return new SwerveModulePosition[] {
-            frontLeftMod.getPosition(),
-            frontRightMod.getPosition(),
-            backLeftMod.getPosition(),
-            backRightMod.getPosition()
+                frontLeftMod.getPosition(),
+                frontRightMod.getPosition(),
+                backLeftMod.getPosition(),
+                backRightMod.getPosition()
         };
     }
 
-
     /**
      * @return The current estimated position of the robot on the field
-     * based on drive encoder and gyro readings.
+     *         based on drive encoder and gyro readings.
      */
     public Pose2d getPose() {
         return odometry.getEstimatedPosition();
@@ -330,11 +340,10 @@ public class SwerveSys extends SubsystemBase {
         resetHeading();
 
         odometry = new SwerveDrivePoseEstimator(
-            DriveConstants.kinematics,
-            pose.getRotation(),
-            getModulePositions(),
-            pose
-        );
+                DriveConstants.kinematics,
+                pose.getRotation(),
+                getModulePositions(),
+                pose);
     }
 
     public static void setHeading(Rotation2d heading) {
@@ -350,25 +359,24 @@ public class SwerveSys extends SubsystemBase {
         setHeading(pose.getRotation());
 
         odometry = new SwerveDrivePoseEstimator(
-            DriveConstants.kinematics,
-            pose.getRotation(),
-            getModulePositions(),
-            pose
-        );
+                DriveConstants.kinematics,
+                pose.getRotation(),
+                getModulePositions(),
+                pose);
     }
 
     public void setTranslation(Translation2d translation) {
         odometry = new SwerveDrivePoseEstimator(
-            DriveConstants.kinematics,
-            getHeading(),
-            getModulePositions(),
-            new Pose2d(translation, getHeading())
-        );
+                DriveConstants.kinematics,
+                getHeading(),
+                getModulePositions(),
+                new Pose2d(translation, getHeading()));
     }
 
     /**
      * Resets the measured distance driven for each module to zero.
-     * <p>Resets the drive encoders of each module to zero.
+     * <p>
+     * Resets the drive encoders of each module to zero.
      */
     public void resetDriveDistances() {
         frontLeftMod.resetDriveDistance();
@@ -378,59 +386,70 @@ public class SwerveSys extends SubsystemBase {
     }
 
     /**
-     * Returns the average distance driven of each module to get an overall distance driven by the robot.
+     * Returns the average distance driven of each module to get an overall distance
+     * driven by the robot.
      * 
      * @return The overall distance driven by the robot in meters.
      */
     public double getAverageDriveDistanceMeters() {
-        return (
-            (frontLeftMod.getDriveDistanceMeters()
-            + frontRightMod.getDriveDistanceMeters()
-            + backLeftMod.getDriveDistanceMeters()
-            + backRightMod.getDriveDistanceMeters())
-            / 4.0
-        );
+        return ((frontLeftMod.getDriveDistanceMeters()
+                + frontRightMod.getDriveDistanceMeters()
+                + backLeftMod.getDriveDistanceMeters()
+                + backRightMod.getDriveDistanceMeters())
+                / 4.0);
     }
 
     /**
-     * Returns the average velocity of each module to get an overall velocity of the robot.
+     * Returns the average velocity of each module to get an overall velocity of the
+     * robot.
      * 
      * @return The overall velocity of the robot in meters per second.
      */
     public double getAverageDriveVelocityMetersPerSec() {
-        return (
-            (Math.abs(frontLeftMod.getVelocityMetersPerSec())
-            + Math.abs(frontRightMod.getVelocityMetersPerSec())
-            + Math.abs(backLeftMod.getVelocityMetersPerSec() )
-            + Math.abs(backRightMod.getVelocityMetersPerSec()))
-            / 4.0
-        );
+        return ((Math.abs(frontLeftMod.getVelocityMetersPerSec())
+                + Math.abs(frontRightMod.getVelocityMetersPerSec())
+                + Math.abs(backLeftMod.getVelocityMetersPerSec())
+                + Math.abs(backRightMod.getVelocityMetersPerSec()))
+                / 4.0);
     }
 
     /**
-     * Returns the average direction of each module to get an overall direction of travel of the robot.
+     * Returns the average direction of each module to get an overall direction of
+     * travel of the robot.
      * 
      * @return The overall direction of travel of the robot.
      */
     public Rotation2d getDirectionOfTravel() {
         return new Rotation2d(
-            (frontLeftMod.getCanCoderAngle().plus(new Rotation2d(frontLeftMod.getVelocityMetersPerSec() < 0.0 ? Math.PI : 0.0)).getRadians()
-            + frontRightMod.getCanCoderAngle().plus(new Rotation2d(frontRightMod.getVelocityMetersPerSec() < 0.0 ? Math.PI : 0.0)).getRadians()
-            + backLeftMod.getCanCoderAngle().plus(new Rotation2d(backLeftMod.getVelocityMetersPerSec() < 0.0 ? Math.PI : 0.0)).getRadians()
-            + backRightMod.getCanCoderAngle().plus(new Rotation2d(backRightMod.getVelocityMetersPerSec() < 0.0 ? Math.PI : 0.0)).getRadians()
-            ) / 4.0
-        );
+                (frontLeftMod.getCanCoderAngle()
+                        .plus(new Rotation2d(frontLeftMod.getVelocityMetersPerSec() < 0.0 ? Math.PI : 0.0)).getRadians()
+                        + frontRightMod.getCanCoderAngle()
+                                .plus(new Rotation2d(frontRightMod.getVelocityMetersPerSec() < 0.0 ? Math.PI : 0.0))
+                                .getRadians()
+                        + backLeftMod.getCanCoderAngle()
+                                .plus(new Rotation2d(backLeftMod.getVelocityMetersPerSec() < 0.0 ? Math.PI : 0.0))
+                                .getRadians()
+                        + backRightMod.getCanCoderAngle()
+                                .plus(new Rotation2d(backRightMod.getVelocityMetersPerSec() < 0.0 ? Math.PI : 0.0))
+                                .getRadians())
+                        / 4.0);
     }
 
     /**
      * Returns the average velocity in the direction relative to the robot.
      * 
-     * @param relativeHeading The relative heading of the robot, where zero is the front of the robot.
+     * @param relativeHeading The relative heading of the robot, where zero is the
+     *                        front of the robot.
      * 
-     * @return The velocity in the direction relative to the robot in meters per second.
+     * @return The velocity in the direction relative to the robot in meters per
+     *         second.
      */
     public double getRelativeVelocityMetersPerSec(Rotation2d relativeHeading) {
         return getDirectionOfTravel().minus(relativeHeading).getCos() * getAverageDriveVelocityMetersPerSec();
+    }
+
+    public void addVisionMeasurement(Pose2d estPose, double timestamp, Vector<N3> stdDevs) {
+        odometry.addVisionMeasurement(estPose, timestamp, stdDevs);
     }
 
     /**
@@ -439,7 +458,8 @@ public class SwerveSys extends SubsystemBase {
      * @return The current heading of the robot as a Rotation2d.
      */
     public static Rotation2d getHeading() {
-        //return Rotation2d.fromRadians(MathUtil.angleModulus(Units.degreesToRadians(-imu.getYaw().getValueAsDouble())));
+        // return
+        // Rotation2d.fromRadians(MathUtil.angleModulus(Units.degreesToRadians(-imu.getYaw().getValueAsDouble())));
         return Rotation2d.fromDegrees(imu.getYaw().getValueAsDouble());
     }
 
@@ -480,23 +500,22 @@ public class SwerveSys extends SubsystemBase {
 
     public void BuilderConfigure() {
         RobotConfig config = null;
-        try{
+        try {
             config = RobotConfig.fromGUISettings();
         } catch (Exception e) {
             // Handle exception as needed
             e.printStackTrace();
         }
 
-
         AutoBuilder.configure(
-            this::getPose, 
-            this::resetPose, 
-            this::getChassisSpeeds, 
-            this::setChassisSpeeds, 
-            new PPHolonomicDriveController(
-                new PIDConstants(1,0,0), new PIDConstants(1)), 
-            config, 
-            ()->RobotContainer.isRedAlliance(), 
-            this);
+                this::getPose,
+                this::resetPose,
+                this::getChassisSpeeds,
+                this::setChassisSpeeds,
+                new PPHolonomicDriveController(
+                        new PIDConstants(5, 0, 0), new PIDConstants(5, 0, 0)),
+                config,
+                () -> RobotContainer.isRedAlliance(),
+                this);
     }
 }

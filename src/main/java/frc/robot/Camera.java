@@ -17,7 +17,7 @@ public class Camera {
      * @param yawRate The angular velocity of the robot
      */
     public static void UpdateLimelight(String limelightName, PoseEstimator m_PoseEstimator, double yawRate) {
-        LimelightHelpers.SetRobotOrientation("limelight-right", m_PoseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0,0,0,0,0);
+        LimelightHelpers.SetRobotOrientation("limelight-front", m_PoseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0,0,0,0,0);
         LimelightHelpers.PoseEstimate m_estimate;
         if (RobotContainer.isRedAlliance())
             m_estimate = LimelightHelpers.getBotPoseEstimate_wpiRed_MegaTag2(limelightName);

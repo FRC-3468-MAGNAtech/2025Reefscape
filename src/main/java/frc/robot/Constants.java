@@ -146,7 +146,7 @@ public final class Constants {
 		public static final double ffKV = 0;
 
 		//PID values
-		public static final double kP = 0.008;
+		public static final double kP = 0.01;
 		public static final double kI = 0;
 		public static final double kD = 0.017;
 
@@ -155,7 +155,7 @@ public final class Constants {
 		public static final double armForward = 0.30;
 
 		// Softlimits 
-		public static final double forwardSoftLimit = 83;
+		public static final double forwardSoftLimit = 90;
 		public static final double reverseSoftLimit = -117;
 
 		//setpoints for PID
@@ -163,18 +163,18 @@ public final class Constants {
 		public static final double aGround = 85;
 		public static final double cGround = 83;
 		public static final double l1 = 90;
-		public static final double l2 = 93;
-		public static final double l3 = 93;
+		public static final double l2 = 96;
+		public static final double l3 = 97;
 		public static final double l4 = -105;
-		public static final double tolerance = 0.8;
+		public static final double tolerance = 1.1;
 
 		//offsets
 		public static final double armOffSet = 0;
 		public static final double processor = 90;
-		public static final double net = 45;
-		public static final double humanPlayer = 40.4;
-		public static final double topAlg = 84.6;
-		public static final double botAlg = 84.6;
+		public static final double net = 38;
+		public static final double humanPlayer = 37.4;
+		public static final double topAlg = 70;
+		public static final double botAlg = 70;
 	}
 
 	public static class LimeLightConstants {
@@ -234,11 +234,11 @@ public final class Constants {
 		public static final double l2 = 21.1;
 		public static final double l3 = 29.4;
 		public static final double l4 = 37;
-		public static final double processor = 10.6;
+		public static final double processor = 9;
 		public static final double net = 39;
 		public static final double humanPlayer = 8.8;
-		public static final double topAlg = 24;
-		public static final double botAlg = 15.1;
+		public static final double topAlg = 22;
+		public static final double botAlg = 14.1;
 
 	}
 
