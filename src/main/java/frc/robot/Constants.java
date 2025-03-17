@@ -141,8 +141,8 @@ public final class Constants {
 		public static final int armID = 4;
 
 		//feedforward values
-		public static final double ffKS = 0.5;
-		public static final double ffKG = 1;
+		public static final double ffKS = 0.005;
+		public static final double ffKG = 1.3;
 		public static final double ffKV = 0;
 
 		//PID values
@@ -160,7 +160,7 @@ public final class Constants {
 
 		//setpoints for PID
 		public static final double cStore = 9;
-		public static final double aGround = 85;
+		public static final double aGround = 90;
 		public static final double cGround = 83;
 		public static final double l1 = 90;
 		public static final double l2 = 96;
@@ -205,13 +205,13 @@ public final class Constants {
 
 		// PID for elevator
 		public static final double elevP = .03;
-		public static final double elevI = 0.0000016;
+		public static final double elevI = 0;
 		public static final double elevD = 1.5;
 		public static final double tolerance = 1;
 
 		// Feed Forward
-		public static final double ffKS = 0.25;
-		public static final double ffKG = 0.5;
+		public static final double ffKS = 0.2;
+		public static final double ffKG = 0.4;
 		public static final double ffKV = 0;
 
 		public static final double ffKS2 = 0.3;
@@ -226,7 +226,7 @@ public final class Constants {
 		public static final double elevDown = -0.05;
 
 		// setpoints
-		public static final double aGround = 0.1;
+		public static final double aGround = 3;
 		public static final double cGround = 2;
 		public static final double cStore = .1;
 		public static final double aStore = 10;

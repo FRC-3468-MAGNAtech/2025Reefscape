@@ -49,7 +49,7 @@ public class Arm extends SubsystemBase {
     config.idleMode(IdleMode.kBrake);
     config.closedLoop.pid( ArmConstants.kP, ArmConstants.kI, ArmConstants.kD);
     config.closedLoop.feedbackSensor(ClosedLoopConfig.FeedbackSensor.kAbsoluteEncoder);
-    config.closedLoopRampRate(1.8);
+    config.closedLoopRampRate(0.5);
     config.apply(backwardLimit);
     config.apply(forwardLimit);
     config.inverted(false);
@@ -76,12 +76,12 @@ public class Arm extends SubsystemBase {
 
   public void pointMove(double angle) {
     position = angle;
-    armController.setReference(angle , ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward.calculate(position, 0));
+    armController.setReference(angle , ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward.calculate(position + 90, armEncoder.getVelocity() * 360));
   }
 
   public void armStay() {
     position = armEncoder.getPosition() * 360;
-    armController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot1, feedForward.calculate(position, 0));
+    armController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot1, feedForward.calculate(position + 90, armEncoder.getVelocity() * 360));
   }
 
   public boolean isAtSetpoint() {

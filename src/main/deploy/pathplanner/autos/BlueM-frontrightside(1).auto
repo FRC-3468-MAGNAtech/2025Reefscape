@@ -5,12 +5,6 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "zeroGyro180"
-          }
-        },
-        {
           "type": "race",
           "data": {
             "commands": [
