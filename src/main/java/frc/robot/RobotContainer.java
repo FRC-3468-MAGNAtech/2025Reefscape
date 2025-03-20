@@ -21,8 +21,6 @@ import frc.robot.commands.Intake.IntakeStop;
 import frc.robot.commands.alignment.Algae;
 import frc.robot.commands.alignment.AlignLeft;
 import frc.robot.commands.alignment.AlignRight;
-import frc.robot.commands.alignment.L4AlignLeft;
-import frc.robot.commands.alignment.L4AlignRight;
 import frc.robot.commands.Arm.ArmBackward;
 import frc.robot.commands.Arm.ArmForward;
 import frc.robot.commands.Arm.ArmSetpoints;
@@ -74,6 +72,9 @@ public class RobotContainer {
     private Arm m_Arm = new Arm();
     private Climber climber = new Climber();
     private final SendableChooser<Command> autoChooser;
+    private boolean reefDirection = true;
+    public static boolean armbackward = true;
+    public static boolean armforward = true;
 
     // Controllers
     private final Joystick driverController = new Joystick(HIDConstants.driverController);
@@ -94,7 +95,7 @@ public class RobotContainer {
     private final JoystickButton elevZero = new JoystickButton(sideButtonPad, 1);
     // Arm
     private final JoystickButton armForward = new JoystickButton(middleButtonPad, 10);
-    private final JoystickButton armbackward = new JoystickButton(topbuttonPad, 4);
+    private final JoystickButton armBackward = new JoystickButton(topbuttonPad, 4);
     private final JoystickButton cStore = new JoystickButton(topbuttonPad, 2);
     private final JoystickButton aStore = new JoystickButton(middleButtonPad, 8);
     // Limelight
@@ -137,8 +138,6 @@ public class RobotContainer {
         // Align commands for auto
         NamedCommands.registerCommand("alignLeft", new AlignLeft(m_SwerveSys));
         NamedCommands.registerCommand("alignRight", new AlignRight(m_SwerveSys));
-        NamedCommands.registerCommand("l4alignLeft", new L4AlignLeft(m_SwerveSys));
-        NamedCommands.registerCommand("l4alignRight", new L4AlignRight(m_SwerveSys));
         NamedCommands.registerCommand("coralStation", new ParallelCommandGroup(
                 new ElevSetpoints(m_Evelator, ElevConstants.humanPlayer),
                 new ArmSetpoints(m_Arm, ArmConstants.humanPlayer)));
@@ -182,14 +181,14 @@ public class RobotContainer {
                 new ArmSetpoints(m_Arm, ArmConstants.topAlg)));
         // End for AUTO commands
 
-        LimeLightConstants.llPIDctrlStraifLeft.setSetpoint(-2);
+        LimeLightConstants.llPIDctrlStraifLeft.setSetpoint(-7);
         LimeLightConstants.llPIDctrlStraifLeft.setTolerance(1);
-        LimeLightConstants.llPIDctrlStraifRight.setSetpoint(16);
+        LimeLightConstants.llPIDctrlStraifRight.setSetpoint(26.5);
         LimeLightConstants.llPIDctrlStraifRight.setTolerance(1);
 
-        LimeLightConstants.llPIDctrlDriveLeft.setSetpoint(7);
+        LimeLightConstants.llPIDctrlDriveLeft.setSetpoint(9.5);
         LimeLightConstants.llPIDctrlDriveLeft.setTolerance(1);
-        LimeLightConstants.llPIDctrlDriveRight.setSetpoint(7);
+        LimeLightConstants.llPIDctrlDriveRight.setSetpoint(9.5);
         LimeLightConstants.llPIDctrlDriveRight.setTolerance(1);
 
         LimeLightConstants.llPIDctrlAlgaeDrive.setSetpoint(81);
@@ -273,7 +272,9 @@ public class RobotContainer {
 
         // Arm
         armForward.whileTrue(new ArmForward(m_Arm));
-        armbackward.whileTrue(new ArmBackward(m_Arm));
+        armForward.whileFalse(new InstantCommand(() -> {armforward = false;}));
+        armBackward.whileTrue(new ArmBackward(m_Arm));
+        armBackward.whileFalse(new InstantCommand(() -> {armbackward = false;}));
         cStore.onTrue(new ParallelCommandGroup(
                 new ElevSetpoints(m_Evelator, ElevConstants.cStore),
                 new ArmSetpoints(m_Arm, ArmConstants.cStore)));
@@ -326,8 +327,9 @@ public class RobotContainer {
                 new ArmSetpoints(m_Arm, ArmConstants.botAlg)));
 
         // auto movements
-        left.onTrue(AlignLeft);
-        right.onTrue(AlignRight);
+        //left.onTrue(new InstantCommand(() -> reefDirection = false));
+        left.onTrue(new AlignLeft(m_SwerveSys));
+        right.onTrue(new AlignRight(m_SwerveSys));
         algaefloor.whileTrue(new Algae(m_SwerveSys));
         // l4Egt.whileTrue(new ParallelCommandGroup(new ArmSetpoints(m_Arm, -80), new
         // IntakeOut(intake)));

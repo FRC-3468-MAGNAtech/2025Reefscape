@@ -165,7 +165,7 @@ public final class Constants {
 		public static final double l1 = 90;
 		public static final double l2 = 96;
 		public static final double l3 = 97;
-		public static final double l4 = -105;
+		public static final double l4 = 8.5;
 		public static final double tolerance = 1.1;
 
 		//offsets
@@ -233,7 +233,7 @@ public final class Constants {
 		public static final double l1 = 14;
 		public static final double l2 = 21.1;
 		public static final double l3 = 29.4;
-		public static final double l4 = 37;
+		public static final double l4 = 30;
 		public static final double processor = 9;
 		public static final double net = 39;
 		public static final double humanPlayer = 8.8;
