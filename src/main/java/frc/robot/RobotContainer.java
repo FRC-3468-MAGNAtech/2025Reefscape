@@ -74,7 +74,6 @@ public class RobotContainer {
     private Arm m_Arm = new Arm();
     private Climber climber = new Climber();
     private final SendableChooser<Command> autoChooser;
-    private boolean reefDirection = true;
 
     // Controllers
     private final Joystick driverController = new Joystick(HIDConstants.driverController);
@@ -299,48 +298,18 @@ public class RobotContainer {
                 new ElevSetpoints(m_Evelator, ElevConstants.humanPlayer),
                 new ArmSetpoints(m_Arm, ArmConstants.humanPlayer)));
 
-        l1Button.onTrue(new ParallelCommandGroup(new InstantCommand(() -> {
-            if (reefDirection = false) {
-                new AlignLeft(m_SwerveSys);
-            } else if (reefDirection = true) {
-                new AlignRight(m_SwerveSys);
-            }
-        }),
-                new ParallelCommandGroup(
-                        new ElevSetpoints(m_Evelator, ElevConstants.l1),
-                        new ArmSetpoints(m_Arm, ArmConstants.l1))));
-        l2Button.onTrue(new ParallelCommandGroup(new InstantCommand(() -> {
-            if (reefDirection = false) {
-                new AlignLeft(m_SwerveSys);
-            } else if (reefDirection = true) {
-                new AlignRight(m_SwerveSys);
-            }
-        }),
-                new ParallelCommandGroup(
-                        new ElevSetpoints(m_Evelator, ElevConstants.l2),
-                        new ArmSetpoints(m_Arm, ArmConstants.l2))));
-        l3Button.onTrue(new ParallelCommandGroup(new InstantCommand(() -> {
-            if (reefDirection = false) {
-                new AlignLeft(m_SwerveSys);
-            } else if (reefDirection = true) {
-                new AlignRight(m_SwerveSys);
-            }
-        }),
-                new ParallelCommandGroup(
-                        new ElevSetpoints(m_Evelator, ElevConstants.l3),
-                        new ArmSetpoints(m_Arm, ArmConstants.l3))));
-        l4Button.onTrue(new ParallelCommandGroup(new InstantCommand(() -> {
-            if (reefDirection = false) {
-                new L4AlignLeft(m_SwerveSys);
-            } else if (reefDirection = true) {
-                new L4AlignRight(m_SwerveSys);
-            }
-        }),
-                new SequentialCommandGroup(
-                        new ParallelCommandGroup(new ElevSetpoints(m_Evelator, ElevConstants.l4),
-                                new ArmSetpoints(m_Arm, ArmConstants.l4))
-                // new IntakeOut(intake),
-                )));
+        l1Button.onTrue(new ParallelCommandGroup(
+                new ElevSetpoints(m_Evelator, ElevConstants.l1),
+                new ArmSetpoints(m_Arm, ArmConstants.l1)));
+        l2Button.onTrue(new ParallelCommandGroup(
+                new ElevSetpoints(m_Evelator, ElevConstants.l2),
+                new ArmSetpoints(m_Arm, ArmConstants.l2)));
+        l3Button.onTrue(new ParallelCommandGroup(
+                new ElevSetpoints(m_Evelator, ElevConstants.l3),
+                new ArmSetpoints(m_Arm, ArmConstants.l3)));
+        l4Button.onTrue(new ParallelCommandGroup(
+                new ElevSetpoints(m_Evelator, ElevConstants.l4),
+                new ArmSetpoints(m_Arm, ArmConstants.l4)));
 
         processorButton.onTrue(new ParallelCommandGroup(
                 new ElevSetpoints(m_Evelator, ElevConstants.processor),
@@ -357,8 +326,8 @@ public class RobotContainer {
                 new ArmSetpoints(m_Arm, ArmConstants.botAlg)));
 
         // auto movements
-        left.onTrue(new InstantCommand(() -> reefDirection = false));
-        right.onTrue(new InstantCommand(() -> reefDirection = true));
+        left.onTrue(AlignLeft);
+        right.onTrue(AlignRight);
         algaefloor.whileTrue(new Algae(m_SwerveSys));
         // l4Egt.whileTrue(new ParallelCommandGroup(new ArmSetpoints(m_Arm, -80), new
         // IntakeOut(intake)));
