@@ -14,20 +14,20 @@ public class Targeting {
     public static double alignToReed(boolean left) {
         
         if (left) {
-            double tx = LimelightHelpers.getTX("limelight-right");
+            double tx = LimelightHelpers.getTX("limelight-left");
             return LimeLightConstants.llPIDctrlStraifLeft.calculate(tx);
         } else {
-            double tx = LimelightHelpers.getTX("limelight-left");
+            double tx = LimelightHelpers.getTX("limelight-right");
             return LimeLightConstants.llPIDctrlStraifRight.calculate(tx);
         }
     }
 
     public static double driveToReed(boolean left) {
         if (left) {
-            double ta = LimelightHelpers.getTA("limelight-right");
+            double ta = LimelightHelpers.getTA("limelight-left");
             return LimeLightConstants.llPIDctrlDriveLeft.calculate(ta);
         } else {
-            double ta = LimelightHelpers.getTA("limelight-left");
+            double ta = LimelightHelpers.getTA("limelight-right");
             return LimeLightConstants.llPIDctrlDriveRight.calculate(ta);
         }
     }

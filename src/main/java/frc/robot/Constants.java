@@ -127,7 +127,7 @@ public final class Constants {
 		// Some wheels would spin backwards
 		public static final boolean frontLeftDriveInvert = true;
 		public static final boolean frontRightDriveInvert = false;
-		public static final boolean backLeftDriveInvert = false;
+		public static final boolean backLeftDriveInvert = true;
 		public static final boolean backRightDriveInvert = false;
 
 		// This is just-in-case
@@ -136,6 +136,9 @@ public final class Constants {
 		public static final boolean backLeftSteerInvert = true;
 		public static final boolean backRightSteerInvert = true;
 	}
+
+
+
 	
 	public static class ArmConstants {
 		public static final int armID = 4;
@@ -178,13 +181,13 @@ public final class Constants {
 	}
 
 	public static class LimeLightConstants {
-		public static final double straifKP = 0.03;
-		public static final PIDController llPIDctrlStraifLeft = new PIDController(straifKP, 0.0023, 0);
+		public static final double straifKP = 0.005;
+		public static final PIDController llPIDctrlStraifLeft = new PIDController(straifKP, 0, 0);
 		public static final PIDController llPIDctrlStraifRight = new PIDController(straifKP, 0, 0);
 
-		public static final double driveKP = .1;
-		public static final PIDController llPIDctrlDriveLeft = new PIDController(driveKP, 0,0);
-		public static final PIDController llPIDctrlDriveRight = new PIDController(driveKP, 0,0);
+		public static final double driveKP = 0.1;
+		public static final PIDController llPIDctrlDriveLeft = new PIDController(driveKP, 0,0.01);
+		public static final PIDController llPIDctrlDriveRight = new PIDController(driveKP, 0,0.1);
 
 		public static final double algaeDriveKP = .1;
 		public static final double algaeRotKP = .25;
