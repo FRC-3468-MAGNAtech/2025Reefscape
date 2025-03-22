@@ -10,11 +10,10 @@ import frc.robot.Subsystems.LimelightHelpers;
 import frc.robot.Subsystems.SwerveSys;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AlignRight extends Command {
-  SwerveSys swerveSys;
+public class AlgaeReef extends Command {
+    SwerveSys swerveSys;
 
-  /** Creates a new AlignRight. */
-  public AlignRight(SwerveSys sys) {
+  public AlgaeReef(SwerveSys sys) {
     swerveSys = sys;
     addRequirements(swerveSys);
   }
@@ -26,17 +25,17 @@ public class AlignRight extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double straif = Targeting.alignToReed(false);
-    double drive = Targeting.driveToReed(false);
+    double straif  = Targeting.alignForAlgaeReef();
 
-    double theta = Math.atan2(drive, straif);
-    double r = Math.pow(Math.hypot(drive, straif), 2);
+    double theta = Math.atan2(0, straif);
+    double r = Math.pow(Math.hypot(0, straif), 2);
 
     straif = r * Math.cos(theta);
-    drive = r * Math.sin(theta);
 
-    swerveSys.drive(.4, drive, straif, 0, false);
+    swerveSys.drive(.4, 0, straif, 0, false);
+
   }
+
 
   // Called once the command ends or is interrupted.
   @Override
@@ -47,10 +46,12 @@ public class AlignRight extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (LimelightHelpers.getTX("limelight-right")>= 0 && LimelightHelpers.getTX("limelight-right")<= 3 && LimelightHelpers.getTA("limelight-right")>= 5 && LimelightHelpers.getTA("limelight-right")<= 9) {
-      return true;
+    if (LimelightHelpers.getTX("limelight-left")<= 21 && LimelightHelpers.getTX("limelight-left")>= 19){
+        return true;
     } else {
-      return false;
-    }
+ 
+        return false;
   }
 }
+}
+

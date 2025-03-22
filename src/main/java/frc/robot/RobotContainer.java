@@ -21,6 +21,7 @@ import frc.robot.commands.Intake.IntakeStop;
 import frc.robot.commands.alignment.Algae;
 import frc.robot.commands.alignment.AlignLeft;
 import frc.robot.commands.alignment.AlignRight;
+import frc.robot.commands.alignment.AlgaeReef;
 import frc.robot.commands.Arm.ArmBackward;
 import frc.robot.commands.Arm.ArmForward;
 import frc.robot.commands.Arm.ArmSetpoints;
@@ -102,6 +103,7 @@ public class RobotContainer {
     private final JoystickButton left = new JoystickButton(topbuttonPad, 9);
     private final JoystickButton right = new JoystickButton(topbuttonPad, 10);
     private final JoystickButton algaefloor = new JoystickButton(bottomButtonPad, 9);
+    private final JoystickButton AlgaeReef = new JoystickButton(middleButtonPad, 3);
     // Climber
     private final JoystickButton ClimbUp = new JoystickButton(middleButtonPad, 1);
     private final JoystickButton ClimbDown = new JoystickButton(bottomButtonPad, 5);
@@ -141,6 +143,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("coralStation", new ParallelCommandGroup(
                 new ElevSetpoints(m_Evelator, ElevConstants.humanPlayer),
                 new ArmSetpoints(m_Arm, ArmConstants.humanPlayer)));
+        NamedCommands.registerCommand("AlgaeReef", new AlgaeReef(m_SwerveSys));
 
         // Intake commands for auto
         NamedCommands.registerCommand("algaeIN", new IntakeIn(intake));
@@ -181,15 +184,18 @@ public class RobotContainer {
                 new ArmSetpoints(m_Arm, ArmConstants.topAlg)));
         // End for AUTO commands
 
-        LimeLightConstants.llPIDctrlStraifLeft.setSetpoint(-7);
+        LimeLightConstants.llPIDctrlStraifLeft.setSetpoint(11);
         LimeLightConstants.llPIDctrlStraifLeft.setTolerance(1);
-        LimeLightConstants.llPIDctrlStraifRight.setSetpoint(26.5);
+        LimeLightConstants.llPIDctrlStraifRight.setSetpoint(1.5);
         LimeLightConstants.llPIDctrlStraifRight.setTolerance(1);
 
-        LimeLightConstants.llPIDctrlDriveLeft.setSetpoint(9.5);
+        LimeLightConstants.llPIDctrlDriveLeft.setSetpoint(10);
         LimeLightConstants.llPIDctrlDriveLeft.setTolerance(1);
-        LimeLightConstants.llPIDctrlDriveRight.setSetpoint(9.5);
+        LimeLightConstants.llPIDctrlDriveRight.setSetpoint(7);
         LimeLightConstants.llPIDctrlDriveRight.setTolerance(1);
+
+        LimeLightConstants.llPIDctrlAlgaeReef.setSetpoint(20);
+        LimeLightConstants.llPIDctrlAlgaeReef.setTolerance(20);
 
         LimeLightConstants.llPIDctrlAlgaeDrive.setSetpoint(81);
         LimeLightConstants.llPIDctrlAlgaeDrive.setTolerance(1);
@@ -331,6 +337,7 @@ public class RobotContainer {
         left.onTrue(new AlignLeft(m_SwerveSys));
         right.onTrue(new AlignRight(m_SwerveSys));
         algaefloor.whileTrue(new Algae(m_SwerveSys));
+        AlgaeReef.onTrue(new AlgaeReef(m_SwerveSys));
         // l4Egt.whileTrue(new ParallelCommandGroup(new ArmSetpoints(m_Arm, -80), new
         // IntakeOut(intake)));
 

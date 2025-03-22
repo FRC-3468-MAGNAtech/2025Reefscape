@@ -9,6 +9,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -181,13 +182,18 @@ public final class Constants {
 	}
 
 	public static class LimeLightConstants {
-		public static final double straifKP = 0.005;
-		public static final PIDController llPIDctrlStraifLeft = new PIDController(straifKP, 0, 0);
-		public static final PIDController llPIDctrlStraifRight = new PIDController(straifKP, 0, 0);
+        
+		public static final double straifRightKP = 0.03;
+        public static final double straifLeftKP = 0.005;
+		public static final PIDController llPIDctrlStraifLeft = new PIDController(straifLeftKP, 0, 0);
+		public static final PIDController llPIDctrlStraifRight = new PIDController(straifRightKP, 0.00001, 0.0001);
 
-		public static final double driveKP = 0.1;
+        public static final double driveKP = 0.1;
 		public static final PIDController llPIDctrlDriveLeft = new PIDController(driveKP, 0,0.01);
 		public static final PIDController llPIDctrlDriveRight = new PIDController(driveKP, 0,0.1);
+
+        public static final double algaeReefKP = 0.01;
+        public static final PIDController llPIDctrlAlgaeReef = new PIDController(algaeReefKP, 0, 0);
 
 		public static final double algaeDriveKP = .1;
 		public static final double algaeRotKP = .25;

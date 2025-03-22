@@ -31,6 +31,15 @@ public class Targeting {
             return LimeLightConstants.llPIDctrlDriveRight.calculate(ta);
         }
     }
+
+    // For aligning to the center of the reef for picking up algae
+
+    public static double alignForAlgaeReef() {
+        double tx = LimelightHelpers.getTX("limelight-left");
+        return LimeLightConstants.llPIDctrlAlgaeReef.calculate(tx);
+    }
+
+
     
     // failed algea pickup commands
     public static double driveToAlgae() {

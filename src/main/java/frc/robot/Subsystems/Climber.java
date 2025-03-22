@@ -6,13 +6,16 @@
 package frc.robot.Subsystems;
 
 import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.LimitSwitchConfig.Type;
 import com.revrobotics.spark.config.SoftLimitConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -27,6 +30,10 @@ public class Climber extends SubsystemBase {
   private SoftLimitConfig forwardLimit;
   private SoftLimitConfig backwardLimit;
   private AbsoluteEncoder climberEncoder;
+  private SparkLimitSwitch climbSwitch;
+  private SparkClosedLoopController eLoopController;
+  private RelativeEncoder climbEncoder;
+
 
   public Climber() {
     climbMtr = new SparkMax(ClimberConstants.climbID, MotorType.kBrushless);
@@ -45,6 +52,8 @@ public class Climber extends SubsystemBase {
     conf.closedLoop.pid(ClimberConstants.climbP, ClimberConstants.climbI, ClimberConstants.climbD);
     conf.apply(backwardLimit);
     conf.apply(forwardLimit);
+    conf.limitSwitch.forwardLimitSwitchEnabled(false);
+    conf.limitSwitch.forwardLimitSwitchType(Type.kNormallyClosed);
 
     conf2.follow(ClimberConstants.climbID, false);
     conf2.inverted(true);
@@ -52,7 +61,19 @@ public class Climber extends SubsystemBase {
     climbMtr.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     climbMtr2.configure(conf2, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
+    eLoopController = climbMtr.getClosedLoopController();
+    climbEncoder = climbMtr.getEncoder();
+    climbSwitch = climbMtr.getForwardLimitSwitch();
+
     climbLoopController = climbMtr.getClosedLoopController(); 
+  }
+
+  public boolean limitSwitch() {
+    return climbSwitch.isPressed();
+  }
+
+  public void climbZero() {
+    climbEncoder.setPosition(0.1);
   }
 
   public void go() {
