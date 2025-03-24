@@ -30,6 +30,7 @@ import frc.robot.commands.Arm.ArmStop;
 import frc.robot.commands.Climber.ClimbDown;
 import frc.robot.commands.Climber.ClimbUp;
 import frc.robot.commands.Climber.ClimberStop;
+import frc.robot.commands.Climber.ClimberZero;
 import frc.robot.commands.Drive.DriveLeft;
 import frc.robot.commands.Drive.SwerveDrive;
 import frc.robot.commands.elevator.elevDown;
@@ -107,6 +108,7 @@ public class RobotContainer {
     // Climber
     private final JoystickButton ClimbUp = new JoystickButton(middleButtonPad, 1);
     private final JoystickButton ClimbDown = new JoystickButton(bottomButtonPad, 5);
+    private final JoystickButton ClimberZero = new JoystickButton(sideButtonPad, 2);
     // Setpoints
     private final JoystickButton aGroundButton = new JoystickButton(middleButtonPad, 5);
     private final JoystickButton cGroundButton = new JoystickButton(middleButtonPad, 4);
@@ -124,6 +126,7 @@ public class RobotContainer {
 
     private Trigger intakeLimit = new Trigger(() -> intake.limitSwitch());
     private Trigger elevLimit = new Trigger(() -> m_Evelator.limitSwitch());
+    private Trigger climbLimit = new Trigger(() -> climber.limitSwitch());
 
     public RobotContainer() {
         m_SwerveSys.BuilderConfigure();
@@ -146,8 +149,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("AlgaeReef", new AlgaeReef(m_SwerveSys));
 
         // Intake commands for auto
-        NamedCommands.registerCommand("algaeIN", new IntakeIn(intake));
-        NamedCommands.registerCommand("coralIN", new IntakeOut(intake));
+        NamedCommands.registerCommand("coralIN", new IntakeIn(intake));
+        NamedCommands.registerCommand("algaeIN", new IntakeOut(intake));
 
         // Reef setpoints for auto
         NamedCommands.registerCommand("L1", new ParallelCommandGroup(
@@ -182,6 +185,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("topAlg", new ParallelCommandGroup(
                 new ElevSetpoints(m_Evelator, ElevConstants.topAlg),
                 new ArmSetpoints(m_Arm, ArmConstants.topAlg)));
+        NamedCommands.registerCommand("botAlg", new ParallelCommandGroup(
+                new ElevSetpoints(m_Evelator, ElevConstants.botAlg),
+                new ArmSetpoints(m_Arm, ArmConstants.botAlg)));
         // End for AUTO commands
 
         LimeLightConstants.llPIDctrlStraifLeft.setSetpoint(11);
@@ -293,6 +299,7 @@ public class RobotContainer {
         // Climber
         ClimbUp.whileTrue(new ClimbUp(climber));
         ClimbDown.whileTrue(new ClimbDown(climber));
+        ClimberZero.onTrue(new ClimberZero(climber));
 
         // Setpoints for Elevator
         aGroundButton.onTrue(new ParallelCommandGroup(
@@ -346,6 +353,7 @@ public class RobotContainer {
         // new ElevSetpoints(m_Evelator, ElevConstants.cStore),
         // new ArmSetpoints(m_Arm, ArmConstants.cStore)));
         elevLimit.onTrue(new ElevZero(m_Evelator));
+        climbLimit.onTrue(new ClimberZero(climber));
     }
 
     /**

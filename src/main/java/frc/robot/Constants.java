@@ -182,7 +182,7 @@ public final class Constants {
 	}
 
 	public static class LimeLightConstants {
-        
+
 		public static final double straifRightKP = 0.03;
         public static final double straifLeftKP = 0.005;
 		public static final PIDController llPIDctrlStraifLeft = new PIDController(straifLeftKP, 0, 0);
@@ -277,6 +277,10 @@ public final class Constants {
 		public static final double reverseSoftLimit = 0.0;
 
 		public static final double climbPos = 0.0;
+
+        //setpoints
+        public static final double setPosition = 20;
+        public static final double storePositon = 0;
 	}
 
 }

@@ -15,6 +15,7 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.LimitSwitchConfig.Type;
 import com.revrobotics.spark.config.SoftLimitConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -25,19 +26,17 @@ import frc.robot.Constants.ElevConstants;
 
 public class Climber extends SubsystemBase {
   private SparkMax climbMtr;
-  private SparkMax climbMtr2;
   private SparkClosedLoopController climbLoopController;
   private SoftLimitConfig forwardLimit;
   private SoftLimitConfig backwardLimit;
-  private AbsoluteEncoder climberEncoder;
   private SparkLimitSwitch climbSwitch;
   private SparkClosedLoopController eLoopController;
   private RelativeEncoder climbEncoder;
+  private double position;
 
 
   public Climber() {
     climbMtr = new SparkMax(ClimberConstants.climbID, MotorType.kBrushless);
-    climbMtr2 = new SparkMax(ClimberConstants.climb2ID, MotorType.kBrushless);
 
     forwardLimit = new SoftLimitConfig().forwardSoftLimit(ClimberConstants.forwardSoftLimit);
     forwardLimit.forwardSoftLimitEnabled(true);
@@ -45,21 +44,17 @@ public class Climber extends SubsystemBase {
     backwardLimit.reverseSoftLimitEnabled(true);
 
     SparkMaxConfig conf = new SparkMaxConfig();
-    SparkMaxConfig conf2 = new SparkMaxConfig();
-    climberEncoder = climbMtr.getAbsoluteEncoder();
+    climbEncoder = climbMtr.getEncoder();
 
     conf.idleMode(IdleMode.kBrake);
+    conf.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
     conf.closedLoop.pid(ClimberConstants.climbP, ClimberConstants.climbI, ClimberConstants.climbD);
     conf.apply(backwardLimit);
     conf.apply(forwardLimit);
     conf.limitSwitch.forwardLimitSwitchEnabled(false);
     conf.limitSwitch.forwardLimitSwitchType(Type.kNormallyClosed);
-
-    conf2.follow(ClimberConstants.climbID, false);
-    conf2.inverted(true);
     
     climbMtr.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-    climbMtr2.configure(conf2, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
     eLoopController = climbMtr.getClosedLoopController();
     climbEncoder = climbMtr.getEncoder();
@@ -88,9 +83,13 @@ public class Climber extends SubsystemBase {
     climbMtr.set(0);
   }
 
-  public void pointMove() {
-    // add pos for setpoint check
-    climbLoopController.setReference(ClimberConstants.climbPos, ControlType.kPosition);
+  public void pointMove(double location) {
+    position = location;
+    climbLoopController.setReference(location, ControlType.kPosition);
+  }
+
+  public boolean isAtSetpoint() {
+    return ((Math.abs(position-climbEncoder.getPosition())) <= ElevConstants.tolerance);
   }
 
   @Override
