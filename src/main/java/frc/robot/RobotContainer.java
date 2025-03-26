@@ -366,7 +366,11 @@ public class RobotContainer {
     }
 
     public static boolean isRedAlliance() {
-        var aliance = DriverStation.getAlliance();
-        return true;
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+          return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;
+      
     }
 }

@@ -44,8 +44,6 @@ public class Arm extends SubsystemBase {
     armEncoder = armMotor.getAbsoluteEncoder();
     config.absoluteEncoder.zeroCentered(true);
     
-    
-
     config.idleMode(IdleMode.kBrake);
     config.closedLoop.pid( ArmConstants.kP, ArmConstants.kI, ArmConstants.kD);
     config.closedLoop.feedbackSensor(ClosedLoopConfig.FeedbackSensor.kAbsoluteEncoder);
