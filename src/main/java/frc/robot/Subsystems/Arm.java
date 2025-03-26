@@ -50,7 +50,7 @@ public class Arm extends SubsystemBase {
     config.closedLoopRampRate(0.5);
     config.apply(backwardLimit);
     config.apply(forwardLimit);
-    config.inverted(false);
+    config.inverted(true);
     
     armController = armMotor.getClosedLoopController();
     armMotor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);

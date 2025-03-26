@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.ElevConstants;
 import frc.robot.Constants.HIDConstants;
 import frc.robot.Subsystems.Arm;
@@ -29,6 +30,7 @@ import frc.robot.commands.Arm.ArmStay;
 import frc.robot.commands.Arm.ArmStop;
 import frc.robot.commands.Climber.ClimbDown;
 import frc.robot.commands.Climber.ClimbUp;
+import frc.robot.commands.Climber.ClimberSetpoints;
 import frc.robot.commands.Climber.ClimberStop;
 import frc.robot.commands.Climber.ClimberZero;
 import frc.robot.commands.Drive.DriveLeft;
@@ -106,9 +108,11 @@ public class RobotContainer {
     private final JoystickButton algaefloor = new JoystickButton(bottomButtonPad, 9);
     private final JoystickButton AlgaeReef = new JoystickButton(middleButtonPad, 3);
     // Climber
-    private final JoystickButton ClimbUp = new JoystickButton(middleButtonPad, 1);
-    private final JoystickButton ClimbDown = new JoystickButton(bottomButtonPad, 5);
+    private final JoystickButton SetClimb = new JoystickButton(middleButtonPad, 1);
+    private final JoystickButton Climb = new JoystickButton(bottomButtonPad, 5);
     private final JoystickButton ClimberZero = new JoystickButton(sideButtonPad, 2);
+    private final JoystickButton ClimbUp = new JoystickButton(middleButtonPad, 3);
+    private final JoystickButton ClimbDown = new JoystickButton(bottomButtonPad, 7);
     // Setpoints
     private final JoystickButton aGroundButton = new JoystickButton(middleButtonPad, 5);
     private final JoystickButton cGroundButton = new JoystickButton(middleButtonPad, 4);
@@ -300,6 +304,8 @@ public class RobotContainer {
         ClimbUp.whileTrue(new ClimbUp(climber));
         ClimbDown.whileTrue(new ClimbDown(climber));
         ClimberZero.onTrue(new ClimberZero(climber));
+        SetClimb.onTrue(new ClimberSetpoints(climber, ClimberConstants.setPosition));
+        Climb.onTrue(new ClimberSetpoints(climber, ClimberConstants.storePositon));
 
         // Setpoints for Elevator
         aGroundButton.onTrue(new ParallelCommandGroup(
