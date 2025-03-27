@@ -302,10 +302,10 @@ public class RobotContainer {
 
         // Climber
         ClimbUp.whileTrue(new ClimbUp(climber));
-        ClimbDown.whileTrue(new ClimbDown(climber));
-        ClimberZero.onTrue(new ClimberZero(climber));
-        SetClimb.onTrue(new ClimberSetpoints(climber, ClimberConstants.setPosition));
-        Climb.onTrue(new ClimberSetpoints(climber, ClimberConstants.storePositon));
+        //ClimbDown.whileTrue(new ClimbDown(climber));
+        //ClimberZero.onTrue(new ClimberZero(climber));
+        //SetClimb.onTrue(new ClimberSetpoints(climber, ClimberConstants.setPosition));
+        //Climb.onTrue(new ClimberSetpoints(climber, ClimberConstants.storePositon));
 
         // Setpoints for Elevator
         aGroundButton.onTrue(new ParallelCommandGroup(
