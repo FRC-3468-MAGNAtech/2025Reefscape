@@ -36,6 +36,6 @@ public class IntakeIn extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return i_subsystem.limitSwitch();
+    return i_subsystem.getSensor();
   }
 }

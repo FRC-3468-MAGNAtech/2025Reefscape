@@ -126,7 +126,7 @@ public final class Constants {
 		public static final SimpleMotorFeedforward driveFF = new SimpleMotorFeedforward(ksVolts, kvVoltSecsPerMeter, kaVoltSecsPerMeterSq);
 		
 		// Some wheels would spin backwards
-		public static final boolean frontLeftDriveInvert = true;
+		public static final boolean frontLeftDriveInvert = false;
 		public static final boolean frontRightDriveInvert = false;
 		public static final boolean backLeftDriveInvert = true;
 		public static final boolean backRightDriveInvert = false;
@@ -138,15 +138,13 @@ public final class Constants {
 		public static final boolean backRightSteerInvert = true;
 	}
 
-
-
-	
 	public static class ArmConstants {
 		public static final int armID = 4;
+        public static final double ff = 0.06;
 
 		//feedforward values
-		public static final double ffKS = 0.005;
-		public static final double ffKG = 1.3;
+		public static final double ffKS = 0.0065;
+		public static final double ffKG = .55;
 		public static final double ffKV = 0;
 
 		//PID values
@@ -155,28 +153,30 @@ public final class Constants {
 		public static final double kD = 0.017;
 
 		//speeds for forward and backward
-		public static final double armBackward = -0.30;
-		public static final double armForward = 0.30;
+        //negative is forward
+		public static final double armBackward = -0.3;
+		public static final double armForward = 0.1;
 
 		// Softlimits 
 		public static final double forwardSoftLimit = 90;
-		public static final double reverseSoftLimit = -117;
+		public static final double reverseSoftLimit = -45;
 
 		//setpoints for PID
-		public static final double cStore = 9;
-		public static final double aGround = 90;
+		public static final double cStore = 0;
+		public static final double l4Out = -25;
+		public static final double aGround = 0;
 		public static final double cGround = 83;
 		public static final double l1 = 90;
 		public static final double l2 = 96;
-		public static final double l3 = 97;
+		public static final double l3 = 94;
 		public static final double l4 = 8.5;
-		public static final double tolerance = 1.1;
+		public static final double tolerance = 2.0;
 
 		//offsets
 		public static final double armOffSet = 0;
 		public static final double processor = 90;
 		public static final double net = 38;
-		public static final double humanPlayer = 37.4;
+		public static final double humanPlayer = 41;
 		public static final double topAlg = 70;
 		public static final double botAlg = 70;
 	}
@@ -235,33 +235,33 @@ public final class Constants {
 		public static final double elevDown = -0.05;
 
 		// setpoints
-		public static final double aGround = 3;
+		public static final double aGround = 5;
 		public static final double cGround = 2;
-		public static final double cStore = .1;
+		public static final double cStore = 0;
 		public static final double aStore = 10;
-		public static final double l1 = 14;
+		public static final double l1 = 16;
 		public static final double l2 = 21.1;
-		public static final double l3 = 29.4;
-		public static final double l4 = 30;
+		public static final double l3 = 31;
+		public static final double l4 = 29;
 		public static final double processor = 9;
 		public static final double net = 39;
-		public static final double humanPlayer = 8.8;
+		public static final double humanPlayer = 10.5;
 		public static final double topAlg = 22;
 		public static final double botAlg = 14.1;
 
 	}
 
 	public static class IntakeConstants {
-		public static final int intakeTopID = 6;
-		public static final int intakeBottomID = 5;
+		public static final int intakeTopID = 5;
 		public static final double intakeIn = -0.3;   
 		public static final double intakeOut = 0.55;
+        public static final int sensorID = 9;
+
 	}
 
 	public static class ClimberConstants {
 
-		public static final int climbID = 9;
-		public static final int climb2ID = 10;
+		public static final int climbID = 30;
 
 		// Climb PID
 		public static final double climbP = 0.0;
@@ -269,12 +269,12 @@ public final class Constants {
 		public static final double climbD = 0.0;
 
 		// Climb movements
-		public static final double riseSpeed = 0.2;
-		public static final double lowerSpeed = -0.2;
+		public static final double riseSpeed = 8.5;
+		public static final double lowerSpeed = -1;
 
 		// Softlimits 
-		public static final double forwardSoftLimit = 0.0;
-		public static final double reverseSoftLimit = 0.0;
+		public static final double forwardSoftLimit = 290;
+		public static final double reverseSoftLimit = -290;
 
 		public static final double climbPos = 0.0;
 

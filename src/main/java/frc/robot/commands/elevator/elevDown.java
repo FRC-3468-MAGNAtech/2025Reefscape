@@ -30,12 +30,12 @@ public class elevDown extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    subsytem.elevStop();
+    subsytem.elevStay();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return subsytem.limitSwitch();
+    return !subsytem.limitSwitch();
   }
 }

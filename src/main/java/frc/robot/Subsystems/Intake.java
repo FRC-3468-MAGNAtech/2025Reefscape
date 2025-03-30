@@ -4,13 +4,11 @@
 
 package frc.robot.Subsystems;
 
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkLimitSwitch;
-import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,50 +17,42 @@ import frc.robot.Constants.IntakeConstants;
 
 
 public class Intake extends SubsystemBase {
-  private SparkMax intakeMotor1;
-  private SparkMax intakeMotor2;
+  private SparkFlex intakeMotor1;
 	// private RelativeEncoder intakeEncoder; 
 	// private DigitalInput intakeSensor;
-  private SparkLimitSwitch intakeBottomLimit;
+  private DigitalInput sensor;
   
   /** Creates a new Intake. */
   public Intake() {
-    intakeMotor1 = new SparkMax(IntakeConstants.intakeTopID, MotorType.kBrushless);
-    intakeMotor2 = new SparkMax(IntakeConstants.intakeBottomID, MotorType.kBrushless);
-    intakeBottomLimit = intakeMotor2.getReverseLimitSwitch();
+    intakeMotor1 = new SparkFlex(IntakeConstants.intakeTopID, MotorType.kBrushless);
+    sensor = new DigitalInput(IntakeConstants.sensorID);
 
-    SparkMaxConfig conf = new SparkMaxConfig();
-    conf.limitSwitch.reverseLimitSwitchEnabled(true);
+    SparkFlexConfig conf = new SparkFlexConfig();
     conf.idleMode(IdleMode.kBrake);
+    conf.smartCurrentLimit(100);
 
     intakeMotor1.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-    intakeMotor2.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-
-    
   }
 
   public void BallsIn() {
     intakeMotor1.set(-IntakeConstants.intakeIn);
-    intakeMotor2.set(IntakeConstants.intakeIn);
   }
 
   public void BallsOut() {
     intakeMotor1.set(-IntakeConstants.intakeOut);
-    intakeMotor2.set(IntakeConstants.intakeOut);
   }
 
   public void IntakeStop() {
     intakeMotor1.set(0);
-    intakeMotor2.set(0);
   }
 
-  public boolean limitSwitch() {
-    return intakeBottomLimit.isPressed();
+  public boolean getSensor() {
+    return !sensor.get();
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("limit Switch", intakeBottomLimit.isPressed());
+    SmartDashboard.putBoolean("intake", getSensor());
     // This method will be called once per scheduler run
   }
 }

@@ -19,6 +19,7 @@ import frc.robot.Subsystems.LimelightHelpers.PoseEstimate;
 import frc.robot.commands.Intake.IntakeIn;
 import frc.robot.commands.Intake.IntakeOut;
 import frc.robot.commands.Intake.IntakeStop;
+import frc.robot.commands.Intake.L4Out;
 import frc.robot.commands.alignment.Algae;
 import frc.robot.commands.alignment.AlignLeft;
 import frc.robot.commands.alignment.AlignRight;
@@ -40,6 +41,8 @@ import frc.robot.commands.elevator.ElevSetpoints;
 import frc.robot.commands.elevator.ElevStay;
 import frc.robot.commands.elevator.ElevZero;
 import frc.robot.commands.elevator.elevUp;
+
+import com.fasterxml.jackson.annotation.ObjectIdGenerators.IntSequenceGenerator;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -93,6 +96,7 @@ public class RobotContainer {
     // Intake
     private final JoystickButton algaeOut = new JoystickButton(topbuttonPad, 8);
     private final JoystickButton algaeIn = new JoystickButton(topbuttonPad, 7);
+    private final JoystickButton l4Out = new JoystickButton(middleButtonPad, 3);
     // Elevator
     private final JoystickButton elevUp = new JoystickButton(topbuttonPad, 5);
     private final JoystickButton elevDown = new JoystickButton(middleButtonPad, 11);
@@ -106,13 +110,13 @@ public class RobotContainer {
     private final JoystickButton left = new JoystickButton(topbuttonPad, 9);
     private final JoystickButton right = new JoystickButton(topbuttonPad, 10);
     private final JoystickButton algaefloor = new JoystickButton(bottomButtonPad, 9);
-    private final JoystickButton AlgaeReef = new JoystickButton(middleButtonPad, 3);
+    private final JoystickButton AlgaeReef = new JoystickButton(bottomButtonPad, 6);
     // Climber
-    private final JoystickButton SetClimb = new JoystickButton(middleButtonPad, 1);
-    private final JoystickButton Climb = new JoystickButton(bottomButtonPad, 5);
-    private final JoystickButton ClimberZero = new JoystickButton(sideButtonPad, 2);
-    private final JoystickButton ClimbUp = new JoystickButton(middleButtonPad, 3);
-    private final JoystickButton ClimbDown = new JoystickButton(bottomButtonPad, 7);
+    //private final JoystickButton SetClimb = new JoystickButton(middleButtonPad, 1);
+    //private final JoystickButton Climb = new JoystickButton(bottomButtonPad, 5);
+    //private final JoystickButton ClimberZero = new JoystickButton(sideButtonPad, 2);
+    private final JoystickButton ClimbUp = new JoystickButton(middleButtonPad,1);
+    private final JoystickButton ClimbDown = new JoystickButton(bottomButtonPad, 5);
     // Setpoints
     private final JoystickButton aGroundButton = new JoystickButton(middleButtonPad, 5);
     private final JoystickButton cGroundButton = new JoystickButton(middleButtonPad, 4);
@@ -128,9 +132,10 @@ public class RobotContainer {
     private final JoystickButton odometry = new JoystickButton(sideButtonPad, 1);
     // private final JoystickButton l4Egt = new JoystickButton(bottomButtonPad, 8);
 
-    private Trigger intakeLimit = new Trigger(() -> intake.limitSwitch());
     private Trigger elevLimit = new Trigger(() -> m_Evelator.limitSwitch());
     private Trigger climbLimit = new Trigger(() -> climber.limitSwitch());
+    private Trigger intakeSensor = new Trigger(() -> intake.getSensor());
+
 
     public RobotContainer() {
         m_SwerveSys.BuilderConfigure();
@@ -229,12 +234,12 @@ public class RobotContainer {
         configureBindings();
     }
 
-    public void updatePoseWithVision(String llname) {
-        PoseEstimate pose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(llname);
-        m_SwerveSys.addVisionMeasurement(pose.pose, pose.timestampSeconds,
-                LimelightHelpers.getTargetCount(llname) > 1 ? VecBuilder.fill(0.1, 0.1, Double.MAX_VALUE)
-                        : VecBuilder.fill(1, 1, Double.MAX_VALUE));
-    }
+    // public void updatePoseWithVision(String llname) {
+    //     PoseEstimate pose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(llname);
+    //     m_SwerveSys.addVisionMeasurement(pose.pose, pose.timestampSeconds,
+    //             LimelightHelpers.getTargetCount(llname) > 1 ? VecBuilder.fill(0.1, 0.1, Double.MAX_VALUE)
+    //                     : VecBuilder.fill(1, 1, Double.MAX_VALUE));
+    // }
 
 
 
@@ -280,6 +285,13 @@ public class RobotContainer {
         // Intake
         algaeIn.whileTrue(new IntakeIn(intake));
         algaeOut.onTrue(new IntakeOut(intake));
+        l4Out.whileTrue(new L4Out(intake));
+        intakeSensor.onFalse(new ParallelCommandGroup(
+                new ArmSetpoints(m_Arm, ArmConstants.l4Out), 
+                new ElevSetpoints(m_Evelator, ElevConstants.cStore)));
+        intakeSensor.onTrue(new ParallelCommandGroup(
+            new ArmSetpoints(m_Arm, ArmConstants.l4Out), 
+            new ElevSetpoints(m_Evelator, ElevConstants.cStore)));
 
         // Elevator
         elevUp.whileTrue(new elevUp(m_Evelator));
@@ -302,18 +314,19 @@ public class RobotContainer {
 
         // Climber
         ClimbUp.whileTrue(new ClimbUp(climber));
+        ClimbDown.whileTrue(new ClimbDown(climber));
         //ClimbDown.whileTrue(new ClimbDown(climber));
         //ClimberZero.onTrue(new ClimberZero(climber));
         //SetClimb.onTrue(new ClimberSetpoints(climber, ClimberConstants.setPosition));
         //Climb.onTrue(new ClimberSetpoints(climber, ClimberConstants.storePositon));
 
         // Setpoints for Elevator
-        aGroundButton.onTrue(new ParallelCommandGroup(
-                new ElevSetpoints(m_Evelator, ElevConstants.aGround),
-                new ArmSetpoints(m_Arm, ArmConstants.aGround)));
-        cGroundButton.onTrue(new ParallelCommandGroup(
-                new ElevSetpoints(m_Evelator, ElevConstants.cGround),
-                new ArmSetpoints(m_Arm, ArmConstants.cGround)));
+        // aGroundButton.onTrue(new ParallelCommandGroup(
+        //         new ElevSetpoints(m_Evelator, ElevConstants.aGround),
+        //         new ArmSetpoints(m_Arm, ArmConstants.aGround)));
+        // cGroundButton.onTrue(new ParallelCommandGroup(
+        //         new ElevSetpoints(m_Evelator, ElevConstants.cGround),
+        //         new ArmSetpoints(m_Arm, ArmConstants.cGround)));
         humanPlayerButton.onTrue(new ParallelCommandGroup(
                 new ElevSetpoints(m_Evelator, ElevConstants.humanPlayer),
                 new ArmSetpoints(m_Arm, ArmConstants.humanPlayer)));
@@ -358,7 +371,7 @@ public class RobotContainer {
         // intakeLimit.onTrue(new ParallelCommandGroup(
         // new ElevSetpoints(m_Evelator, ElevConstants.cStore),
         // new ArmSetpoints(m_Arm, ArmConstants.cStore)));
-        elevLimit.onTrue(new ElevZero(m_Evelator));
+        elevLimit.onFalse(new ElevZero(m_Evelator));
         climbLimit.onTrue(new ClimberZero(climber));
     }
 

@@ -9,6 +9,7 @@ import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkClosedLoopController.ArbFFUnits;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
@@ -18,6 +19,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
@@ -43,6 +45,7 @@ public class Arm extends SubsystemBase {
     SparkMaxConfig config = new SparkMaxConfig();
     armEncoder = armMotor.getAbsoluteEncoder();
     config.absoluteEncoder.zeroCentered(true);
+    config.absoluteEncoder.positionConversionFactor(360.0);
     
     config.idleMode(IdleMode.kBrake);
     config.closedLoop.pid( ArmConstants.kP, ArmConstants.kI, ArmConstants.kD);
@@ -73,22 +76,23 @@ public class Arm extends SubsystemBase {
   }
 
   public void pointMove(double angle) {
-    position = angle;
-    armController.setReference(angle , ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForward.calculate(position + 90, armEncoder.getVelocity() * 360));
+    position = -angle;
+    armController.setReference(angle , ControlType.kPosition, ClosedLoopSlot.kSlot0, ArmConstants.ff * Math.sin(armEncoder.getPosition()),ArbFFUnits.kPercentOut);
   }
 
   public void armStay() {
-    position = armEncoder.getPosition() * 360;
-    armController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot1, feedForward.calculate(position + 90, armEncoder.getVelocity() * 360));
+    position = armEncoder.getPosition() ;//* 360;
+        armController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot1, ArmConstants.ff * Math.sin(armEncoder.getPosition()),ArbFFUnits.kPercentOut);
   }
 
   public boolean isAtSetpoint() {
-    return ((Math.abs(position-armEncoder.getPosition() * 360)) <= ArmConstants.tolerance);
+    return ((Math.abs(position-armEncoder.getPosition())) <= ArmConstants.tolerance);
   }
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("arm angle", armEncoder.getPosition());
+    SmartDashboard.putNumber("Arm Set Pos", position);
     SmartDashboard.putNumber("output", armMotor.getAppliedOutput());
     SmartDashboard.putNumber("Applied Voltage", armMotor.getOutputCurrent());
     // This method will be called once per scheduler run
