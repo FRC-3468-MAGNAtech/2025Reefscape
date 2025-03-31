@@ -167,9 +167,9 @@ public final class Constants {
 		public static final double aGround = 0;
 		public static final double cGround = 83;
 		public static final double l1 = 90;
-		public static final double l2 = 96;
-		public static final double l3 = 94;
-		public static final double l4 = 8.5;
+		public static final double l2 = 67;
+		public static final double l3 = 67;
+		public static final double l4 = 17;
 		public static final double tolerance = 2.0;
 
 		//offsets
@@ -184,13 +184,13 @@ public final class Constants {
 	public static class LimeLightConstants {
 
 		public static final double straifRightKP = 0.03;
-        public static final double straifLeftKP = 0.005;
+        public static final double straifLeftKP = 0.03;
 		public static final PIDController llPIDctrlStraifLeft = new PIDController(straifLeftKP, 0, 0);
-		public static final PIDController llPIDctrlStraifRight = new PIDController(straifRightKP, 0.00001, 0.0001);
+		public static final PIDController llPIDctrlStraifRight = new PIDController(straifRightKP, 0, 0);
 
-        public static final double driveKP = 0.1;
+        public static final double driveKP = 0.04;
 		public static final PIDController llPIDctrlDriveLeft = new PIDController(driveKP, 0,0.01);
-		public static final PIDController llPIDctrlDriveRight = new PIDController(driveKP, 0,0.1);
+		public static final PIDController llPIDctrlDriveRight = new PIDController(driveKP, 0,0);
 
         public static final double algaeReefKP = 0.01;
         public static final PIDController llPIDctrlAlgaeReef = new PIDController(algaeReefKP, 0, 0);
@@ -239,10 +239,10 @@ public final class Constants {
 		public static final double cGround = 2;
 		public static final double cStore = 0;
 		public static final double aStore = 10;
-		public static final double l1 = 16;
-		public static final double l2 = 21.1;
-		public static final double l3 = 31;
-		public static final double l4 = 29;
+		public static final double l1 = 18;
+		public static final double l2 = 14;
+		public static final double l3 = 23;
+		public static final double l4 = 30.3;
 		public static final double processor = 9;
 		public static final double net = 39;
 		public static final double humanPlayer = 10.5;

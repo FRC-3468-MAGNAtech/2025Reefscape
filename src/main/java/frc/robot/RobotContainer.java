@@ -107,8 +107,8 @@ public class RobotContainer {
     private final JoystickButton cStore = new JoystickButton(topbuttonPad, 2);
     private final JoystickButton aStore = new JoystickButton(middleButtonPad, 8);
     // Limelight
-    private final JoystickButton left = new JoystickButton(topbuttonPad, 9);
-    private final JoystickButton right = new JoystickButton(topbuttonPad, 10);
+    private final JoystickButton left = new JoystickButton(topbuttonPad, 10);
+    private final JoystickButton right = new JoystickButton(topbuttonPad, 9);
     private final JoystickButton algaefloor = new JoystickButton(bottomButtonPad, 9);
     private final JoystickButton AlgaeReef = new JoystickButton(bottomButtonPad, 6);
     // Climber
@@ -199,15 +199,15 @@ public class RobotContainer {
                 new ArmSetpoints(m_Arm, ArmConstants.botAlg)));
         // End for AUTO commands
 
-        LimeLightConstants.llPIDctrlStraifLeft.setSetpoint(11);
-        LimeLightConstants.llPIDctrlStraifLeft.setTolerance(1);
-        LimeLightConstants.llPIDctrlStraifRight.setSetpoint(1.5);
-        LimeLightConstants.llPIDctrlStraifRight.setTolerance(1);
+        LimeLightConstants.llPIDctrlStraifLeft.setSetpoint(1.5);
+        LimeLightConstants.llPIDctrlStraifLeft.setTolerance(2);
+        LimeLightConstants.llPIDctrlStraifRight.setSetpoint(11);
+        LimeLightConstants.llPIDctrlStraifRight.setTolerance(2);
 
-        LimeLightConstants.llPIDctrlDriveLeft.setSetpoint(10);
-        LimeLightConstants.llPIDctrlDriveLeft.setTolerance(1);
-        LimeLightConstants.llPIDctrlDriveRight.setSetpoint(7);
-        LimeLightConstants.llPIDctrlDriveRight.setTolerance(1);
+        LimeLightConstants.llPIDctrlDriveLeft.setSetpoint(6);
+        LimeLightConstants.llPIDctrlDriveLeft.setTolerance(2);
+        LimeLightConstants.llPIDctrlDriveRight.setSetpoint(10);
+        LimeLightConstants.llPIDctrlDriveRight.setTolerance(2);
 
         LimeLightConstants.llPIDctrlAlgaeReef.setSetpoint(20);
         LimeLightConstants.llPIDctrlAlgaeReef.setTolerance(20);
@@ -286,12 +286,12 @@ public class RobotContainer {
         algaeIn.whileTrue(new IntakeIn(intake));
         algaeOut.onTrue(new IntakeOut(intake));
         l4Out.whileTrue(new L4Out(intake));
-        intakeSensor.onFalse(new ParallelCommandGroup(
+        l4Out.onFalse(new ParallelCommandGroup(
                 new ArmSetpoints(m_Arm, ArmConstants.l4Out), 
                 new ElevSetpoints(m_Evelator, ElevConstants.cStore)));
-        intakeSensor.onTrue(new ParallelCommandGroup(
-            new ArmSetpoints(m_Arm, ArmConstants.l4Out), 
-            new ElevSetpoints(m_Evelator, ElevConstants.cStore)));
+        // intakeSensor.onTrue(new ParallelCommandGroup(
+        //     new ArmSetpoints(m_Arm, ArmConstants.l4Out), 
+        //     new ElevSetpoints(m_Evelator, ElevConstants.cStore)));
 
         // Elevator
         elevUp.whileTrue(new elevUp(m_Evelator));
@@ -360,8 +360,8 @@ public class RobotContainer {
 
         // auto movements
         //left.onTrue(new InstantCommand(() -> reefDirection = false));
-        left.onTrue(new AlignLeft(m_SwerveSys));
-        right.onTrue(new AlignRight(m_SwerveSys));
+        left.whileTrue(new AlignLeft(m_SwerveSys));
+        right.whileTrue(new AlignRight(m_SwerveSys));
         algaefloor.whileTrue(new Algae(m_SwerveSys));
         AlgaeReef.onTrue(new AlgaeReef(m_SwerveSys));
         // l4Egt.whileTrue(new ParallelCommandGroup(new ArmSetpoints(m_Arm, -80), new

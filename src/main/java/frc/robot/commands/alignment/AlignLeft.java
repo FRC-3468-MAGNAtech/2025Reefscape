@@ -50,8 +50,6 @@ public class AlignLeft extends Command {
     if (LimelightHelpers.getTX("limelight-left")<= 12 && LimelightHelpers.getTX("limelight-left")>= 10 && LimelightHelpers.getTA("limelight-left")>= 9 && LimelightHelpers.getTA("limelight-left")<= 11) {
         return true;
     } else {
-
-
       return false;
     }
   }

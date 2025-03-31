@@ -50,7 +50,7 @@ public class Arm extends SubsystemBase {
     config.idleMode(IdleMode.kBrake);
     config.closedLoop.pid( ArmConstants.kP, ArmConstants.kI, ArmConstants.kD);
     config.closedLoop.feedbackSensor(ClosedLoopConfig.FeedbackSensor.kAbsoluteEncoder);
-    config.closedLoopRampRate(0.5);
+    config.closedLoopRampRate(0.4);
     config.apply(backwardLimit);
     config.apply(forwardLimit);
     config.inverted(true);
