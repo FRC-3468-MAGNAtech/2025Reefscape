@@ -35,6 +35,8 @@ public class Intake extends SubsystemBase {
     SparkMaxConfig conf = new SparkMaxConfig();
     conf.limitSwitch.reverseLimitSwitchEnabled(true);
     conf.idleMode(IdleMode.kBrake);
+    conf.smartCurrentLimit(40);
+    conf.voltageCompensation(12);
 
     intakeMotor1.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     intakeMotor2.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
