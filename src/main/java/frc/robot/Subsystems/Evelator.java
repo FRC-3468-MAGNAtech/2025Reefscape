@@ -44,11 +44,14 @@ private TrapezoidProfile.State current;
     conf.closedLoop.pid(ElevConstants.elevP, ElevConstants.elevI, ElevConstants.elevD);
     conf.limitSwitch.reverseLimitSwitchEnabled(true);
     conf.idleMode(IdleMode.kBrake);
+    conf.smartCurrentLimit(40);
+    conf.voltageCompensation(12);
     elevMtr1.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
     SparkMaxConfig conf2 = new SparkMaxConfig();
     conf2.follow(ElevConstants.elev1ID, true);
     elevMtr2.configure(conf2, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+
 
     ePIDController = new ProfiledPIDController(ElevConstants.elevP, ElevConstants.elevI, ElevConstants.elevD, new TrapezoidProfile.Constraints(1.75, 0.75));
     
