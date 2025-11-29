@@ -101,7 +101,12 @@ public final class Constants {
 
 	   	public static final double maxDriveSpeedMetersPerSec = 3.5;
 
-		public static final int driveCurrentLimitAmps = 100;
+		public static final int driveCurrentLimitAmps = 40;
+		public static final int driveVoltageCompensation = 12;
+
+		public static final int steerCurrentLimitAmps = 40;
+		public static final int steerVoltageCompensation = 12;
+
 
 	   	/**
 		* The rate the robot will spin with full Rot command.

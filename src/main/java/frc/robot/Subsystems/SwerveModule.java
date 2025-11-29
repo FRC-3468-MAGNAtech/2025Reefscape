@@ -61,7 +61,12 @@ public class SwerveModule extends SubsystemBase {
 		driveConf.idleMode(IdleMode.kBrake);
 		driveMtr = new SparkMax(driveMtrId, MotorType.kBrushless);
 		driveEnc = driveMtr.getEncoder();
+
+		//Mr. Lovelady Added for testing
 		driveConf.smartCurrentLimit(DriveConstants.driveCurrentLimitAmps);
+		driveConf.voltageCompensation(DriveConstants.driveVoltageCompensation);
+		//End
+		
 		driveController = driveMtr.getClosedLoopController();
 		driveConf.closedLoop.pid(DriveConstants.drivekP, 0, DriveConstants.drivekD);
 		driveConf.encoder.positionConversionFactor(DriveConstants.driveMetersPerEncRev);
@@ -81,6 +86,12 @@ public class SwerveModule extends SubsystemBase {
 		steerConf.closedLoop.pid(DriveConstants.steerkP, 0, DriveConstants.steerkD);
 		steerConf.encoder.positionConversionFactor(DriveConstants.steerRadiansPerEncRev);
 		steerConf.encoder.velocityConversionFactor(DriveConstants.steerRadiansPerSecPerRPM);
+		
+		//Mr. Lovelady Added for testing
+		steerConf.smartCurrentLimit(DriveConstants.steerCurrentLimitAmps);
+		steerConf.voltageCompensation(DriveConstants.steerVoltageCompensation);
+		//End
+
 		steerMtr.configure(steerConf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
 		//initializes the steer encoder position to the CANCoder position, accounting for an offset if any

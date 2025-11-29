@@ -44,8 +44,12 @@ private TrapezoidProfile.State current;
     conf.closedLoop.pid(ElevConstants.elevP, ElevConstants.elevI, ElevConstants.elevD);
     conf.limitSwitch.reverseLimitSwitchEnabled(true);
     conf.idleMode(IdleMode.kBrake);
+    
+    //Mr. Lovelady Added for testing
     conf.smartCurrentLimit(40);
     conf.voltageCompensation(12);
+    //End
+
     elevMtr1.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
     SparkMaxConfig conf2 = new SparkMaxConfig();
