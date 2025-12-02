@@ -128,7 +128,7 @@ public final class Constants {
 		// Some wheels would spin backwards
 		public static final boolean frontLeftDriveInvert = false;
 		public static final boolean frontRightDriveInvert = false;
-		public static final boolean backLeftDriveInvert = true;
+		public static final boolean backLeftDriveInvert = false;
 		public static final boolean backRightDriveInvert = false;
 
 		// This is just-in-case
