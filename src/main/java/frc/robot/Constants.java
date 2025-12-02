@@ -124,11 +124,11 @@ public final class Constants {
 		public static final double kaVoltSecsPerMeterSq = 0.0;
 
 		public static final SimpleMotorFeedforward driveFF = new SimpleMotorFeedforward(ksVolts, kvVoltSecsPerMeter, kaVoltSecsPerMeterSq);
-		
+	
 		// Some wheels would spin backwards
-		public static final boolean frontLeftDriveInvert = false;
+		public static final boolean frontLeftDriveInvert = true;
 		public static final boolean frontRightDriveInvert = false;
-		public static final boolean backLeftDriveInvert = false;
+		public static final boolean backLeftDriveInvert = true;
 		public static final boolean backRightDriveInvert = false;
 
 		// This is just-in-case
