@@ -29,7 +29,8 @@ public class Intake extends SubsystemBase {
 
     SparkFlexConfig conf = new SparkFlexConfig();
     conf.idleMode(IdleMode.kBrake);
-    conf.smartCurrentLimit(100);
+    conf.smartCurrentLimit(60);
+    conf.voltageCompensation(12);
 
     intakeMotor1.configure(conf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
   }

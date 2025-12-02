@@ -51,6 +51,7 @@ public class Arm extends SubsystemBase {
     config.closedLoop.pid( ArmConstants.kP, ArmConstants.kI, ArmConstants.kD);
     config.closedLoop.feedbackSensor(ClosedLoopConfig.FeedbackSensor.kAbsoluteEncoder);
     config.closedLoopRampRate(0.4);
+    config.smartCurrentLimit(40);
     config.apply(backwardLimit);
     config.apply(forwardLimit);
     config.inverted(true);

@@ -65,6 +65,8 @@ public class SwerveModule extends SubsystemBase {
 		driveConf.closedLoop.pid(DriveConstants.drivekP, 0, DriveConstants.drivekD);
 		driveConf.encoder.positionConversionFactor(DriveConstants.driveMetersPerEncRev);
 		driveConf.encoder.velocityConversionFactor(DriveConstants.driveMetersPerSecPerRPM);
+		driveConf.smartCurrentLimit(80);
+		driveConf.voltageCompensation(12);
 		driveMtr.configure(driveConf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 		
 		//set the drive encoder position to zero        
@@ -80,6 +82,8 @@ public class SwerveModule extends SubsystemBase {
 		steerConf.closedLoop.pid(DriveConstants.steerkP, 0, DriveConstants.steerkD);
 		steerConf.encoder.positionConversionFactor(DriveConstants.steerRadiansPerEncRev);
 		steerConf.encoder.velocityConversionFactor(DriveConstants.steerRadiansPerSecPerRPM);
+		steerConf.smartCurrentLimit(80);
+		steerConf.voltageCompensation(12);
 		steerMtr.configure(steerConf, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
 		//initializes the steer encoder position to the CANCoder position, accounting for an offset if any
